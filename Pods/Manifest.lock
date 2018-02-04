@@ -1,12 +1,15 @@
 PODS:
+  - SwiftSVG (2.1.2)
   - Toast-Swift (3.0.1)
 
 DEPENDENCIES:
+  - SwiftSVG (~> 2.0)
   - Toast-Swift (~> 3.0.1)
 
 SPEC CHECKSUMS:
+  SwiftSVG: 62d14020b1cca49c096ce8b752d35f46722231d5
   Toast-Swift: ba0b01b095aada709d915f9beb1d38184a2721c3
 
-PODFILE CHECKSUM: 598ee16ad8ace5d603c2d9f49ad0a597b62de8d7
+PODFILE CHECKSUM: b37a5ece0cd41beb57c7ccaf6f477f9301f0d342
 
 COCOAPODS: 1.4.0

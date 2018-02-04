@@ -7,4 +7,6 @@ target 'independentStudy' do
 
   # Pods for independentStudy
   pod 'Toast-Swift', '~> 3.0.1'
+  pod 'SwiftSVG', '~> 2.0'
+
 end
