@@ -8,6 +8,7 @@
 
 import UIKit
 import Toast_Swift
+import SwiftSVG
 
 var scrollView: UIScrollView!
 var imageView: UIImageView!
@@ -16,7 +17,7 @@ var imageView: UIImageView!
 let layer = CAShapeLayer()
 let layer2 = CAShapeLayer()
 
-class ViewController: UIViewController,UIScrollViewDelegate {
+class MapVC: UIViewController,UIScrollViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,9 +30,29 @@ class ViewController: UIViewController,UIScrollViewDelegate {
          */
         
         
+        
+    
+   let fun = "M -2.8571386,379.6198 V 1.048369 H 298.57143 600 V 379.6198 758.19123 H 298.57143 -2.8571386 Z M 408.57143,333.90551 v -27.14286 h -55.71428 -55.71429 v 27.14286 27.14286 h 55.71429 55.71428 z"
+        let funPath = CAShapeLayer(pathString: fun)
+        funPath.fillColor = UIColor.yellow.cgColor
+        funPath.borderColor = UIColor.blue.cgColor
+        funPath.transform = CATransform3DMakeScale(0.75, 0.75, 1)
+        
         /*
          Creating Layers
          */
+        let attempt = "M 145.71429,519.94826 V 118.51969 H 254.28571 362.85714 V 519.94826 921.37683 H 254.28571 145.71429 Z"
+        let path = CAShapeLayer(pathString: attempt)
+        print("here")
+        path.fillColor = UIColor.red.cgColor
+        path.position = CGPoint(x: 0, y: 0)
+        
+        let attemptTwo = "M 2.8571429,451.94826 V 1.9482565 h 189.9999971 190 v 450.0000035 450 h -190 H 2.8571429 Z"
+        let pathTwo = CAShapeLayer(pathString: attemptTwo)
+        path.fillColor = UIColor.blue.cgColor
+        path.position = CGPoint(x:0, y: 0)
+        
+        
         layer.path = UIBezierPath(roundedRect: CGRect(x: 0, y: 0, width: 20, height: 215), cornerRadius: 0).cgPath
         layer.fillColor = UIColor.red.cgColor
         layer.opacity = 0.5
@@ -49,8 +70,12 @@ class ViewController: UIViewController,UIScrollViewDelegate {
         imageView = UIImageView(image:  #imageLiteral(resourceName: "campsite_map"))
         imageView.layer.addSublayer(layer)
         imageView.layer.addSublayer(layer2)
+        imageView.layer.addSublayer(path)
+        imageView.layer.addSublayer(funPath)
         imageView.isUserInteractionEnabled = true;
         imageView.addGestureRecognizer(recognizer)
+        print("Width: \(imageView.bounds.width)")
+            print("Length: \(imageView.bounds.height)")
         //
         
         scrollView = UIScrollView(frame: view.bounds)
