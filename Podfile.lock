@@ -1,15 +1,21 @@
 PODS:
+  - CocoaAsyncSocket (7.6.2)
+  - PSSRedisClient (0.1.12):
+    - CocoaAsyncSocket (>= 7.6.1)
   - SwiftSVG (2.1.2)
   - Toast-Swift (3.0.1)
 
 DEPENDENCIES:
+  - PSSRedisClient
   - SwiftSVG (~> 2.0)
   - Toast-Swift (~> 3.0.1)
 
 SPEC CHECKSUMS:
+  CocoaAsyncSocket: 3541e024f48c54b251638ef72d51dd42808de932
+  PSSRedisClient: 8aa3409544ef22120fd77b8c4760f134bb47dbd0
   SwiftSVG: 62d14020b1cca49c096ce8b752d35f46722231d5
   Toast-Swift: ba0b01b095aada709d915f9beb1d38184a2721c3
 
-PODFILE CHECKSUM: b37a5ece0cd41beb57c7ccaf6f477f9301f0d342
+PODFILE CHECKSUM: a6258d39b300236e72e46e15451410ea166d3920
 
 COCOAPODS: 1.4.0
