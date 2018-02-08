@@ -81,7 +81,6 @@
                                         <connections>
                                             <outlet property="siteLbl" destination="Mv8-EC-eVs" id="MgI-uo-hKQ"/>
                                             <outlet property="typeLbl" destination="yrf-OD-MwN" id="Kmr-CQ-zWr"/>
-                                            <segue destination="Ebk-1U-1id" kind="show" identifier="showSiteInfo" id="cWj-Xs-BDS"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -101,6 +100,7 @@
                     </view>
                     <connections>
                         <outlet property="tableView" destination="0eQ-lS-FH8" id="ldf-YC-N2s"/>
+                        <segue destination="Ebk-1U-1id" kind="show" identifier="showSiteVC" id="BQY-EP-d16"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8cn-bv-Lq7" userLabel="First Responder" sceneMemberID="firstResponder"/>

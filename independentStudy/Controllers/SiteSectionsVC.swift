@@ -57,14 +57,19 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource,UITableViewDelegat
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        rowSelected = indexPath.row
+        performSegue(withIdentifier: "showSiteVC", sender: self)
+    }
+    
     //Added
     @IBAction func unwindToSiteSectionVC(segue: UIStoryboardSegue) {}
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if(segue.identifier == "showSiteInfo"){
-            let path = self.tableView.indexPathForSelectedRow?.row
+        if(segue.identifier == "showSiteVC"){
+            //let path = self.tableView.indexPathForSelectedRow?.row
             var vc = segue.destination as! SiteVC
-            vc.siteNumber = path!
+            vc.siteNumber = rowSelected
         }
     }
 
