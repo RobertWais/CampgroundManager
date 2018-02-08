@@ -10,13 +10,24 @@ import UIKit
 
 class SiteVC: UIViewController {
 
+    var wholeSite: Site!
+    
     @IBOutlet var siteNumberLbl: UILabel!
-    var siteNumber = 0
+    var siteNumber = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        siteNumberLbl.text = ("\(siteNumber)")
+        siteNumberLbl.text = ("\(wholeSite.siteNumber)")
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
     override func didReceiveMemoryWarning() {
@@ -25,7 +36,9 @@ class SiteVC: UIViewController {
     }
     
     @IBAction func submitBtnPressed(_ sender: Any) {
-        self.performSegue(withIdentifier: "unwindToSiteSectionVC", sender: self)
+        //
+        //self.performSegue(withIdentifier: "unwindToSiteSectionVC", sender: self)
+        dismiss(animated: true, completion: nil)
     }
 
     /*

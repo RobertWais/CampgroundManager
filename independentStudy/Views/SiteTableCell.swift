@@ -12,13 +12,17 @@ class SiteTableCell: UITableViewCell {
     
     @IBOutlet var siteLbl: UILabel!
     @IBOutlet var typeLbl: UILabel!
+    var siteNum = ""
+    var type = ""
+    var cellSite = Site()
     
     override func awakeFromNib() {
         super.awakeFromNib()
     }
     
-    func configureCell(siteName: String, timeFrame: String){
-        self.siteLbl.text = siteName
-        self.typeLbl.text = timeFrame
+    func configureCell(site: Site){
+        self.siteLbl.text = site.siteNumber
+        self.typeLbl.text = site.timeFrame
+        cellSite = site
     }
 }

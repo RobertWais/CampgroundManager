@@ -9,16 +9,23 @@
 import Foundation
 
 
-struct Site {
-    private var _siteNumber: Int!
-    private var _siteCleaned: Bool!
-    private var _needWood: Bool!
-    private var _complaint: Bool!
-    private var _description: String!
-    private var _timeFrame: String!
-   
+class Site {
     
-    init(siteNum: Int, siteClean: Bool, wood: Bool, complaintGiven: Bool, info: String, duration: String){
+    //
+    //Change Later, Structs, vs Classes
+    
+    
+    
+    var dateAndTime: String!
+    var siteNumber = ""
+    var siteCleaned: Bool!
+    var needWood: Bool!
+    var complaint: Bool!
+    var description: String!
+    var timeFrame: String!
+   
+    /*
+    init(siteNum: String, siteClean: Bool, wood: Bool, complaintGiven: Bool, info: String, duration: String){
         self._siteNumber = siteNum
         self._siteCleaned = siteClean
         self._needWood = wood
@@ -27,9 +34,9 @@ struct Site {
         self._timeFrame = duration
     }
     
-    var siteNumber: Int {
+    var siteNumber: String {
         if _siteNumber == nil {
-            _siteNumber = -1
+            _siteNumber = ""
         }
         return _siteNumber
     }
@@ -62,6 +69,6 @@ struct Site {
         return _description
     }
     
-    
+    */
 
 }

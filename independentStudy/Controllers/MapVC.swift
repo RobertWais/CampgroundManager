@@ -22,8 +22,21 @@ class MapVC: UIViewController,UIScrollViewDelegate {
     var redisManager: RedisClient!
     var subscriptionManager: RedisClient!
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //hide nav bar
+        
+        
         self.redisManager = RedisClient(delegate: self)
         self.subscriptionManager = RedisClient(delegate: self)
         self.redisManager?.connect(host:"169.254.246.180",
@@ -134,6 +147,7 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         
         if(shapesLayer.path?.contains(destination))!{
             print("black death")
+            performSegue(withIdentifier: "show", sender: self)
         }
         
         if destination.x < 196 && destination.x > 175 && destination.y > 325 && destination.y < 541{

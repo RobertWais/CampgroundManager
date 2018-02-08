@@ -9,11 +9,16 @@
 import UIKit
 
 class SiteSectionsVC: UIViewController, UITableViewDataSource,UITableViewDelegate {
+    
+    var sites = [Site]()
+    var site = Site()
     var rowSelected = 1
     @IBOutlet var tableView: UITableView!
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        
 
         tableView.delegate = self
         tableView.dataSource = self
@@ -24,6 +29,11 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource,UITableViewDelegat
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
     override func didReceiveMemoryWarning() {
@@ -53,23 +63,32 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource,UITableViewDelegat
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "SiteCell") as? SiteTableCell else{
             return UITableViewCell()
         }
-        cell.configureCell(siteName: "\(indexPath.row)", timeFrame: "2-Hours")
+        let tempSite = Site()
+        tempSite.siteNumber = "\(indexPath.row)"
+        tempSite.timeFrame = "1 hour"
+        
+        //Adding to an array
+        sites.append(tempSite)
+        cell.configureCell(site: tempSite)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        rowSelected = indexPath.row
+        let cell = sites[indexPath.row]
+        
+        site.siteNumber = cell.siteNumber
+        site.timeFrame = cell.timeFrame
         performSegue(withIdentifier: "showSiteVC", sender: self)
     }
     
     //Added
-    @IBAction func unwindToSiteSectionVC(segue: UIStoryboardSegue) {}
+   // @IBAction func unwindToSiteSectionVC(segue: UIStoryboardSegue) {}
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "showSiteVC"){
             //let path = self.tableView.indexPathForSelectedRow?.row
             var vc = segue.destination as! SiteVC
-            vc.siteNumber = rowSelected
+            vc.wholeSite = site
         }
     }
 
