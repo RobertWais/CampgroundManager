@@ -10,6 +10,7 @@
 		2E28F61420290E8D00A30C3F /* SiteSectionsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E28F61320290E8D00A30C3F /* SiteSectionsVC.swift */; };
 		2E28F61920290F7300A30C3F /* SiteTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E28F61820290F7300A30C3F /* SiteTableCell.swift */; };
 		2E28F61C2029694800A30C3F /* Sections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E28F61B2029694800A30C3F /* Sections.swift */; };
+		2E28F61F202BFC1700A30C3F /* SiteVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E28F61E202BFC1700A30C3F /* SiteVC.swift */; };
 		2E3B10B82023FF2500B443DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3B10B72023FF2500B443DB /* AppDelegate.swift */; };
 		2E3B10BA2023FF2500B443DB /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3B10B92023FF2500B443DB /* MapVC.swift */; };
 		2E3B10BD2023FF2500B443DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E3B10BB2023FF2500B443DB /* Main.storyboard */; };
@@ -24,6 +25,7 @@
 		2E28F61320290E8D00A30C3F /* SiteSectionsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteSectionsVC.swift; sourceTree = "<group>"; };
 		2E28F61820290F7300A30C3F /* SiteTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteTableCell.swift; sourceTree = "<group>"; };
 		2E28F61B2029694800A30C3F /* Sections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sections.swift; sourceTree = "<group>"; };
+		2E28F61E202BFC1700A30C3F /* SiteVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteVC.swift; sourceTree = "<group>"; };
 		2E3B10B42023FF2500B443DB /* independentStudy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = independentStudy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E3B10B72023FF2500B443DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2E3B10B92023FF2500B443DB /* MapVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
@@ -53,6 +55,7 @@
 			children = (
 				2E3B10B92023FF2500B443DB /* MapVC.swift */,
 				2E28F61320290E8D00A30C3F /* SiteSectionsVC.swift */,
+				2E28F61E202BFC1700A30C3F /* SiteVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -71,6 +74,13 @@
 				2E28F61B2029694800A30C3F /* Sections.swift */,
 			);
 			path = Constants;
+			sourceTree = "<group>";
+		};
+		2E28F620202C03F700A30C3F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		2E3B10AB2023FF2500B443DB = {
@@ -94,6 +104,7 @@
 		2E3B10B62023FF2500B443DB /* independentStudy */ = {
 			isa = PBXGroup;
 			children = (
+				2E28F620202C03F700A30C3F /* Models */,
 				2E28F61A2029692500A30C3F /* Constants */,
 				2E28F61520290F1B00A30C3F /* Views */,
 				2E28F61220290E5F00A30C3F /* Controllers */,
@@ -261,6 +272,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E28F61C2029694800A30C3F /* Sections.swift in Sources */,
+				2E28F61F202BFC1700A30C3F /* SiteVC.swift in Sources */,
 				2E3B10BA2023FF2500B443DB /* MapVC.swift in Sources */,
 				2E3B10B82023FF2500B443DB /* AppDelegate.swift in Sources */,
 				2E28F61420290E8D00A30C3F /* SiteSectionsVC.swift in Sources */,

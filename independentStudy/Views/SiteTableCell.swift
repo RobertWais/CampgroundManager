@@ -19,6 +19,6 @@ class SiteTableCell: UITableViewCell {
     
     func configureCell(siteName: String, timeFrame: String){
         self.siteLbl.text = siteName
-        self.siteLbl.text = timeFrame
+        self.typeLbl.text = timeFrame
     }
 }

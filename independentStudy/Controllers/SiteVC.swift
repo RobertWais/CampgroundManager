@@ -10,9 +10,12 @@ import UIKit
 
 class SiteVC: UIViewController {
 
+    @IBOutlet var siteNumberLbl: UILabel!
+    var siteNumber = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        siteNumberLbl.text = ("\(siteNumber)")
         // Do any additional setup after loading the view.
     }
 
@@ -21,6 +24,9 @@ class SiteVC: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func submitBtnPressed(_ sender: Any) {
+        self.performSegue(withIdentifier: "unwindToSiteSectionVC", sender: self)
+    }
 
     /*
     // MARK: - Navigation

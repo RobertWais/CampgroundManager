@@ -26,10 +26,10 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         super.viewDidLoad()
         self.redisManager = RedisClient(delegate: self)
         self.subscriptionManager = RedisClient(delegate: self)
-        self.redisManager?.connect(host: "localhost",
+        self.redisManager?.connect(host:"169.254.246.180",
                                    port: 6379,
                                    pwd: "password")
-        self.subscriptionManager?.connect(host: "localhost",
+        self.subscriptionManager?.connect(host: "169.254.246.180",
                                           port: 6379,
                                           pwd: "password")
         
