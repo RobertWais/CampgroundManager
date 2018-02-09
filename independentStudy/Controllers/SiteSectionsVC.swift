@@ -9,7 +9,7 @@
 import UIKit
 
 class SiteSectionsVC: UIViewController, UITableViewDataSource,UITableViewDelegate {
-    
+    var num = 0
     var sites = [Site]()
     var site = Site()
     var rowSelected = 1
@@ -42,29 +42,18 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource,UITableViewDelegat
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
-
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return self.num
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "SiteCell") as? SiteTableCell else{
             return UITableViewCell()
         }
         let tempSite = Site()
-        tempSite.siteNumber = "\(indexPath.row)"
+        tempSite.siteNumber = "Site: \(indexPath.row+419)"
         tempSite.timeFrame = "1 hour"
         
         //Adding to an array
@@ -80,9 +69,6 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource,UITableViewDelegat
         site.timeFrame = cell.timeFrame
         performSegue(withIdentifier: "showSiteVC", sender: self)
     }
-    
-    //Added
-   // @IBAction func unwindToSiteSectionVC(segue: UIStoryboardSegue) {}
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "showSiteVC"){

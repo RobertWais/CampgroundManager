@@ -143,7 +143,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="yHn-jg-aqN">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="yHn-jg-aqN">
                                 <rect key="frame" x="16" y="290" width="348" height="243"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -189,9 +189,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="wpz-ry-no0"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Sites" id="0Uu-Eo-q7h">
-                        <barButtonItem key="backBarButtonItem" title="Hello" id="UPA-XD-jYT"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Sites" largeTitleDisplayMode="always" id="0Uu-Eo-q7h"/>
                     <connections>
                         <outlet property="siteNumberLbl" destination="R1L-Vm-hM4" id="57n-6q-FpA"/>
                     </connections>

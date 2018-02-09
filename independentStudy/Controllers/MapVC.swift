@@ -18,6 +18,8 @@ class MapVC: UIViewController,UIScrollViewDelegate {
     var scrollView: UIScrollView!
     var imageView: UIImageView!
     let shapesLayer = CAShapeLayer()
+    let lakeLayer = CAShapeLayer()
+    let siteLayer = CAShapeLayer()
     
     var redisManager: RedisClient!
     var subscriptionManager: RedisClient!
@@ -62,25 +64,28 @@ class MapVC: UIViewController,UIScrollViewDelegate {
          */
         
         let shapes = BACK_BATHHOUSE
-        
         let shapePath = UIBezierPath(pathString: shapes)
         shapesLayer.path = shapePath.cgPath
         shapesLayer.fillColor = UIColor(red:200.0, green:0.0, blue:0.0, alpha:0.2).cgColor
       
-     
-        /*
-         Creating Layers
-         */
-       
         
+        let lake = LAKE
+        let lakePath = UIBezierPath(pathString: lake)
+        lakeLayer.path = lakePath.cgPath
+        lakeLayer.fillColor = UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor
         
-        /*
-         Creating Layers
-         */
+        let section = sites419
+        let sectionPath = UIBezierPath(pathString: section)
+        siteLayer.path = sectionPath.cgPath
+        siteLayer.fillColor = UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor
+        siteLayer.borderColor = UIColor(red:0, green:0.0, blue:0.0, alpha: 1.0).cgColor
+        
         
         //Setup Image View
         imageView = UIImageView(image:  #imageLiteral(resourceName: "campsite_map"))
         imageView.layer.addSublayer(shapesLayer)
+        imageView.layer.addSublayer(lakeLayer)
+        imageView.layer.addSublayer(siteLayer)
         imageView.isUserInteractionEnabled = true;
         imageView.addGestureRecognizer(recognizer)
         print("Width: \(imageView.bounds.width)")
@@ -90,8 +95,6 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         scrollView = UIScrollView(frame: view.bounds)
         scrollView.backgroundColor = UIColor.clear
         scrollView.autoresizingMask = UIViewAutoresizing(rawValue: UIViewAutoresizing.RawValue(UInt8(UIViewAutoresizing.flexibleWidth.rawValue) | UInt8(UIViewAutoresizing.flexibleHeight.rawValue)))
-        
-        
         scrollView.delegate = self
         
         scrollView.addSubview(imageView)
@@ -145,7 +148,7 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         
         
         
-        if(shapesLayer.path?.contains(destination))!{
+        if((shapesLayer.path?.contains(destination))! || (siteLayer.path?.contains(destination))!) {
             print("black death")
             performSegue(withIdentifier: "show", sender: self)
         }
@@ -154,6 +157,18 @@ class MapVC: UIViewController,UIScrollViewDelegate {
             self.view.makeToast("Querying 46-60", duration: 1.5, position: .bottom)
         } else if destination.x < 306 && destination.x > 220 && destination.y > 234 && destination.y < 285  {
             self.view.makeToast("Querying Pool", duration: 1.5, position: .bottom)
+        }
+    }
+    
+    func setPaths(stringPath: String){
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if(segue.identifier == "show"){
+            //let path = self.tableView.indexPathForSelectedRow?.row
+            var vc = segue.destination as! SiteSectionsVC
+            vc.num = 10
         }
     }
     
