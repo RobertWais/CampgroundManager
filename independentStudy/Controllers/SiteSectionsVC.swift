@@ -8,10 +8,11 @@
 
 import UIKit
 
-class SiteSectionsVC: UIViewController, UITableViewDataSource,UITableViewDelegate {
+class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var num = 0
     var sites = [Site]()
     var site = Site()
+    var theNum = 419
     var rowSelected = 1
     @IBOutlet var tableView: UITableView!
     
@@ -30,12 +31,19 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource,UITableViewDelegat
         super.viewWillAppear(animated)
         tableView.reloadData()
         self.navigationController?.setNavigationBarHidden(false, animated: false)
+        tableView.reloadData()
     }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         self.navigationController?.setNavigationBarHidden(true, animated: false)
+        
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        print("Hopefully last")
+        
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -45,15 +53,17 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource,UITableViewDelegat
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.num
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "SiteCell") as? SiteTableCell else{
             return UITableViewCell()
         }
         let tempSite = Site()
-        tempSite.siteNumber = "Site: \(indexPath.row+419)"
+        tempSite.siteNumber = "Site: \(indexPath.row+theNum)"
         tempSite.timeFrame = "1 hour"
         
         //Adding to an array
@@ -76,6 +86,11 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource,UITableViewDelegat
             var vc = segue.destination as! SiteVC
             vc.wholeSite = site
         }
+    }
+    
+    //Unwind Segue
+    @IBAction func unwindFromSiteVC(unwindSegue: UIStoryboardSegue ){
+        print("going back")
     }
 
 }

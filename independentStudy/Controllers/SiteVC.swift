@@ -35,8 +35,17 @@ class SiteVC: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+            print("preparing fore segue")
+            //let path = self.tableView.indexPathForSelectedRow?.row
+            var vc = segue.destination as! SiteSectionsVC
+            vc.theNum = 100
+        
+    }
+    
     @IBAction func submitBtnPressed(_ sender: Any) {
+        print("Hopefully first" )
         //UPDATE: Redis
-        dismiss(animated: true, completion: nil)
+        //dismiss(animated: true, completion: nil)
     }
 }
