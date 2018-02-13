@@ -8,23 +8,20 @@
 
 import UIKit
 
-class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
     var num = 0
     var sites = [Site]()
-    var site = Site()
+    var site: Site!
     var theNum = 419
     var rowSelected = 1
     @IBOutlet var tableView: UITableView!
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
-        
 
         tableView.delegate = self
         tableView.dataSource = self
         
-        // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -62,9 +59,10 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "SiteCell") as? SiteTableCell else{
             return UITableViewCell()
         }
-        let tempSite = Site()
-        tempSite.siteNumber = "Site: \(indexPath.row+theNum)"
-        tempSite.timeFrame = "1 hour"
+        
+        let tempSite = Site(siteNum: "\(indexPath.row+theNum)", siteClean: true, wood: false, info: "Nothing", duration: "1 hour")
+        //tempSite.siteNumber = "Site: \(indexPath.row+theNum)"
+        //tempSite.timeFrame = "1 hour"
         
         //Adding to an array
         sites.append(tempSite)
@@ -73,10 +71,10 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = sites[indexPath.row]
+        site = sites[indexPath.row]
         
-        site.siteNumber = cell.siteNumber
-        site.timeFrame = cell.timeFrame
+        //site.siteNumber = cell.siteNumber
+        //site.timeFrame = cell.timeFrame
         performSegue(withIdentifier: "showSiteVC", sender: self)
     }
     

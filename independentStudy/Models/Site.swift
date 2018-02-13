@@ -9,66 +9,48 @@
 import Foundation
 
 
-class Site {
+struct Site {
     
     //
     //Change Later, Structs, vs Classes
     
     
     
-    var dateAndTime: String!
-    var siteNumber = ""
-    var siteCleaned: Bool!
-    var needWood: Bool!
-    var complaint: Bool!
-    var description: String!
-    var timeFrame: String!
+    private var _dateAndTime: String!
+    private var _siteNumber = ""
+    private var _siteCleaned: Bool!
+    private var _needWood: Bool!
+    private var _complaint: Bool!
+    private var _description: String!
+    private var _timeFrame: String!
    
-    /*
-    init(siteNum: String, siteClean: Bool, wood: Bool, complaintGiven: Bool, info: String, duration: String){
-        self._siteNumber = siteNum
-        self._siteCleaned = siteClean
-        self._needWood = wood
-        self._complaint = complaintGiven
-        self._description = info
-        self._timeFrame = duration
+    
+    init(siteNum: String, siteClean: Bool, wood: Bool, info: String, duration: String){
+        _siteNumber = siteNum
+        _siteCleaned = siteClean
+        _needWood = wood
+        _description = info
+        _timeFrame = duration
     }
     
     var siteNumber: String {
-        if _siteNumber == nil {
-            _siteNumber = ""
-        }
         return _siteNumber
     }
     
     var siteCleaned: Bool {
-        if _siteCleaned == nil {
-            _siteCleaned = false
-        }
         return _siteCleaned
     }
     
     var needWood: Bool {
-        if _needWood == nil {
-            _needWood = false
-        }
         return _needWood
     }
     
-    var complaint: Bool {
-        if _complaint == nil {
-            _complaint = false
-        }
-        return _complaint
-    }
-    
     var description: String {
-        if _description == nil {
-            _description = ""
-        }
         return _description
     }
     
-    */
+    var timeFrame: String {
+        return _timeFrame
+    }
 
 }

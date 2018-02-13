@@ -13,11 +13,26 @@ class SiteVC: UIViewController {
     var wholeSite: Site!
     
     @IBOutlet var siteNumberLbl: UILabel!
-    var siteNumber = ""
+    @IBOutlet var siteCleaned: UILabel!
+    @IBOutlet var needWood: UILabel!
+    @IBOutlet var timeStamp: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        siteNumberLbl.text = ("\(wholeSite.siteNumber)")
+        print("Number: \(wholeSite.siteNumber)")
+        siteNumberLbl.text = wholeSite.siteNumber
+        if(wholeSite.siteCleaned){
+            siteCleaned.text = "✅"
+        } else {
+           siteCleaned.text = "❌"
+        }
+        if(wholeSite.needWood){
+            needWood.text = "✅"
+        } else {
+            needWood.text = "❌"
+        }
+        timeStamp.text = wholeSite.timeFrame
+        
         // Do any additional setup after loading the view.
     }
     

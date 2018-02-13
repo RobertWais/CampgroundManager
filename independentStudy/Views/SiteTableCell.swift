@@ -14,7 +14,7 @@ class SiteTableCell: UITableViewCell {
     @IBOutlet var typeLbl: UILabel!
     var siteNum = ""
     var type = ""
-    var cellSite = Site()
+    var cellSite: Site!
     
     override func awakeFromNib() {
         super.awakeFromNib()
