@@ -15,11 +15,16 @@ import PSSRedisClient
 
 
 class MapVC: UIViewController,UIScrollViewDelegate {
+    
+    var findLayer = [CAShapeLayer]()
+    var readSiteNumbers = [String]()
     var scrollView: UIScrollView!
     var imageView: UIImageView!
-    let shapesLayer = CAShapeLayer()
+    let Back_BathhouseLayer = CAShapeLayer()
     let lakeLayer = CAShapeLayer()
-    let siteLayer = CAShapeLayer()
+    let sites415_424Layer = CAShapeLayer()
+    let sites13_23Layer = CAShapeLayer()
+    let sites405_414Layer = CAShapeLayer()
     
     var redisManager: RedisClient!
     var subscriptionManager: RedisClient!
@@ -36,24 +41,25 @@ class MapVC: UIViewController,UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //hide nav bar
-        
         
         self.redisManager = RedisClient(delegate: self)
         self.subscriptionManager = RedisClient(delegate: self)
-        self.redisManager?.connect(host:"169.254.246.180",
+        self.redisManager?.connect(host:"192.168.1.5",
                                    port: 6379,
                                    pwd: "password")
-        self.subscriptionManager?.connect(host: "169.254.246.180",
+        self.subscriptionManager?.connect(host: "169.254.65.23",
                                           port: 6379,
                                           pwd: "password")
-        
-        redisManager.exec(command: "GET user", completion:
+       
+        redisManager.exec(command: "SMEMBERS ALERT_SECTIONS", completion:
             { (array: NSArray!) in
-                print("User is \(array[0])")
+                //print("User is \(array[0])")
+                for index in 0..<array.count {
+                    print("These sections need to be worked on: \(array[index])")
+                }
                 // this is where the completion handler code goes
                 
-        } )
+        })
         
         /*
          Setup Recognizer for taps
@@ -63,33 +69,50 @@ class MapVC: UIViewController,UIScrollViewDelegate {
          Setup Recognizer for taps
          */
         
-        let shapes = BACK_BATHHOUSE
-        let shapePath = UIBezierPath(pathString: shapes)
-        shapesLayer.path = shapePath.cgPath
-        shapesLayer.fillColor = UIColor(red:200.0, green:0.0, blue:0.0, alpha:0.2).cgColor
-      
+        let sites405_414Path = UIBezierPath(pathString: sites405_414)
+        sites405_414Layer.path = sites405_414Path.cgPath
+        sites405_414Layer.fillColor = UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor
+        sites405_414Layer.name = "SS405_414"
+        
+        let Back_BathousePath = UIBezierPath(pathString: BACK_BATHHOUSE)
+        Back_BathhouseLayer.path = Back_BathousePath.cgPath
+        Back_BathhouseLayer.fillColor = UIColor(red:200.0, green:0.0, blue:0.0, alpha:0.2).cgColor
+        //Back_Bathouse.name = "Back_Bathhouse"
+        
+        let sitesPath = UIBezierPath(pathString: sites13_23)
+        sites13_23Layer.path = sitesPath.cgPath
+        sites13_23Layer.fillColor = UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor
+        sites13_23Layer.name = "SS13_23"
         
         let lake = LAKE
         let lakePath = UIBezierPath(pathString: lake)
         lakeLayer.path = lakePath.cgPath
         lakeLayer.fillColor = UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor
         
-        let section = sites419
-        let sectionPath = UIBezierPath(pathString: section)
-        siteLayer.path = sectionPath.cgPath
-        siteLayer.fillColor = UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor
-        siteLayer.borderColor = UIColor(red:0, green:0.0, blue:0.0, alpha: 1.0).cgColor
         
+        
+        let sites415_424Path = UIBezierPath(pathString: sites415_424)
+        sites415_424Layer.path = sites415_424Path.cgPath
+        sites415_424Layer.fillColor = UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor
+        sites415_424Layer.name = "SS415_424"
         
         //Setup Image View
         imageView = UIImageView(image:  #imageLiteral(resourceName: "campsite_map"))
-        imageView.layer.addSublayer(shapesLayer)
+        imageView.layer.addSublayer(sites405_414Layer)
+        imageView.layer.addSublayer(sites13_23Layer)
+        imageView.layer.addSublayer(Back_BathhouseLayer)
         imageView.layer.addSublayer(lakeLayer)
-        imageView.layer.addSublayer(siteLayer)
+        imageView.layer.addSublayer(sites415_424Layer)
         imageView.isUserInteractionEnabled = true;
         imageView.addGestureRecognizer(recognizer)
         print("Width: \(imageView.bounds.width)")
-            print("Length: \(imageView.bounds.height)")
+        print("Length: \(imageView.bounds.height)")
+        
+        
+        //Add Layers to list
+        findLayer.append(sites415_424Layer)
+        findLayer.append(sites13_23Layer)
+        findLayer.append(sites405_414Layer)
         //
         
         scrollView = UIScrollView(frame: view.bounds)
@@ -108,6 +131,20 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         // Do any additional setup after loading the view, typically from a nib.
     }
 
+    func getSitesForSection(section: String, completion: @escaping (Bool)->Void){
+        print("Started function")
+        redisManager.exec(command: "SMEMBERS \(section)", completion:
+            { (array: NSArray!) in
+                for index in 0..<array.count {
+                    print("Adding value for next VC: \(array[index])")
+                    self.readSiteNumbers.append("\(array[index])")
+                }
+                for i in 0..<self.readSiteNumbers.count{
+                    print("Array value \(i): \(self.readSiteNumbers[i])")
+                }
+                completion(true)
+        })
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -142,36 +179,41 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         scrollView.maximumZoomScale = 5.0
     }
     
-    @objc func touchedSection(recognizer: UITapGestureRecognizer){
-       
-        let destination:CGPoint = recognizer.location(in: recognizer.view)
-        
-        
-        
-        if((shapesLayer.path?.contains(destination))! || (siteLayer.path?.contains(destination))!) {
-            print("black death")
-            performSegue(withIdentifier: "show", sender: self)
-        }
-        
-        if destination.x < 196 && destination.x > 175 && destination.y > 325 && destination.y < 541{
-            self.view.makeToast("Querying 46-60", duration: 1.5, position: .bottom)
-        } else if destination.x < 306 && destination.x > 220 && destination.y > 234 && destination.y < 285  {
-            self.view.makeToast("Querying Pool", duration: 1.5, position: .bottom)
-        }
-    }
     
-    func setPaths(stringPath: String){
+    @objc func touchedSection(recognizer: UITapGestureRecognizer){
+        let destination:CGPoint = recognizer.location(in: recognizer.view)
+        let query = findLayerTouched(destination: destination)
         
+        print("Querying \(query)")
+        if (query != "") {
+            getSitesForSection(section: query, completion: { done in
+                if done{
+                    self.performSegue(withIdentifier: "show", sender: self)
+                }
+            })
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        print("sent")
         if(segue.identifier == "show"){
-            //let path = self.tableView.indexPathForSelectedRow?.row
-            var vc = segue.destination as! SiteSectionsVC
-            vc.num = 10
+            let vc = segue.destination as! SiteSectionsVC
+            vc.numberSite = readSiteNumbers
+            
+            //Emptying array elements
+            readSiteNumbers.removeAll(keepingCapacity: false)
         }
     }
     
+    func findLayerTouched(destination: CGPoint) -> String {
+        
+        for index in 0..<findLayer.count{
+            if (findLayer[index].path?.contains(destination))!{
+                return findLayer[index].name!
+            }
+        }
+        return ""
+    }
 
 
 }

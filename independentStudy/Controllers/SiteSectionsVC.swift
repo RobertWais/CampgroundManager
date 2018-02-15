@@ -11,14 +11,15 @@ import UIKit
 class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
     var num = 0
     var sites = [Site]()
+    var numberSite = [String]()
     var site: Site!
-    var theNum = 419
     var rowSelected = 1
     @IBOutlet var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        print("HRe")
         tableView.delegate = self
         tableView.dataSource = self
         
@@ -52,7 +53,7 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.num
+        return self.numberSite.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -60,7 +61,7 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
             return UITableViewCell()
         }
         
-        let tempSite = Site(siteNum: "\(indexPath.row+theNum)", siteClean: true, wood: false, info: "Nothing", duration: "1 hour")
+        let tempSite = Site(siteNum: self.numberSite[indexPath.row], siteClean: true, wood: false, info: "Nothing", duration: "1 hour")
         //tempSite.siteNumber = "Site: \(indexPath.row+theNum)"
         //tempSite.timeFrame = "1 hour"
         

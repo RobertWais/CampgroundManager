@@ -54,8 +54,6 @@ class SiteVC: UIViewController {
             print("preparing fore segue")
             //let path = self.tableView.indexPathForSelectedRow?.row
             var vc = segue.destination as! SiteSectionsVC
-            vc.theNum = 100
-        
     }
     
     @IBAction func submitBtnPressed(_ sender: Any) {
