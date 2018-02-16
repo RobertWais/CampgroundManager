@@ -19,7 +19,6 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        print("HRe")
         tableView.delegate = self
         tableView.dataSource = self
         

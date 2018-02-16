@@ -61,6 +61,13 @@ class MapVC: UIViewController,UIScrollViewDelegate {
                 
         })
         
+        //
+        //
+        // READ IN ALL SITES THAT NEED TO BE WORKED ON
+        //
+        //
+        //
+        
         /*
          Setup Recognizer for taps
          */
@@ -139,9 +146,9 @@ class MapVC: UIViewController,UIScrollViewDelegate {
                     print("Adding value for next VC: \(array[index])")
                     self.readSiteNumbers.append("\(array[index])")
                 }
-                for i in 0..<self.readSiteNumbers.count{
-                    print("Array value \(i): \(self.readSiteNumbers[i])")
-                }
+                //All alert sites will be read in right away
+                //Create the site with an alert- <TRUE/FALSE> if there is alert, display cell as red
+                //TEST AGAINST ALL SITES THAT ARE RED
                 completion(true)
         })
     }
@@ -205,8 +212,9 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         }
     }
     
+    
+    //Finds which layer the user touched
     func findLayerTouched(destination: CGPoint) -> String {
-        
         for index in 0..<findLayer.count{
             if (findLayer[index].path?.contains(destination))!{
                 return findLayer[index].name!
