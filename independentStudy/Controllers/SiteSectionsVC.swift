@@ -22,6 +22,7 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
         tableView.delegate = self
         tableView.dataSource = self
         
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -61,8 +62,6 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
         }
         
         let tempSite = Site(siteNum: self.numberSite[indexPath.row], siteClean: true, wood: false, info: "Nothing", duration: "1 hour")
-        //tempSite.siteNumber = "Site: \(indexPath.row+theNum)"
-        //tempSite.timeFrame = "1 hour"
         
         //Adding to an array
         sites.append(tempSite)
@@ -75,20 +74,33 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
         
         //site.siteNumber = cell.siteNumber
         //site.timeFrame = cell.timeFrame
-        performSegue(withIdentifier: "showSiteVC", sender: self)
+        if(num==0){
+            performSegue(withIdentifier: "showSendVC", sender: self)
+        }else{
+            performSegue(withIdentifier: "showSiteVC", sender: self)
+        }
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "showSiteVC"){
             //let path = self.tableView.indexPathForSelectedRow?.row
+            
             var vc = segue.destination as! SiteVC
             vc.wholeSite = site
+        }
+        if(segue.identifier == "showSendVC"){
+            var vc = segue.destination as! SiteSendVC
+            vc.siteSelected = site
         }
     }
     
     //Unwind Segue
     @IBAction func unwindFromSiteVC(unwindSegue: UIStoryboardSegue ){
-        print("going back")
+        print("going back completed")
+    }
+    @IBAction func unwindFromSiteSendVC(unwindSegue: UIStoryboardSegue ){
+        print("going back from sent")
     }
 
 }

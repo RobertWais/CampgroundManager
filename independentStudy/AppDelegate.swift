@@ -8,19 +8,29 @@
 
 import UIKit
 import IQKeyboardManagerSwift
+import PSSRedisClient
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-
+class AppDelegate: UIResponder, UIApplicationDelegate, RedisManagerDelegate {
+    
     var window: UIWindow?
-
-
+    var redisManager: RedisClient!
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        
+        self.redisManager = RedisClient(delegate: self)
+        self.redisManager?.connect(host:"169.254.62.238",
+                                   port: 6379,
+                                   pwd: "password")
+        
+        
         IQKeyboardManager.sharedManager().enable = true
         IQKeyboardManager.sharedManager().overrideKeyboardAppearance = true
         IQKeyboardManager.sharedManager().enableAutoToolbar = true
         IQKeyboardManager.sharedManager().keyboardAppearance = .dark
+        
         return true
     }
 
@@ -45,6 +55,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+    
+    func subscriptionMessageReceived(channel: String, message: String) {
+        print("Yup")
+    }
+    
+    func socketDidDisconnect(client: RedisClient, error: Error?) {
+        print("Disconnected")
+    }
+    
+    func socketDidConnect(client: RedisClient) {
+        print("Connected")
+    }
+    
+    
+    
 
 
 }

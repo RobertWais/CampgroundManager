@@ -25,13 +25,16 @@ class MapVC: UIViewController,UIScrollViewDelegate {
     let sites415_424Layer = CAShapeLayer()
     let sites13_23Layer = CAShapeLayer()
     let sites405_414Layer = CAShapeLayer()
+    let myDelegate = UIApplication.shared.delegate as? AppDelegate
     
-    var redisManager: RedisClient!
+   // var redisManager: RedisClient!
     var subscriptionManager: RedisClient!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: false)
+      
+        
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
@@ -41,17 +44,7 @@ class MapVC: UIViewController,UIScrollViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        self.redisManager = RedisClient(delegate: self)
-        self.subscriptionManager = RedisClient(delegate: self)
-        self.redisManager?.connect(host:"192.168.1.5",
-                                   port: 6379,
-                                   pwd: "password")
-        self.subscriptionManager?.connect(host: "192.168.1.5",
-                                          port: 6379,
-                                          pwd: "password")
-       
-        redisManager.exec(command: "SMEMBERS ALERT_SECTIONS", completion:
+        myDelegate?.redisManager.exec(command: "SMEMBERS ALERT_SECTIONS", completion:
             { (array: NSArray!) in
                 //print("User is \(array[0])")
                 for index in 0..<array.count {
@@ -60,13 +53,6 @@ class MapVC: UIViewController,UIScrollViewDelegate {
                 // this is where the completion handler code goes
                 
         })
-        
-        //
-        //
-        // READ IN ALL SITES THAT NEED TO BE WORKED ON
-        //
-        //
-        //
         
         /*
          Setup Recognizer for taps
@@ -140,7 +126,7 @@ class MapVC: UIViewController,UIScrollViewDelegate {
 
     func getSitesForSection(section: String, completion: @escaping (Bool)->Void){
         print("Started function")
-        redisManager.exec(command: "SMEMBERS \(section)", completion:
+        myDelegate?.redisManager.exec(command: "SMEMBERS \(section)", completion:
             { (array: NSArray!) in
                 for index in 0..<array.count {
                     print("Adding value for next VC: \(array[index])")
@@ -202,7 +188,6 @@ class MapVC: UIViewController,UIScrollViewDelegate {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print("sent")
         if(segue.identifier == "show"){
             let vc = segue.destination as! SiteSectionsVC
             vc.numberSite = readSiteNumbers
@@ -226,7 +211,7 @@ class MapVC: UIViewController,UIScrollViewDelegate {
 
 }
 
-
+/*
 extension MapVC: RedisManagerDelegate {
     func subscriptionMessageReceived(channel: String, message: String) {
         debugPrint("Disconnected (Error: \(message))")
@@ -243,7 +228,7 @@ extension MapVC: RedisManagerDelegate {
         // Setup a subscription after we have connected
     }
 }
-
+*/
 
 
 

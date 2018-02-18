@@ -19,20 +19,7 @@ class SiteVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("Number: \(wholeSite.siteNumber)")
-        siteNumberLbl.text = wholeSite.siteNumber
-        if(wholeSite.siteCleaned){
-            siteCleaned.text = "✅"
-        } else {
-           siteCleaned.text = "❌"
-        }
-        if(wholeSite.needWood){
-            needWood.text = "✅"
-        } else {
-            needWood.text = "❌"
-        }
-        timeStamp.text = wholeSite.timeFrame
-        
+        updateUI()
         // Do any additional setup after loading the view.
     }
     
@@ -45,9 +32,20 @@ class SiteVC: UIViewController {
         self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func updateUI(){
+        siteNumberLbl.text = wholeSite.siteNumber
+        if(wholeSite.siteCleaned){
+            siteCleaned.text = "✅"
+        } else {
+            siteCleaned.text = "❌"
+        }
+        if(wholeSite.needWood){
+            needWood.text = "✅"
+        } else {
+            needWood.text = "❌"
+        }
+        timeStamp.text = wholeSite.timeFrame
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

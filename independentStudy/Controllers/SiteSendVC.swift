@@ -11,6 +11,7 @@ import NotificationCenter
 class SiteSendVC: UIViewController {
 
     
+    @IBOutlet var submitBtn: UIButton!
     @IBOutlet var siteNumberLbl: UILabel!
     @IBOutlet var setClean: UISegmentedControl!
     @IBOutlet var setTimeStamp: UISegmentedControl!
@@ -18,19 +19,23 @@ class SiteSendVC: UIViewController {
     @IBOutlet var descriptionSite: UITextView!
     
     
-    @IBAction func submitBtnPressed(_ sender: Any) {
-        print("Clean: \(setClean.titleForSegment(at: setClean.selectedSegmentIndex))")
-    }
+    var mainColor = UIColor.white
+    let myDelegate = UIApplication.shared.delegate as? AppDelegate
+    var siteSelected: Site!
+    var queryString: String!
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        /*
+        updateUI()
+        mainColor = submitBtn.backgroundColor!
         NotificationCenter.default.addObserver(self, selector: #selector(SiteSendVC.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(SiteSendVC.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-    */
+    
         
         
-        descriptionSite.delegate = self
+       // descriptionSite.delegate = self
+        /*
         let numberToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 50.0))
         numberToolbar.barStyle = UIBarStyle.default
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
@@ -39,13 +44,40 @@ class SiteSendVC: UIViewController {
         
         numberToolbar.items = [space, clearBtn, space, doneBtn,space]
         numberToolbar.sizeToFit()
+ */
         //descriptionSite.inputAccessoryView = numberToolbar
         // Do any additional setup after loading the view.
     }
 
+    func updateUI(){
+        siteNumberLbl.text = siteSelected.siteNumber
+        if(siteSelected.siteCleaned == "Need"){
+            setClean.selectedSegmentIndex = 1
+        }else{
+            setClean.selectedSegmentIndex = 0
+        }
+        if(siteSelected.needWood == true){
+            setWood.selectedSegmentIndex =  1
+        }else{
+            setWood.selectedSegmentIndex =  0
+        }
+        //*CHANGE LATER
+        setTimeStamp.selectedSegmentIndex = 1
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     @objc func doneBtnPressed(_ sender: UIBarButtonItem){
@@ -55,27 +87,58 @@ class SiteSendVC: UIViewController {
         descriptionSite.text = ""
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @IBAction func submitBtnPressed(_ sender: Any) {
+        //print("Clean: \(setClean.titleForSegment(at: setClean.selectedSegmentIndex))")
     }
-    */
+    
+    func submitTask(){
+        toString()
+        print(queryString!)
+        print("""
+HMSET site:11 cleaned "Clean" wood "No" duration "Yes" description "<Entertask>"
+""")
+        myDelegate?.redisManager.exec(command: (queryString!), completion: { (array) in
+            print("Submitted")
+            print(self.queryString!)
+        })
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        print("preparing for segue")
+        submitTask()
+        //let path = self.tableView.indexPathForSelectedRow?.row
+    }
+    
+    func toString(){
+        print("Num: \(siteSelected.siteNumber)")
+        print("Clean: \(setClean.titleForSegment(at: setClean.selectedSegmentIndex)!)")
+        print("Wood: \(setClean.titleForSegment(at: setClean.selectedSegmentIndex)!)")
+        print("Duration \(setTimeStamp.titleForSegment(at: setTimeStamp.selectedSegmentIndex)!)")
+        print("Description: \(descriptionSite.text!)")
+        queryString = """
+        HMSET site:\(siteSelected.siteNumber) cleaned "\(setClean.titleForSegment(at: setClean.selectedSegmentIndex)!)" wood "\(setWood.titleForSegment(at: setWood.selectedSegmentIndex)!)" duration "\(setTimeStamp.titleForSegment(at: setTimeStamp.selectedSegmentIndex)!)" description "\(descriptionSite.text!)"
+        """
+        print("Query: \(queryString!)")
+    }
+    
+    
+    
+    
+    //
+    //MARK: KEYBOARD FUNCTIONS
+    //
     @objc func keyboardWillShow(_ notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0{
-                self.view.frame.origin.y -= keyboardSize.height
-            }
+                submitBtn.backgroundColor = UIColor.black
+                //self.view.frame.origin.y -= keyboardSize.height
+            
         }
     }
     @objc func keyboardWillHide(_ notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y != 0{
-                self.view.frame.origin.y += keyboardSize.height
-            }
+                submitBtn.backgroundColor = mainColor
+                //self.view.frame.origin.y += keyboardSize.height
+            
         }
     }
 }
