@@ -47,7 +47,7 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         self.redisManager?.connect(host:"192.168.1.5",
                                    port: 6379,
                                    pwd: "password")
-        self.subscriptionManager?.connect(host: "169.254.65.23",
+        self.subscriptionManager?.connect(host: "192.168.1.5",
                                           port: 6379,
                                           pwd: "password")
        

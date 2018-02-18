@@ -9,4 +9,5 @@ target 'independentStudy' do
   pod 'Toast-Swift', '~> 3.0.1'
   pod 'SwiftSVG', '~> 2.0'
   pod "PSSRedisClient"
+  pod 'IQKeyboardManagerSwift'
 end

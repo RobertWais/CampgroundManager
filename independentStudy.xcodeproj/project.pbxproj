@@ -18,6 +18,7 @@
 		2E3B10C22023FF2600B443DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E3B10C02023FF2600B443DB /* LaunchScreen.storyboard */; };
 		2E3B10CA20240D5D00B443DB /* imageBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2E3B10C920240D5D00B443DB /* imageBackground.jpg */; };
 		2E8E2C2E202CD2FD00BA0AC9 /* Site.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8E2C2D202CD2FD00BA0AC9 /* Site.swift */; };
+		2ECAC39C2038ECD50067A133 /* SiteSendVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECAC39B2038ECD50067A133 /* SiteSendVC.swift */; };
 		C36F2B1EE5BF5C0A5C2D264E /* Pods_independentStudy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 090D53FE0CD58020D78434EA /* Pods_independentStudy.framework */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +37,7 @@
 		2E3B10C32023FF2600B443DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2E3B10C920240D5D00B443DB /* imageBackground.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = imageBackground.jpg; sourceTree = "<group>"; };
 		2E8E2C2D202CD2FD00BA0AC9 /* Site.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Site.swift; sourceTree = "<group>"; };
+		2ECAC39B2038ECD50067A133 /* SiteSendVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteSendVC.swift; sourceTree = "<group>"; };
 		734AD10D5F918AE22F8ADCDD /* Pods-independentStudy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-independentStudy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-independentStudy/Pods-independentStudy.debug.xcconfig"; sourceTree = "<group>"; };
 		E8F4FB734EE0EC6FDB72FCCC /* Pods-independentStudy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-independentStudy.release.xcconfig"; path = "Pods/Target Support Files/Pods-independentStudy/Pods-independentStudy.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -58,6 +60,7 @@
 				2E3B10B92023FF2500B443DB /* MapVC.swift */,
 				2E28F61320290E8D00A30C3F /* SiteSectionsVC.swift */,
 				2E28F61E202BFC1700A30C3F /* SiteVC.swift */,
+				2ECAC39B2038ECD50067A133 /* SiteSendVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -251,6 +254,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-independentStudy/Pods-independentStudy-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework",
+				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/PSSRedisClient/PSSRedisClient.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftSVG/SwiftSVG.framework",
 				"${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework",
@@ -258,6 +262,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PSSRedisClient.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftSVG.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast_Swift.framework",
@@ -277,6 +282,7 @@
 				2E8E2C2E202CD2FD00BA0AC9 /* Site.swift in Sources */,
 				2E28F61C2029694800A30C3F /* Sections.swift in Sources */,
 				2E28F61F202BFC1700A30C3F /* SiteVC.swift in Sources */,
+				2ECAC39C2038ECD50067A133 /* SiteSendVC.swift in Sources */,
 				2E3B10BA2023FF2500B443DB /* MapVC.swift in Sources */,
 				2E3B10B82023FF2500B443DB /* AppDelegate.swift in Sources */,
 				2E28F61420290E8D00A30C3F /* SiteSectionsVC.swift in Sources */,
