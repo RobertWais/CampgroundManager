@@ -15,7 +15,7 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
     var site: Site!
     var rowSelected = 1
     @IBOutlet var tableView: UITableView!
-    
+    let myDelegate = UIApplication.shared.delegate as? AppDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -61,7 +61,7 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
             return UITableViewCell()
         }
         
-        let tempSite = Site(siteNum: self.numberSite[indexPath.row], siteClean: true, wood: false, info: "Nothing", duration: "1 hour")
+        let tempSite = Site(siteNum: self.numberSite[indexPath.row], siteClean: true, wood: true, info: "Nothing", duration: "1 hour")
         
         //Adding to an array
         sites.append(tempSite)
@@ -72,13 +72,49 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         site = sites[indexPath.row]
         
+        myDelegate?.redisManager.exec(command: "HGETALL site:\(self.numberSite[indexPath.row])", completion:
+            { (array: NSArray!) in
+                print("Selected row: \(self.numberSite[indexPath.row])")
+                for index in 0..<array.count {
+                    //print("Adding value for next VC: \(array[index])")
+                }
+                //All alert sites will be read in right away
+                //Create the site with an alert- <TRUE/FALSE> if there is alert, display cell as red
+                //TEST AGAINST ALL SITES THAT ARE RED
+                let cleaned = String(describing: array[1])
+                let wood = String(describing: array[3])
+                let duration = String(describing: array[5])
+                let description = String(describing: array[7])
+                var boolWood = false
+                var boolClean = false
+                if cleaned == "true" {
+                    boolClean = true
+                    print("1")
+                }else{
+                    boolClean = false
+                    print("2")
+                }
+                if wood == "true" {
+                    boolWood = true
+                }else{
+                    boolWood = false
+                }
+                //print("\(array[0]) : \(array[1])")
+                print("\(array[2]) : \(array[3])")
+                print("\(array[4]) : \(array[5])")
+                print("\(array[6]) : \(array[7])")
+               let tempSite = Site(siteNum: self.numberSite[indexPath.row], siteClean: boolClean, wood: boolWood, info: description, duration: duration)
+                self.site = tempSite
+                if(self.num==0){
+                    self.performSegue(withIdentifier: "showSendVC", sender: self)
+                }else{
+                    self.performSegue(withIdentifier: "showSiteVC", sender: self)
+                }
+                
+        })
         //site.siteNumber = cell.siteNumber
         //site.timeFrame = cell.timeFrame
-        if(num==0){
-            performSegue(withIdentifier: "showSendVC", sender: self)
-        }else{
-            performSegue(withIdentifier: "showSiteVC", sender: self)
-        }
+        
         
     }
     

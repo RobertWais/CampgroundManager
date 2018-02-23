@@ -18,7 +18,9 @@ class SiteSendVC: UIViewController {
     @IBOutlet var setWood: UISegmentedControl!
     @IBOutlet var descriptionSite: UITextView!
     
-    
+
+    var tempWood = false
+    var tempClean = false
     var mainColor = UIColor.white
     let myDelegate = UIApplication.shared.delegate as? AppDelegate
     var siteSelected: Site!
@@ -51,18 +53,21 @@ class SiteSendVC: UIViewController {
 
     func updateUI(){
         siteNumberLbl.text = siteSelected.siteNumber
-        if(siteSelected.siteCleaned == "Need"){
+        if(siteSelected.siteCleaned){
             setClean.selectedSegmentIndex = 1
         }else{
             setClean.selectedSegmentIndex = 0
         }
-        if(siteSelected.needWood == true){
+        if(siteSelected.needWood){
             setWood.selectedSegmentIndex =  1
         }else{
             setWood.selectedSegmentIndex =  0
         }
         //*CHANGE LATER
         setTimeStamp.selectedSegmentIndex = 1
+        descriptionSite.text = siteSelected.description
+        print("Here: \(siteSelected.timeFrame)")
+        
     }
     
     
@@ -93,10 +98,6 @@ class SiteSendVC: UIViewController {
     
     func submitTask(){
         toString()
-        print(queryString!)
-        print("""
-HMSET site:11 cleaned "Clean" wood "No" duration "Yes" description "<Entertask>"
-""")
         myDelegate?.redisManager.exec(command: (queryString!), completion: { (array) in
             print("Submitted")
             print(self.queryString!)
@@ -110,13 +111,21 @@ HMSET site:11 cleaned "Clean" wood "No" duration "Yes" description "<Entertask>"
     }
     
     func toString(){
-        print("Num: \(siteSelected.siteNumber)")
-        print("Clean: \(setClean.titleForSegment(at: setClean.selectedSegmentIndex)!)")
-        print("Wood: \(setClean.titleForSegment(at: setClean.selectedSegmentIndex)!)")
+        if(setClean.titleForSegment(at: setClean.selectedSegmentIndex)! == "Dirty"){
+            tempClean = false
+        }else{
+            tempClean = true
+        }
+        if(setWood.titleForSegment(at: setWood.selectedSegmentIndex)! == "No"){
+            tempWood = false
+        }else{
+            tempWood = true
+        }
+        print("Boolean: \(tempWood.description)")
         print("Duration \(setTimeStamp.titleForSegment(at: setTimeStamp.selectedSegmentIndex)!)")
         print("Description: \(descriptionSite.text!)")
         queryString = """
-        HMSET site:\(siteSelected.siteNumber) cleaned "\(setClean.titleForSegment(at: setClean.selectedSegmentIndex)!)" wood "\(setWood.titleForSegment(at: setWood.selectedSegmentIndex)!)" duration "\(setTimeStamp.titleForSegment(at: setTimeStamp.selectedSegmentIndex)!)" description "\(descriptionSite.text!)"
+        HMSET site:\(siteSelected.siteNumber) cleaned \(tempClean.description) wood \(tempWood.description) duration \(setTimeStamp.titleForSegment(at: setTimeStamp.selectedSegmentIndex)!) description \(descriptionSite.text!)
         """
         print("Query: \(queryString!)")
     }
