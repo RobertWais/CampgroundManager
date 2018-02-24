@@ -93,7 +93,7 @@
                                                 <rect key="frame" x="100" y="0.0" width="100" height="30"/>
                                                 <nil key="textColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad" secureTextEntry="YES"/>
                                             </textField>
                                         </subviews>
                                     </stackView>
@@ -363,7 +363,6 @@
                                 <connections>
                                     <action selector="submitBtnPressed:" destination="Ebk-1U-1id" eventType="touchUpInside" id="62O-Wp-8Li"/>
                                     <action selector="submitBtnPressed:" destination="OqR-EN-djq" eventType="touchUpInside" id="ZRM-Ue-mdP"/>
-                                    <segue destination="6tD-4Y-l9b" kind="unwind" unwindAction="unwindFromSiteSendVCWithUnwindSegue:" id="IbP-ZY-EXd"/>
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="34" translatesAutoresizingMaskIntoConstraints="NO" id="0ij-XG-fMx">
@@ -474,6 +473,7 @@
                         <outlet property="setWood" destination="H0f-o8-fRi" id="BAV-Dx-Vbd"/>
                         <outlet property="siteNumberLbl" destination="G61-xP-4BP" id="NO8-OR-vZO"/>
                         <outlet property="submitBtn" destination="USS-ua-enV" id="XNw-qH-YVU"/>
+                        <segue destination="6tD-4Y-l9b" kind="unwind" identifier="unwindFromSendVC" unwindAction="unwindFromSendVCWithUnwindSegue:" id="xuw-43-ctp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CTe-9x-BAh" userLabel="First Responder" sceneMemberID="firstResponder"/>

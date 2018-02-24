@@ -93,20 +93,33 @@ class SiteSendVC: UIViewController {
     }
 
     @IBAction func submitBtnPressed(_ sender: Any) {
+        submitTask()
         //print("Clean: \(setClean.titleForSegment(at: setClean.selectedSegmentIndex))")
     }
     
     func submitTask(){
         toString()
         myDelegate?.redisManager.exec(command: (queryString!), completion: { (array) in
-            print("Submitted")
-            print(self.queryString!)
+            
+            var returnCode = String(describing: array[0])
+            print("Return code: \(returnCode)")
+            if returnCode == "OK" {
+                self.performSegue(withIdentifier: "unwindFromSendVC", sender: self)
+            }else{
+                let alert = UIAlertController(title: "Error",
+                                              message: "Data could not be entered, try again",
+                                              preferredStyle: .alert)
+                let cancel = UIAlertAction(title: "Cancel", style: .default, handler: { (action) -> Void in })
+                alert.addAction(cancel)
+                self.present(alert, animated: true, completion: nil)
+            }
         })
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print("preparing for segue")
-        submitTask()
+        print("Preparing for segue")
+        
+        //submitTask()
         //let path = self.tableView.indexPathForSelectedRow?.row
     }
     
@@ -121,13 +134,10 @@ class SiteSendVC: UIViewController {
         }else{
             tempWood = true
         }
-        print("Boolean: \(tempWood.description)")
-        print("Duration \(setTimeStamp.titleForSegment(at: setTimeStamp.selectedSegmentIndex)!)")
-        print("Description: \(descriptionSite.text!)")
+        print("HERE: \(tempWood.description.uppercased())")
         queryString = """
-        HMSET site:\(siteSelected.siteNumber) cleaned \(tempClean.description) wood \(tempWood.description) duration \(setTimeStamp.titleForSegment(at: setTimeStamp.selectedSegmentIndex)!) description \(descriptionSite.text!)
+        HMSET site:\(siteSelected.siteNumber) cleaned \(tempClean.description.uppercased()) wood \(tempWood.description.uppercased()) duration \(setTimeStamp.titleForSegment(at: setTimeStamp.selectedSegmentIndex)!) description \(descriptionSite.text!)
         """
-        print("Query: \(queryString!)")
     }
     
     

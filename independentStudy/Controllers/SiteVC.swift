@@ -42,9 +42,9 @@ class SiteVC: UIViewController {
             siteCleaned.text = "❌"
         }
         if(wholeSite.needWood){
-            needWood.text = "✅"
-        } else {
             needWood.text = "❌"
+        } else {
+            needWood.text = "✅"
         }
         timeStamp.text = wholeSite.timeFrame
         textView.text = wholeSite.description
@@ -52,8 +52,6 @@ class SiteVC: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-            print("preparing fore segue")
-            //let path = self.tableView.indexPathForSelectedRow?.row
             var vc = segue.destination as! SiteSectionsVC
     }
     
@@ -65,8 +63,6 @@ class SiteVC: UIViewController {
                                       preferredStyle: .alert)
         let submitAction = UIAlertAction(title: "Submit", style: .default, handler: { (action) -> Void in
             // Get 1st TextField's text
-            print("Action: \(action)")
-            print("Submitted")
             self.performSegue(withIdentifier: "unwindSegue", sender: self)
         })
         

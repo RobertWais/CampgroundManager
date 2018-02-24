@@ -45,7 +45,8 @@ class SignInVC: UIViewController {
                 let password = String(describing: array[0]);
                 print("User: \(String(describing: array[0]))")
                 if(password == self.passwordTextField.text!){
-                    print("Let them pass")
+                    user = self.positionSelector.selectedSegmentIndex+1
+                    print("USER: \(user)")
                     self.performSegue(withIdentifier: "showMapVC", sender: self)
                 }else{
                     self.view.makeToast("WRONG PASSWORD", duration: 5.0, position: .top)
