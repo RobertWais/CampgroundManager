@@ -17,9 +17,11 @@ class SiteVC: UIViewController {
     @IBOutlet var needWood: UILabel!
     @IBOutlet var timeStamp: UILabel!
     
+    @IBOutlet var textView: UITextView!
     override func viewDidLoad() {
         super.viewDidLoad()
         updateUI()
+        print("loaded view")
         // Do any additional setup after loading the view.
     }
     
@@ -45,6 +47,7 @@ class SiteVC: UIViewController {
             needWood.text = "❌"
         }
         timeStamp.text = wholeSite.timeFrame
+        textView.text = wholeSite.description
         
     }
     
@@ -56,7 +59,28 @@ class SiteVC: UIViewController {
     
     @IBAction func submitBtnPressed(_ sender: Any) {
         print("Hopefully first" )
+        
+        let alert = UIAlertController(title: "Completed Task",
+                                      message: "Have you completed everything in the task?",
+                                      preferredStyle: .alert)
+        let submitAction = UIAlertAction(title: "Submit", style: .default, handler: { (action) -> Void in
+            // Get 1st TextField's text
+            print("Action: \(action)")
+            print("Submitted")
+            self.performSegue(withIdentifier: "unwindSegue", sender: self)
+        })
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
+        
+        alert.addAction(cancel)
+        alert.addAction(submitAction)
+        present(alert, animated: true, completion: nil)
+        
         //UPDATE: Redis
         //dismiss(animated: true, completion: nil)
+    }
+    
+    func completedTask(){
+        
     }
 }

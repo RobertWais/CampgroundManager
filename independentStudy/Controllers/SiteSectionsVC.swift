@@ -9,7 +9,7 @@
 import UIKit
 
 class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
-    var num = 0
+    var num = 1
     var sites = [Site]()
     var numberSite = [String]()
     var site: Site!

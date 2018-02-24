@@ -177,7 +177,7 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         let destination:CGPoint = recognizer.location(in: recognizer.view)
         let query = findLayerTouched(destination: destination)
         
-        print("Querying \(query)")
+        //print("Querying \(query)")
         if (query != "") {
             getSitesForSection(section: query, completion: { done in
                 if done{
