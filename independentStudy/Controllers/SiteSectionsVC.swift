@@ -19,6 +19,9 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        tableView.separatorStyle = .singleLine
+        tableView.separatorInset = .zero
+        tableView.separatorColor = UIColor.lightGray
         tableView.delegate = self
         tableView.dataSource = self
         
