@@ -28,13 +28,15 @@ class MapVC: UIViewController,UIScrollViewDelegate {
     let myDelegate = UIApplication.shared.delegate as? AppDelegate
     
    // var redisManager: RedisClient!
-    var subscriptionManager: RedisClient!
+    //var subscriptionManager: RedisClient!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: false)
-      
-        
+        print("Before:")
+      RedisCon.instance.connectRedis()
+      RedisCon.instance.statementRedis()
+        print("After")
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
@@ -43,8 +45,7 @@ class MapVC: UIViewController,UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        myDelegate?.redisManager.exec(command: "SMEMBERS ALERT_SECTIONS", completion:
+        AppDelegate.redisManager.exec(command: "SMEMBERS ALERT_SECTIONS", completion:
             { (array: NSArray!) in
                 //print("User is \(array[0])")
                 for index in 0..<array.count {
@@ -53,7 +54,6 @@ class MapVC: UIViewController,UIScrollViewDelegate {
                 // this is where the completion handler code goes
                 
         })
-        
         /*
          Setup Recognizer for taps
          */
@@ -62,20 +62,11 @@ class MapVC: UIViewController,UIScrollViewDelegate {
          Setup Recognizer for taps
          */
         
-        let sites405_414Path = UIBezierPath(pathString: sites405_414)
-        sites405_414Layer.path = sites405_414Path.cgPath
-        sites405_414Layer.fillColor = UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor
-        sites405_414Layer.name = "SS405_414"
-        
         let Back_BathousePath = UIBezierPath(pathString: BACK_BATHHOUSE)
         Back_BathhouseLayer.path = Back_BathousePath.cgPath
         Back_BathhouseLayer.fillColor = UIColor(red:200.0, green:0.0, blue:0.0, alpha:0.2).cgColor
         //Back_Bathouse.name = "Back_Bathhouse"
         
-        let sitesPath = UIBezierPath(pathString: sites13_23)
-        sites13_23Layer.path = sitesPath.cgPath
-        sites13_23Layer.fillColor = UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor
-        sites13_23Layer.name = "SS13_23"
         
         let lake = LAKE
         let lakePath = UIBezierPath(pathString: lake)
@@ -83,15 +74,14 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         lakeLayer.fillColor = UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor
         
         
-        
-        let sites415_424Path = UIBezierPath(pathString: sites415_424)
-        sites415_424Layer.path = sites415_424Path.cgPath
-        sites415_424Layer.fillColor = UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor
-        sites415_424Layer.name = "SS415_424"
-        
         //Setup Image View
         imageView = UIImageView(image:  #imageLiteral(resourceName: "campsite_map"))
-        imageView.layer.addSublayer(sites405_414Layer)
+        
+        createLayer(pathstring: sites405_414, color: UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor, name: "SS405_414")
+        createLayer(pathstring: sites13_23, color: UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor, name: "SS13_23")
+        createLayer(pathstring: sites415_424, color: UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor, name: "SS415_424")
+        
+        //imageView.layer.addSublayer(sites405_414Layer)
         imageView.layer.addSublayer(sites13_23Layer)
         imageView.layer.addSublayer(Back_BathhouseLayer)
         imageView.layer.addSublayer(lakeLayer)
@@ -105,7 +95,7 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         //Add Layers to list
         findLayer.append(sites415_424Layer)
         findLayer.append(sites13_23Layer)
-        findLayer.append(sites405_414Layer)
+        //findLayer.append(sites405_414Layer)
         //
         
         scrollView = UIScrollView(frame: view.bounds)
@@ -124,9 +114,19 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         // Do any additional setup after loading the view, typically from a nib.
     }
 
+    func createLayer(pathstring: String, color: CGColor, name: String){
+        let layer = CAShapeLayer()
+        let temp = UIBezierPath(pathString: pathstring)
+        layer.path = temp.cgPath
+        layer.fillColor = color
+        layer.name = name
+        findLayer.append(layer)
+        imageView.layer.addSublayer(layer)
+    }
+    
     func getSitesForSection(section: String, completion: @escaping (Bool)->Void){
         print("Started function")
-        myDelegate?.redisManager.exec(command: "SMEMBERS \(section)", completion:
+        AppDelegate.redisManager.exec(command: "SMEMBERS \(section)", completion:
             { (array: NSArray!) in
                 for index in 0..<array.count {
                     print("Adding value for next VC: \(array[index])")
@@ -138,40 +138,6 @@ class MapVC: UIViewController,UIScrollViewDelegate {
                 completion(true)
         })
     }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        
-        return imageView
-    }
-    
-
-    func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        let imageViewSize = imageView.frame.size
-        let scrollViewSize = scrollView.bounds.size
-        
-        let verticalPadding = imageViewSize.height < scrollViewSize.height ? (scrollViewSize.height - imageViewSize.height) / 2 : 0
-        let horizontalPadding = imageViewSize.width < scrollViewSize.width ? (scrollViewSize.width - imageViewSize.width) / 2 : 0
-        
-        scrollView.contentInset = UIEdgeInsets(top: verticalPadding, left: horizontalPadding, bottom: verticalPadding, right: horizontalPadding)
-    }
-    
-    
-    
-    func setZoomScale() {
-        let imageViewSize = imageView.bounds.size
-        let scrollViewSize = scrollView.bounds.size
-        let widthScale = scrollViewSize.width / imageViewSize.width
-        let heightScale = scrollViewSize.height / imageViewSize.height
-        
-        scrollView.minimumZoomScale = min(widthScale, heightScale)
-        scrollView.zoomScale = 1.0
-        scrollView.maximumZoomScale = 5.0
-    }
-    
     
     @objc func touchedSection(recognizer: UITapGestureRecognizer){
         let destination:CGPoint = recognizer.location(in: recognizer.view)
@@ -208,27 +174,42 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         return ""
     }
 
+    
+    
+    //MARK: ScrollView settings
+    
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        
+        return imageView
+    }
+    
+    
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        let imageViewSize = imageView.frame.size
+        let scrollViewSize = scrollView.bounds.size
+        
+        let verticalPadding = imageViewSize.height < scrollViewSize.height ? (scrollViewSize.height - imageViewSize.height) / 2 : 0
+        let horizontalPadding = imageViewSize.width < scrollViewSize.width ? (scrollViewSize.width - imageViewSize.width) / 2 : 0
+        
+        scrollView.contentInset = UIEdgeInsets(top: verticalPadding, left: horizontalPadding, bottom: verticalPadding, right: horizontalPadding)
+    }
+    
+    
+    
+    func setZoomScale() {
+        let imageViewSize = imageView.bounds.size
+        let scrollViewSize = scrollView.bounds.size
+        let widthScale = scrollViewSize.width / imageViewSize.width
+        let heightScale = scrollViewSize.height / imageViewSize.height
+        
+        scrollView.minimumZoomScale = min(widthScale, heightScale)
+        scrollView.zoomScale = 1.0
+        scrollView.maximumZoomScale = 5.0
+    }
+    
 
 }
 
-/*
-extension MapVC: RedisManagerDelegate {
-    func subscriptionMessageReceived(channel: String, message: String) {
-        debugPrint("Disconnected (Error: \(message))")
-
-    }
-    
-    func socketDidDisconnect(client: RedisClient, error: Error?) {
-        debugPrint("Disconnected (Error: \(error?.localizedDescription))")
-
-    }
-    
-    func socketDidConnect(client: RedisClient) {
-        //debugPrint("SOCKET: Connected")
-        // Setup a subscription after we have connected
-    }
-}
-*/
 
 
 
