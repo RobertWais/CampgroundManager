@@ -99,7 +99,7 @@ class SiteSendVC: UIViewController {
     
     func submitTask(){
         toString()
-        myDelegate?.redisManager.exec(command: (queryString!), completion: { (array) in
+        AppDelegate.redisManager.exec(command: (queryString!), completion: { (array) in
             
             var returnCode = String(describing: array[0])
             print("Return code: \(returnCode)")

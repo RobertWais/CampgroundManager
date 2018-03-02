@@ -18,6 +18,7 @@
 		2E3B10BF2023FF2600B443DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E3B10BE2023FF2600B443DB /* Assets.xcassets */; };
 		2E3B10C22023FF2600B443DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E3B10C02023FF2600B443DB /* LaunchScreen.storyboard */; };
 		2E3B10CA20240D5D00B443DB /* imageBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2E3B10C920240D5D00B443DB /* imageBackground.jpg */; };
+		2E8DBA2320487A0200A3EB57 /* RedisCon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8DBA2220487A0200A3EB57 /* RedisCon.swift */; };
 		2E8E2C2E202CD2FD00BA0AC9 /* Site.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8E2C2D202CD2FD00BA0AC9 /* Site.swift */; };
 		2ECAC39C2038ECD50067A133 /* SiteSendVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ECAC39B2038ECD50067A133 /* SiteSendVC.swift */; };
 		C36F2B1EE5BF5C0A5C2D264E /* Pods_independentStudy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 090D53FE0CD58020D78434EA /* Pods_independentStudy.framework */; };
@@ -38,6 +39,7 @@
 		2E3B10C12023FF2600B443DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2E3B10C32023FF2600B443DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2E3B10C920240D5D00B443DB /* imageBackground.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = imageBackground.jpg; sourceTree = "<group>"; };
+		2E8DBA2220487A0200A3EB57 /* RedisCon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedisCon.swift; sourceTree = "<group>"; };
 		2E8E2C2D202CD2FD00BA0AC9 /* Site.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Site.swift; sourceTree = "<group>"; };
 		2ECAC39B2038ECD50067A133 /* SiteSendVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteSendVC.swift; sourceTree = "<group>"; };
 		734AD10D5F918AE22F8ADCDD /* Pods-independentStudy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-independentStudy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-independentStudy/Pods-independentStudy.debug.xcconfig"; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 		2E3B10B62023FF2500B443DB /* independentStudy */ = {
 			isa = PBXGroup;
 			children = (
+				2E8DBA21204879DD00A3EB57 /* Services */,
 				2E28F620202C03F700A30C3F /* Models */,
 				2E28F61A2029692500A30C3F /* Constants */,
 				2E28F61520290F1B00A30C3F /* Views */,
@@ -125,6 +128,14 @@
 				2E3B10C32023FF2600B443DB /* Info.plist */,
 			);
 			path = independentStudy;
+			sourceTree = "<group>";
+		};
+		2E8DBA21204879DD00A3EB57 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				2E8DBA2220487A0200A3EB57 /* RedisCon.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		8A640E98A180DBB256E3F7A5 /* Frameworks */ = {
@@ -282,6 +293,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E8DBA2320487A0200A3EB57 /* RedisCon.swift in Sources */,
 				2E8E2C2E202CD2FD00BA0AC9 /* Site.swift in Sources */,
 				2E28F61C2029694800A30C3F /* Sections.swift in Sources */,
 				2E2F2AA5203F4EA000FE7986 /* SignInVC.swift in Sources */,

@@ -14,14 +14,17 @@ import PSSRedisClient
 class AppDelegate: UIResponder, UIApplicationDelegate, RedisManagerDelegate {
     
     var window: UIWindow?
-    var redisManager: RedisClient!
+    static var redisManager: RedisClient!
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
+        //New
+        RedisCon.instance.connectRedis()
         
-        self.redisManager = RedisClient(delegate: self)
-        self.redisManager?.connect(host:"169.254.11.108",
+        //Old
+        AppDelegate.redisManager = RedisClient(delegate: self)
+        AppDelegate.redisManager?.connect(host:"Localhost",
                                    port: 6379,
                                    pwd: "password")
         
@@ -32,6 +35,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RedisManagerDelegate {
         IQKeyboardManager.sharedManager().keyboardAppearance = .dark
         
         return true
+    }
+    func getRedis()->RedisClient!{
+        return AppDelegate.redisManager
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

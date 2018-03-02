@@ -75,7 +75,7 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         site = sites[indexPath.row]
         
-        myDelegate?.redisManager.exec(command: "HGETALL site:\(self.numberSite[indexPath.row])", completion:
+        AppDelegate.redisManager.exec(command: "HGETALL site:\(self.numberSite[indexPath.row])", completion:
             { (array: NSArray!) in
                 print("Selected row: \(self.numberSite[indexPath.row])")
                 for index in 0..<array.count {

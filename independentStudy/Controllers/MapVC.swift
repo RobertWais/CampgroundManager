@@ -16,6 +16,7 @@ import PSSRedisClient
 
 class MapVC: UIViewController,UIScrollViewDelegate {
     
+    var array: NSArray!
     var findLayer = [CAShapeLayer]()
     var readSiteNumbers = [String]()
     var scrollView: UIScrollView!
@@ -62,24 +63,14 @@ class MapVC: UIViewController,UIScrollViewDelegate {
          Setup Recognizer for taps
          */
         
-        let Back_BathousePath = UIBezierPath(pathString: BACK_BATHHOUSE)
-        Back_BathhouseLayer.path = Back_BathousePath.cgPath
-        Back_BathhouseLayer.fillColor = UIColor(red:200.0, green:0.0, blue:0.0, alpha:0.2).cgColor
-        //Back_Bathouse.name = "Back_Bathhouse"
-        
-        
-        let lake = LAKE
-        let lakePath = UIBezierPath(pathString: lake)
-        lakeLayer.path = lakePath.cgPath
-        lakeLayer.fillColor = UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor
-        
-        
         //Setup Image View
         imageView = UIImageView(image:  #imageLiteral(resourceName: "campsite_map"))
         
         createLayer(pathstring: sites405_414, color: UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor, name: "SS405_414")
         createLayer(pathstring: sites13_23, color: UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor, name: "SS13_23")
         createLayer(pathstring: sites415_424, color: UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor, name: "SS415_424")
+        createLayer(pathstring: BACK_BATHHOUSE, color: UIColor(red:200.0, green:0.0, blue:0.0, alpha:0.2).cgColor, name: "BACK_BATHHOUSE")
+        createLayer(pathstring: LAKE, color: UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor, name: "LAKE")
         
         //imageView.layer.addSublayer(sites405_414Layer)
         imageView.layer.addSublayer(sites13_23Layer)
@@ -124,6 +115,7 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         imageView.layer.addSublayer(layer)
     }
     
+    /*
     func getSitesForSection(section: String, completion: @escaping (Bool)->Void){
         print("Started function")
         AppDelegate.redisManager.exec(command: "SMEMBERS \(section)", completion:
@@ -138,6 +130,7 @@ class MapVC: UIViewController,UIScrollViewDelegate {
                 completion(true)
         })
     }
+    */
     
     @objc func touchedSection(recognizer: UITapGestureRecognizer){
         let destination:CGPoint = recognizer.location(in: recognizer.view)
@@ -145,10 +138,10 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         
         //print("Querying \(query)")
         if (query != "") {
-            getSitesForSection(section: query, completion: { done in
-                if done{
-                    self.performSegue(withIdentifier: "show", sender: self)
-                }
+            RedisCon.instance.getSitesForSection(sections: query, completion: { (array) in
+                print("In new call...")
+                self.readSiteNumbers = array
+                self.performSegue(withIdentifier: "show", sender: self)
             })
         }
     }

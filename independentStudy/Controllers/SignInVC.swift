@@ -19,6 +19,11 @@ class SignInVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //New
+        RedisCon.instance.statementRedis()
+        
+        
         ToastManager.shared.isTapToDismissEnabled = true
         signInBtn.layer.borderColor = #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 1)
         signInBtn.layer.borderWidth = 1
@@ -41,7 +46,12 @@ class SignInVC: UIViewController {
     func submitUser(){
        var query = positionSelector.titleForSegment(at: positionSelector.selectedSegmentIndex)?.lowercased()
         print("Query: \(query!)")
-        myDelegate?.redisManager.exec(command: "GET \(query!)", completion:
+        
+        
+        //Old
+        //
+        //
+        AppDelegate.redisManager.exec(command: "GET \(query!)", completion:
             { (array: NSArray!) in
                 //print("User is \(array[0])")
                 let password = String(describing: array[0]);
