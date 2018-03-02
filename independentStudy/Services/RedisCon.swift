@@ -22,10 +22,10 @@ class RedisCon: NSObject, RedisManagerDelegate {
     }
     
     
-    func getSitesForSection(sections: String, completion: @escaping ([String])->()){
+    func getArrayStatement(sections: String, completion: @escaping ([String])->()){
         if(redisManager.isConnected()){
             var returnArray = [String]()
-            redisManager?.exec(command: "SMEMBERS \(sections)", completion: { (array: NSArray!) in
+            redisManager?.exec(command: sections, completion: { (array: NSArray!) in
                 for index in 0..<array.count{
                     returnArray.append("\(array[index])")
                 }

@@ -26,18 +26,11 @@ class MapVC: UIViewController,UIScrollViewDelegate {
     let sites415_424Layer = CAShapeLayer()
     let sites13_23Layer = CAShapeLayer()
     let sites405_414Layer = CAShapeLayer()
-    let myDelegate = UIApplication.shared.delegate as? AppDelegate
     
-   // var redisManager: RedisClient!
-    //var subscriptionManager: RedisClient!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: false)
-        print("Before:")
-      RedisCon.instance.connectRedis()
-      RedisCon.instance.statementRedis()
-        print("After")
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
@@ -46,15 +39,12 @@ class MapVC: UIViewController,UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        AppDelegate.redisManager.exec(command: "SMEMBERS ALERT_SECTIONS", completion:
-            { (array: NSArray!) in
-                //print("User is \(array[0])")
-                for index in 0..<array.count {
-                    print("These sections need to be worked on: \(array[index])")
-                }
-                // this is where the completion handler code goes
-                
-        })
+        
+        RedisCon.instance.getArrayStatement(sections: "SMEMBERS ALERT_SECTIONS") { (array) in
+            for index in 0..<array.count {
+                print("These sections need to be worked on: \(array[index])")
+            }
+        }
         /*
          Setup Recognizer for taps
          */
@@ -138,7 +128,7 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         
         //print("Querying \(query)")
         if (query != "") {
-            RedisCon.instance.getSitesForSection(sections: query, completion: { (array) in
+            RedisCon.instance.getArrayStatement(sections: "SMEMBERS \(query)", completion: { (array) in
                 print("In new call...")
                 self.readSiteNumbers = array
                 self.performSegue(withIdentifier: "show", sender: self)
@@ -172,10 +162,8 @@ class MapVC: UIViewController,UIScrollViewDelegate {
     //MARK: ScrollView settings
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        
         return imageView
     }
-    
     
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
         let imageViewSize = imageView.frame.size
@@ -187,8 +175,6 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         scrollView.contentInset = UIEdgeInsets(top: verticalPadding, left: horizontalPadding, bottom: verticalPadding, right: horizontalPadding)
     }
     
-    
-    
     func setZoomScale() {
         let imageViewSize = imageView.bounds.size
         let scrollViewSize = scrollView.bounds.size
@@ -199,8 +185,6 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         scrollView.zoomScale = 1.0
         scrollView.maximumZoomScale = 5.0
     }
-    
-
 }
 
 
