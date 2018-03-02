@@ -19,6 +19,7 @@ class RedisCon: NSObject, RedisManagerDelegate {
         redisManager?.connect(host:"Localhost",
                                           port: 6379,
                                           pwd: "password")
+        print("Hre")
     }
     
     
@@ -34,17 +35,35 @@ class RedisCon: NSObject, RedisManagerDelegate {
         }
     }
     
+    func getSiteInfo(number: String, site: String, completion: @escaping (Site)->()){
+        redisManager?.exec(command: site, completion: { (array) in
+            let cleaned = String(describing: array[1])
+            let wood = String(describing: array[3])
+            let duration = String(describing: array[5])
+            let description = String(describing: array[7])
+            var boolWood = false
+            var boolClean = false
+            
+            if cleaned == "TRUE" {
+                boolClean = true
+            }else{
+                boolClean = false
+            }
+            if wood == "TRUE" {
+                boolWood = true
+            }else{
+                boolWood = false
+            }
+            
+            let tempSite = Site(siteNum: number, siteClean: boolClean, wood: boolWood, info: description, duration: duration)
+            completion(tempSite)
+            
+        })
+    }
+    
     
     func statementRedis(){
-        if(redisManager.isConnected()){
-        redisManager?.exec(command: "HGETALL site:1", completion:
-            { (array: NSArray!) in
-                print("User is \(array[0])")
-                // this is where the completion handler code goes
-            })
-        }else{
-            print("NOT connected")
-        }
+       
     }
     
     func subscriptionMessageReceived(channel: String, message: String) {
@@ -53,6 +72,7 @@ class RedisCon: NSObject, RedisManagerDelegate {
     
     func socketDidDisconnect(client: RedisClient, error: Error?) {
         print("Disconnecting")
+        print("Error: \(error?.localizedDescription)")
     }
     
     func socketDidConnect(client: RedisClient) {

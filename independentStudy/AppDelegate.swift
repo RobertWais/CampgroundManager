@@ -24,15 +24,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RedisManagerDelegate {
         
         //Old
         AppDelegate.redisManager = RedisClient(delegate: self)
-        AppDelegate.redisManager?.connect(host:"Localhost",
+        AppDelegate.redisManager?.connect(host:"169.254.238.3",
                                    port: 6379,
                                    pwd: "password")
         
         
-        IQKeyboardManager.sharedManager().enable = true
-        IQKeyboardManager.sharedManager().overrideKeyboardAppearance = true
-        IQKeyboardManager.sharedManager().enableAutoToolbar = true
-        IQKeyboardManager.sharedManager().keyboardAppearance = .dark
+        //IQKeyboardManager.sharedManager().enable = true
+        //IQKeyboardManager.sharedManager().overrideKeyboardAppearance = true
+        //IQKeyboardManager.sharedManager().enableAutoToolbar = true
+        //IQKeyboardManager.sharedManager().keyboardAppearance = .dark
         
         return true
     }

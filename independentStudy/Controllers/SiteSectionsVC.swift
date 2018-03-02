@@ -15,7 +15,7 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
     var site: Site!
     var rowSelected = 1
     @IBOutlet var tableView: UITableView!
-    let myDelegate = UIApplication.shared.delegate as? AppDelegate
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -75,43 +75,14 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         site = sites[indexPath.row]
         
-        AppDelegate.redisManager.exec(command: "HGETALL site:\(self.numberSite[indexPath.row])", completion:
-            { (array: NSArray!) in
-                print("Selected row: \(self.numberSite[indexPath.row])")
-                for index in 0..<array.count {
-                    //print("Adding value for next VC: \(array[index])")
-                }
-                //All alert sites will be read in right away
-                //Create the site with an alert- <TRUE/FALSE> if there is alert, display cell as red
-                //TEST AGAINST ALL SITES THAT ARE RED
-                print("fist: \(array[0])")
-                print("Clean? : \(array[1])")
-                let cleaned = String(describing: array[1])
-                let wood = String(describing: array[3])
-                let duration = String(describing: array[5])
-                let description = String(describing: array[7])
-                var boolWood = false
-                var boolClean = false
-                if cleaned == "TRUE" {
-                    boolClean = true
-                }else{
-                    boolClean = false
-                }
-                if wood == "TRUE" {
-                    boolWood = true
-                }else{
-                    boolWood = false
-                }
-                print("Boolclean: \(boolClean)")
-               let tempSite = Site(siteNum: self.numberSite[indexPath.row], siteClean: boolClean, wood: boolWood, info: description, duration: duration)
-                self.site = tempSite
-                if(user==2){
-                    self.performSegue(withIdentifier: "showSendVC", sender: self)
-                }else if (user==1){
-                    self.performSegue(withIdentifier: "showSiteVC", sender: self)
-                }
-                
-        })
+        RedisCon.instance.getSiteInfo(number: site.siteNumber, site: "HGETALL site:\(site.siteNumber)") { (site) in
+            self.site = site
+            if(user==2){
+                self.performSegue(withIdentifier: "showSendVC", sender: self)
+            }else if (user==1){
+                self.performSegue(withIdentifier: "showSiteVC", sender: self)
+            }
+        }
         //site.siteNumber = cell.siteNumber
         //site.timeFrame = cell.timeFrame
         
