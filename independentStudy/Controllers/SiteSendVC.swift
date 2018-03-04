@@ -19,11 +19,11 @@ class SiteSendVC: UIViewController {
     @IBOutlet var descriptionSite: UITextView!
     
 
-    var tempWood = false
-    var tempClean = false
-    var mainColor = UIColor.white
+    private var tempWood = false
+    private var tempClean = false
+    private var mainColor = UIColor.white
     var siteSelected: Site!
-    var queryString: String!
+    private var queryString: String!
 
     
     override func viewDidLoad() {

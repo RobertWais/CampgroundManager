@@ -10,10 +10,10 @@ import UIKit
 
 class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
     
-    var sites = [Site]()
+    private var sites = [Site]()
     var numberSite = [String]()
     var site: Site!
-    var rowSelected = 1
+    private var rowSelected = 1
     @IBOutlet var tableView: UITableView!
     
     override func viewDidLoad() {

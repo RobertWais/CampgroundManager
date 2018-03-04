@@ -16,16 +16,11 @@ import PSSRedisClient
 
 class MapVC: UIViewController,UIScrollViewDelegate {
     
-    var array: NSArray!
-    var findLayer = [CAShapeLayer]()
+    private var array: NSArray!
+    private var findLayer = [CAShapeLayer]()
     var readSiteNumbers = [String]()
     var scrollView: UIScrollView!
     var imageView: UIImageView!
-    let Back_BathhouseLayer = CAShapeLayer()
-    let lakeLayer = CAShapeLayer()
-    let sites415_424Layer = CAShapeLayer()
-    let sites13_23Layer = CAShapeLayer()
-    let sites405_414Layer = CAShapeLayer()
     
     
     override func viewWillAppear(_ animated: Bool) {
@@ -62,22 +57,10 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         createLayer(pathstring: BACK_BATHHOUSE, color: UIColor(red:200.0, green:0.0, blue:0.0, alpha:0.2).cgColor, name: "BACK_BATHHOUSE")
         createLayer(pathstring: LAKE, color: UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor, name: "LAKE")
         
-        //imageView.layer.addSublayer(sites405_414Layer)
-        imageView.layer.addSublayer(sites13_23Layer)
-        imageView.layer.addSublayer(Back_BathhouseLayer)
-        imageView.layer.addSublayer(lakeLayer)
-        imageView.layer.addSublayer(sites415_424Layer)
         imageView.isUserInteractionEnabled = true;
         imageView.addGestureRecognizer(recognizer)
         print("Width: \(imageView.bounds.width)")
         print("Length: \(imageView.bounds.height)")
-        
-        
-        //Add Layers to list
-        findLayer.append(sites415_424Layer)
-        findLayer.append(sites13_23Layer)
-        //findLayer.append(sites405_414Layer)
-        //
         
         scrollView = UIScrollView(frame: view.bounds)
         scrollView.backgroundColor = UIColor.clear
