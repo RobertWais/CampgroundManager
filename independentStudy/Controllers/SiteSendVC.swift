@@ -22,7 +22,6 @@ class SiteSendVC: UIViewController {
     var tempWood = false
     var tempClean = false
     var mainColor = UIColor.white
-    let myDelegate = UIApplication.shared.delegate as? AppDelegate
     var siteSelected: Site!
     var queryString: String!
 
@@ -33,21 +32,6 @@ class SiteSendVC: UIViewController {
         mainColor = submitBtn.backgroundColor!
         NotificationCenter.default.addObserver(self, selector: #selector(SiteSendVC.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(SiteSendVC.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-    
-        
-        
-       // descriptionSite.delegate = self
-        /*
-        let numberToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 50.0))
-        numberToolbar.barStyle = UIBarStyle.default
-        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let doneBtn = UIBarButtonItem(title: "Done", style: UIBarButtonItemStyle.plain, target: self, action: #selector(SiteSendVC.doneBtnPressed(_:)))
-        let clearBtn = UIBarButtonItem(title: "Clear", style: UIBarButtonItemStyle.plain, target: self, action: #selector(SiteSendVC.clearTextView(_:)))
-        
-        numberToolbar.items = [space, clearBtn, space, doneBtn,space]
-        numberToolbar.sizeToFit()
- */
-        //descriptionSite.inputAccessoryView = numberToolbar
         // Do any additional setup after loading the view.
     }
 
@@ -99,9 +83,9 @@ class SiteSendVC: UIViewController {
     
     func submitTask(){
         toString()
-        AppDelegate.redisManager.exec(command: (queryString!), completion: { (array) in
+        RedisCon.instance.getArrayStatement(sections: (queryString!), completion: { (array) in
             
-            var returnCode = String(describing: array[0])
+            let returnCode = String(describing: array[0])
             print("Return code: \(returnCode)")
             if returnCode == "OK" {
                 self.performSegue(withIdentifier: "unwindFromSendVC", sender: self)

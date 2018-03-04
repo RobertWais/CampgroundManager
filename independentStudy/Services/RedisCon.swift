@@ -35,6 +35,20 @@ class RedisCon: NSObject, RedisManagerDelegate {
         }
     }
     
+    func clearSite(numString: String, completion: @escaping (Bool)->()){
+        if(redisManager.isConnected()){
+            redisManager?.exec(command: "HMSET site:\(numString) cleaned TRUE wood FALSE duration NONE description NONE", completion: { (array) in
+                let returnCode = String(describing: array[0])
+                print("Return code: \(returnCode)")
+                if returnCode == "OK" {
+                    completion(true)
+                } else {
+                    completion(false)
+                }
+            })
+        }
+    }
+    
     func getSiteInfo(number: String, site: String, completion: @escaping (Site)->()){
         redisManager?.exec(command: site, completion: { (array) in
             let cleaned = String(describing: array[1])
@@ -62,9 +76,6 @@ class RedisCon: NSObject, RedisManagerDelegate {
     }
     
     
-    func statementRedis(){
-       
-    }
     
     func subscriptionMessageReceived(channel: String, message: String) {
         print("Yup")

@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RedisManagerDelegate {
         
         //Old
         AppDelegate.redisManager = RedisClient(delegate: self)
-        AppDelegate.redisManager?.connect(host:"169.254.238.3",
+        AppDelegate.redisManager?.connect(host:"Localhost",
                                    port: 6379,
                                    pwd: "password")
         

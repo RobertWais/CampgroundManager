@@ -21,7 +21,6 @@ class SiteVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         updateUI()
-        print("loaded view")
         // Do any additional setup after loading the view.
     }
     
@@ -56,27 +55,30 @@ class SiteVC: UIViewController {
     }
     
     @IBAction func submitBtnPressed(_ sender: Any) {
-        print("Hopefully first" )
-        
         let alert = UIAlertController(title: "Completed Task",
                                       message: "Have you completed everything in the task?",
                                       preferredStyle: .alert)
         let submitAction = UIAlertAction(title: "Submit", style: .default, handler: { (action) -> Void in
             // Get 1st TextField's text
-            self.performSegue(withIdentifier: "unwindSegue", sender: self)
+            RedisCon.instance.clearSite(numString: self.siteNumberLbl.text!) { (noError) in
+                if noError{
+                    self.performSegue(withIdentifier: "unwindSegue", sender: self)
+                }else{
+                    alert.dismiss(animated: false, completion: {
+                    })
+                    let errorAlert = UIAlertController(title: "Error",
+                                                       message: "Could not complete site, please try again.",
+                                                       preferredStyle: .alert)
+                    let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
+                    errorAlert.addAction(cancelAction)
+                    self.present(errorAlert,animated: true, completion: nil)
+                }
+            }
         })
         
         let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
-        
         alert.addAction(cancel)
         alert.addAction(submitAction)
         present(alert, animated: true, completion: nil)
-        
-        //UPDATE: Redis
-        //dismiss(animated: true, completion: nil)
-    }
-    
-    func completedTask(){
-        
     }
 }
