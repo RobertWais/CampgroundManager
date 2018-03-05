@@ -47,21 +47,17 @@ class SignInVC: UIViewController {
         //Old
         //
         //
-        AppDelegate.redisManager.exec(command: "GET \(query!)", completion:
-            { (array: NSArray!) in
-                //print("User is \(array[0])")
-                let password = String(describing: array[0]);
-                print("User: \(String(describing: array[0]))")
-                if(password == self.passwordTextField.text!){
-                    user = self.positionSelector.selectedSegmentIndex+1
-                    print("USER: \(user)")
-                    self.performSegue(withIdentifier: "showMapVC", sender: self)
-                }else{
-                    self.view.makeToast("WRONG PASSWORD", duration: 5.0, position: .top)
-                }
-                // this is where the completion handler code goes
-                
-        })
+        RedisCon.instance.getArrayStatement(sections: "Get \(query!)") { (array) in
+            let password = String(describing: array[0]);
+            print("User: \(String(describing: array[0]))")
+            if(password == self.passwordTextField.text!){
+                user = self.positionSelector.selectedSegmentIndex+1
+                print("USER: \(user)")
+                self.performSegue(withIdentifier: "showMapVC", sender: self)
+            }else{
+                self.view.makeToast("WRONG PASSWORD", duration: 5.0, position: .top)
+            }
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
