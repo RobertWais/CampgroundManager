@@ -23,10 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RedisManagerDelegate {
         RedisCon.instance.connectRedis()
         
         //Old
-        AppDelegate.redisManager = RedisClient(delegate: self)
-        AppDelegate.redisManager?.connect(host:"Localhost",
-                                   port: 6379,
-                                   pwd: "password")
+        
         
         
         //IQKeyboardManager.sharedManager().enable = true

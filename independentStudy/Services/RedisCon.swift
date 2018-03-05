@@ -12,14 +12,40 @@ class RedisCon: NSObject, RedisManagerDelegate {
     
     static let instance = RedisCon()
     private var redisManager: RedisClient!
+    private var realManager: RedisClient!
+    private var password: String?
+    private var port: Int?
+    private var URL: String?
     
     
     func connectRedis(){
+        //Commented code is to be used soon, live database currently not ready.
+    /*
+        if let path = Bundle.main.path(forResource:"Connections", ofType: "plist"){
+            if let dict = NSDictionary(contentsOfFile: path) as? Dictionary<String, AnyObject> {
+                password = dict["Password"] as? String
+                port = Int((dict["Port"] as? String)!)
+                URL = dict["ConnectString"] as? String
+            }
+        }
+    */
+        
+        
+        /*
+         realManager = RedisClient(delegate: self)
+         realManager?.connect(host: URL!, port: port!, pwd: password!)
+         realManager.exec(command: "PING") { (array) in
+         print("Array: \(array[0])")
+         }
+         */
+        
+        
         redisManager = RedisClient(delegate: self)
         redisManager?.connect(host:"Localhost",
                                           port: 6379,
                                           pwd: "password")
-        print("Hre")
+        
+       
     }
     
     
