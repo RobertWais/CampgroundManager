@@ -1,5 +1,5 @@
 # CampgroundManager
-This application is my project for my independent study. 
+This application is the project for my independent study. 
 
 The application will be used to manage the grounds of a campground. Campground Manager will allow employees
 to see individually tasks that must be completed and for managers to delegate tasks. The app uses an image of the campground
