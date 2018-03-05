@@ -18,4 +18,4 @@ Official Class: CS-395
 Professor:      Dr. Senger
 
 ![Work](SiteTable.png)
-<img src="https://github.com/SiteTable.png" width="48" height="48">
+<img src="SiteTable.png" width="48" height="48">
