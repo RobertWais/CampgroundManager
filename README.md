@@ -25,4 +25,6 @@ Professor:      Dr. Senger
 <h3>Choosing which site to view</h3>
 <img src="SiteTable.png" width="200" >
 <h3>Employee and Manager UI</h3>
+<div style="display: inline">
 <img src="SiteView.png" width="200" > <img src="ManagerAssign.png" width="200" >
+</div>
