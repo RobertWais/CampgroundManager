@@ -17,4 +17,5 @@ University:     UW - La Crosse
 Official Class: CS-395
 Professor:      Dr. Senger
 
-<img src="SiteTable.png" width="200" >
+<img src="SiteTable.png" width="200" > <img src="SignIn.png" width="200" > <img src="SiteTable.png" width="200" >
+<img src="SiteView.png" width="200" > <img src="ManagerAssign.png" width="200" >
