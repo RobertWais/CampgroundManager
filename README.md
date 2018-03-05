@@ -16,5 +16,4 @@ to solve a problem that I had identified.
 University:     UW - La Crosse
 Official Class: CS-395
 Professor:      Dr. Senger
-![ScreenShot](
-/RobertWais/CampgroundManager/blob/master/independentStudy/Assets.xcassets/AppIcon.appiconset/rect4775.png)
+![ScreenShot](cabinWoods.png)
