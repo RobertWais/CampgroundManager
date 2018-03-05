@@ -17,6 +17,7 @@ University:     UW - La Crosse
 Official Class: CS-395
 Professor:      Dr. Senger
 
+<h1>Current UI for Users</h1> 
 <h3>Interactive Map</h3>
 <img src="SiteMap.png" width="200" > 
 <h3>Sign In View</h3>
