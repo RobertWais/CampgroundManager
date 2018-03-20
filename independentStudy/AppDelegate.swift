@@ -9,6 +9,7 @@
 import UIKit
 import IQKeyboardManagerSwift
 import PSSRedisClient
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, RedisManagerDelegate {
@@ -18,19 +19,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RedisManagerDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
+        FirebaseApp.configure()
         //New
         RedisCon.instance.connectRedis()
-        
-        //Old
-        
-        
         
         //IQKeyboardManager.sharedManager().enable = true
         //IQKeyboardManager.sharedManager().overrideKeyboardAppearance = true
         //IQKeyboardManager.sharedManager().enableAutoToolbar = true
         //IQKeyboardManager.sharedManager().keyboardAppearance = .dark
-        
         return true
     }
     func getRedis()->RedisClient!{

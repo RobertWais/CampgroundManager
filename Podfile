@@ -10,4 +10,8 @@ target 'independentStudy' do
   pod 'SwiftSVG', '~> 2.0'
   pod "PSSRedisClient"
   pod 'IQKeyboardManagerSwift'
+  pod ‘Firebase/Core’
+  pod ‘Firebase/Database’
+  pod ‘Firebase/Auth’
+  pod ‘Firebase/Storage’
 end

@@ -12,6 +12,7 @@ import Toast_Swift
 
 class SignInVC: UIViewController {
 
+    @IBOutlet var userNameField: UITextField!
     @IBOutlet var positionSelector: UISegmentedControl!
     @IBOutlet var signInBtn: UIButton!
     @IBOutlet var passwordTextField: UITextField!
@@ -33,12 +34,20 @@ class SignInVC: UIViewController {
     
     
     @IBAction func signInBtnPressed(_ sender: Any) {
-        //Check redis set for the given value
-        //Either Employee/Manager
-        submitUser()
-        
+        if userNameField.text != nil && passwordTextField.text != nil{
+            AuthService.instance.loginUser(email: userNameField.text!, password: passwordTextField.text!, complete: { (success, error)  in
+                if success {
+                    print("User Accepted")
+                    self.performSegue(withIdentifier: "showMapVC", sender: self)
+                }else{
+                    print("NO")
+                    print(String(describing: error?.localizedDescription))
+                }
+            })
     }
-    
+        
+    //submitUser()
+        
     func submitUser(){
        var query = positionSelector.titleForSegment(at: positionSelector.selectedSegmentIndex)?.lowercased()
         print("Query: \(query!)")
@@ -60,11 +69,7 @@ class SignInVC: UIViewController {
         }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     if(segue.identifier == "showMapVC"){
-        print("Showing")
-        }
-    }
+    
     
     
     /*
@@ -76,5 +81,10 @@ class SignInVC: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if(segue.identifier == "showMapVC"){
+            print("Showing")
+        }
+    }
 }

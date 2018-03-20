@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'FB917F7FD893566080B9C32AEC6D8AC4'
+               BlueprintIdentifier = '68CBCFF8FC579FEB601FDE2FEB84D16A'
                BlueprintName = 'PSSRedisClient'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'PSSRedisClient.framework'>
