@@ -33,7 +33,6 @@ class AuthService {
             }else{
                 print("Worked")
                 DB_BASE.child("users").child((user?.uid)!).child("role").observe(DataEventType.value){ (data) in
-                    print("Here")
                     var val = data.value as? String
                     self._role = val
                     print("ROLE: \(val)")

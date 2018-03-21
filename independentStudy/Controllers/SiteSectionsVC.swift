@@ -77,10 +77,10 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
         
         RedisCon.instance.getSiteInfo(number: site.siteNumber, site: "HGETALL site:\(site.siteNumber)") { (site) in
             self.site = site
-            if(user==2){
-                self.performSegue(withIdentifier: "showSendVC", sender: self)
-            }else if (user==1){
+            if(AuthService.instance.role == "Employee"){
                 self.performSegue(withIdentifier: "showSiteVC", sender: self)
+            }else if (AuthService.instance.role == "Manager"){
+                self.performSegue(withIdentifier: "showSendVC", sender: self)
             }
         }
         //site.siteNumber = cell.siteNumber
