@@ -7,6 +7,7 @@
 //
 
 import PSSRedisClient
+import Firebase
 
 class RedisCon: NSObject, RedisManagerDelegate {
     
@@ -16,9 +17,21 @@ class RedisCon: NSObject, RedisManagerDelegate {
     private var password: String?
     private var port: Int?
     private var URL: String?
+    private var url: String?
+    private var port2: String?
     
     
     func connectRedis(){
+        print("Connecting Redis")
+        DataService.instance.REF_REDIS.observe(DataEventType.value) { (data) in
+                var dict = data.value as? Dictionary<String, AnyObject>
+            self.password = dict?["password"] as? String
+            self.port = dict?["port"] as? Int
+                self.url = dict?["url"] as? String
+            print("Url: \(self.url)")
+            print("Password: \(self.password)")
+            print("Port: \(self.port)")
+            }
         //Commented code is to be used soon, live database currently not ready.
     /*
         if let path = Bundle.main.path(forResource:"Connections", ofType: "plist"){

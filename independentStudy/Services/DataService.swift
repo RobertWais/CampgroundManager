@@ -18,6 +18,7 @@ class DataService {
     
     private var _REF_BASE = DB_BASE
     private var _REF_USERS = DB_BASE.child("users")
+    private var _REF_REDIS = DB_BASE.child("redis")
     
     
     var REF_BASE: DatabaseReference {
@@ -26,5 +27,9 @@ class DataService {
     
     var REF_USERS: DatabaseReference {
         return _REF_USERS
+    }
+    
+    var REF_REDIS: DatabaseReference {
+        return _REF_REDIS
     }
 }
