@@ -21,6 +21,7 @@
 		2E3B10BF2023FF2600B443DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E3B10BE2023FF2600B443DB /* Assets.xcassets */; };
 		2E3B10C22023FF2600B443DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E3B10C02023FF2600B443DB /* LaunchScreen.storyboard */; };
 		2E3B10CA20240D5D00B443DB /* imageBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2E3B10C920240D5D00B443DB /* imageBackground.jpg */; };
+		2E584F55206617FB00E8EB67 /* DescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E584F54206617FB00E8EB67 /* DescriptionCell.swift */; };
 		2E8DBA2320487A0200A3EB57 /* RedisCon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8DBA2220487A0200A3EB57 /* RedisCon.swift */; };
 		2E8E2C2E202CD2FD00BA0AC9 /* Site.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E8E2C2D202CD2FD00BA0AC9 /* Site.swift */; };
 		2EB24D49204D1057004BA683 /* Connections.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2EB24D48204D1057004BA683 /* Connections.plist */; };
@@ -46,6 +47,7 @@
 		2E3B10C12023FF2600B443DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2E3B10C32023FF2600B443DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2E3B10C920240D5D00B443DB /* imageBackground.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = imageBackground.jpg; sourceTree = "<group>"; };
+		2E584F54206617FB00E8EB67 /* DescriptionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionCell.swift; sourceTree = "<group>"; };
 		2E8DBA2220487A0200A3EB57 /* RedisCon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedisCon.swift; sourceTree = "<group>"; };
 		2E8E2C2D202CD2FD00BA0AC9 /* Site.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Site.swift; sourceTree = "<group>"; };
 		2EB24D48204D1057004BA683 /* Connections.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Connections.plist; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				2E28F61820290F7300A30C3F /* SiteTableCell.swift */,
+				2E584F54206617FB00E8EB67 /* DescriptionCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -316,6 +319,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E8DBA2320487A0200A3EB57 /* RedisCon.swift in Sources */,
+				2E584F55206617FB00E8EB67 /* DescriptionCell.swift in Sources */,
 				2E8E2C2E202CD2FD00BA0AC9 /* Site.swift in Sources */,
 				2E28F61C2029694800A30C3F /* Sections.swift in Sources */,
 				2E2246872060C3E400BFEEE8 /* DataService.swift in Sources */,

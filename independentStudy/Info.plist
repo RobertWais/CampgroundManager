@@ -28,6 +28,12 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>For Taking Pictures</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>For Accessing Pictures</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>For Saving Pictures</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

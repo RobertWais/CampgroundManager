@@ -8,7 +8,7 @@
 
 import UIKit
 import NotificationCenter
-class SiteSendVC: UIViewController {
+class SiteSendVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
 
     
     @IBOutlet var submitBtn: UIButton!
@@ -17,17 +17,23 @@ class SiteSendVC: UIViewController {
     @IBOutlet var setTimeStamp: UISegmentedControl!
     @IBOutlet var setWood: UISegmentedControl!
     @IBOutlet var descriptionSite: UITextView!
+    @IBOutlet weak var collection: UICollectionView!
     
 
+    private var images = [UIImage]()
     private var tempWood = false
     private var tempClean = false
     private var mainColor = UIColor.white
     var siteSelected: Site!
     private var queryString: String!
+    
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        collection.dataSource = self
+        collection.delegate = self
         updateUI()
         mainColor = submitBtn.backgroundColor!
         NotificationCenter.default.addObserver(self, selector: #selector(SiteSendVC.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
@@ -122,27 +128,50 @@ class SiteSendVC: UIViewController {
         HMSET site:\(siteSelected.siteNumber) Cleaned \(tempClean.description.uppercased()) Wood \(tempWood.description.uppercased()) Duration \(setTimeStamp.titleForSegment(at: setTimeStamp.selectedSegmentIndex)!) Description \(descriptionSite.text!)
         """
     }
-    
-    
-    
-    
     //
     //MARK: KEYBOARD FUNCTIONS
     //
     @objc func keyboardWillShow(_ notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
                 submitBtn.backgroundColor = UIColor.black
-                //self.view.frame.origin.y -= keyboardSize.height
-            
         }
     }
     @objc func keyboardWillHide(_ notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
                 submitBtn.backgroundColor = mainColor
-                //self.view.frame.origin.y += keyboardSize.height
-            
         }
     }
+    
+    //MARK: Collection Views
+    
+    //Takes each image that is in the array to be shown and displays it
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DescCell", for: indexPath) as? DescriptionCell {
+            let image = images[indexPath.row]
+            cell.configureCell(imageAdd: image)
+            return cell
+        }else{
+            return UICollectionViewCell()
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("Selected item")
+        //create a alert controller to delete image
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return images.count
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    /*
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    }
+ */
 }
 
 extension SiteSendVC: UITextViewDelegate {
@@ -152,3 +181,47 @@ extension SiteSendVC: UITextViewDelegate {
         }
     }
 }
+
+extension SiteSendVC: UIImagePickerControllerDelegate,UINavigationControllerDelegate{
+    
+    //Is called if the user selects an image from
+    //either ImagePickerControllers
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        picker.dismiss(animated: true, completion: nil)
+        let shownImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+        if shownImage != nil {
+            images.append(shownImage)
+            collection.reloadData()
+        }
+    }
+    
+    //The action allows user to take a photo, select a phot from photo library or cancel.
+     @IBAction func cameraPressed(_ sender: UIButton){
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = false
+        
+        let alert = UIAlertController(title: "Select Image Option", message: "", preferredStyle: .alert)
+        
+        
+        let optionCamera = UIAlertAction(title: "Take a Photo", style: .default) { (option) in
+            imagePicker.sourceType = .camera
+            self.present(imagePicker,animated:  true, completion: nil)
+        }
+        let optionPhotoLibrary = UIAlertAction(title: "Photo Library", style: .default) { (option) in
+            imagePicker.sourceType = .photoLibrary
+            self.present(imagePicker,animated:  true, completion: nil)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
+        
+        alert.addAction(optionCamera)
+        alert.addAction(optionPhotoLibrary)
+        alert.addAction(cancelAction)
+        self.present(alert,animated: true)
+    }
+}
+
+
+    
+
+
