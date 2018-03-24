@@ -13,6 +13,17 @@ iOS development but I will also be solving a real problem with an application th
 I also have received an Innovation Grant for reaching out to a professor and trying to create an original application
 to solve a problem that I had identified. 
 
+What is in Progress?
+--------------------------------------------------------------------------------------------------
+(March23/24) As of Friday night into Saturday morning I have added a feature for manager roles to
+add images to the task they will assign. This will allow for the manager to further clarify a task
+with an image or diagram.
+
+I am currently going to work on storing the images in Firebase Storage and present them to the an employee role if they open up a site that contains an image.
+
+--------------------------------------------------------------------------------------------------
+
+
 University:     UW - La Crosse
 Official Class: CS-395
 Professor:      Dr. Senger
