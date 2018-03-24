@@ -118,9 +118,8 @@ class SiteSendVC: UIViewController {
         }else{
             tempWood = true
         }
-        print("HERE: \(tempWood.description.uppercased())")
         queryString = """
-        HMSET site:\(siteSelected.siteNumber) cleaned \(tempClean.description.uppercased()) wood \(tempWood.description.uppercased()) duration \(setTimeStamp.titleForSegment(at: setTimeStamp.selectedSegmentIndex)!) description \(descriptionSite.text!)
+        HMSET site:\(siteSelected.siteNumber) Cleaned \(tempClean.description.uppercased()) Wood \(tempWood.description.uppercased()) Duration \(setTimeStamp.titleForSegment(at: setTimeStamp.selectedSegmentIndex)!) Description \(descriptionSite.text!)
         """
     }
     

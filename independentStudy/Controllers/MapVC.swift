@@ -51,9 +51,9 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         //Setup Image View
         imageView = UIImageView(image:  #imageLiteral(resourceName: "campsite_map"))
         
-        createLayer(pathstring: sites405_414, color: UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor, name: "SS405_414")
-        createLayer(pathstring: sites13_23, color: UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor, name: "SS13_23")
-        createLayer(pathstring: sites415_424, color: UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor, name: "SS415_424")
+        createLayer(pathstring: sites405_414, color: UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor, name: "SS405_SS414")
+        createLayer(pathstring: sites13_23, color: UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor, name: "SS13_SS23")
+        createLayer(pathstring: sites415_424, color: UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor, name: "SS415_SS424")
         createLayer(pathstring: BACK_BATHHOUSE, color: UIColor(red:200.0, green:0.0, blue:0.0, alpha:0.2).cgColor, name: "BACK_BATHHOUSE")
         createLayer(pathstring: LAKE, color: UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor, name: "LAKE")
         
@@ -111,6 +111,7 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         
         //print("Querying \(query)")
         if (query != "") {
+            print("query: \(query)")
             RedisCon.instance.getArrayStatement(sections: "SMEMBERS \(query)", completion: { (array) in
                 print("In new call...")
                 self.readSiteNumbers = array

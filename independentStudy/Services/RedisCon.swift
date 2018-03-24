@@ -27,10 +27,19 @@ class RedisCon: NSObject, RedisManagerDelegate {
                 var dict = data.value as? Dictionary<String, AnyObject>
             self.password = dict?["password"] as? String
             self.port = dict?["port"] as? Int
-                self.url = dict?["url"] as? String
+            self.url = dict?["url"] as? String
             print("Url: \(self.url)")
             print("Password: \(self.password)")
             print("Port: \(self.port)")
+            
+            
+            
+            self.redisManager = RedisClient(delegate: self)
+            self.redisManager?.connect(host: self.url!, port: self.port!, pwd: self.password!)
+            self.redisManager.exec(command: "PING") { (array) in
+                print("Working---------")
+                print("Array: \(array[0])")
+            }
             }
         //Commented code is to be used soon, live database currently not ready.
     /*
@@ -44,20 +53,11 @@ class RedisCon: NSObject, RedisManagerDelegate {
     */
         
         
-        /*
-         realManager = RedisClient(delegate: self)
-         realManager?.connect(host: URL!, port: port!, pwd: password!)
-         realManager.exec(command: "PING") { (array) in
-         print("Array: \(array[0])")
-         }
-         */
-        
-        
-        redisManager = RedisClient(delegate: self)
+        /**redisManager = RedisClient(delegate: self)
         redisManager?.connect(host:"Localhost",
                                           port: 6379,
                                           pwd: "password")
-        
+        **/
        
     }
     
@@ -76,7 +76,7 @@ class RedisCon: NSObject, RedisManagerDelegate {
     
     func clearSite(numString: String, completion: @escaping (Bool)->()){
         if(redisManager.isConnected()){
-            redisManager?.exec(command: "HMSET site:\(numString) cleaned TRUE wood FALSE duration NONE description NONE", completion: { (array) in
+            redisManager?.exec(command: "HMSET site:\(numString) Cleaned TRUE Wood FALSE Duration NONE Description NONE", completion: { (array) in
                 let returnCode = String(describing: array[0])
                 print("Return code: \(returnCode)")
                 if returnCode == "OK" {
