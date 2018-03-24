@@ -8,9 +8,12 @@
 
 import UIKit
 import NotificationCenter
+import Firebase
 class SiteSendVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
 
     
+    //@IBOutlet var progressCounter: UILabel!
+    @IBOutlet var progressBar: UIView!
     @IBOutlet var submitBtn: UIButton!
     @IBOutlet var siteNumberLbl: UILabel!
     @IBOutlet var setClean: UISegmentedControl!
@@ -32,6 +35,8 @@ class SiteSendVC: UIViewController, UICollectionViewDataSource, UICollectionView
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        progressBar.layer.cornerRadius = progressBar.frame.height/2
+        progressBar.layer.masksToBounds = true
         collection.dataSource = self
         collection.delegate = self
         updateUI()
@@ -87,6 +92,8 @@ class SiteSendVC: UIViewController, UICollectionViewDataSource, UICollectionView
         //print("Clean: \(setClean.titleForSegment(at: setClean.selectedSegmentIndex))")
     }
     
+    
+    //MARK: Redis Command
     func submitTask(){
         toString()
         RedisCon.instance.getArrayStatement(sections: (queryString!), completion: { (array) in
@@ -94,7 +101,13 @@ class SiteSendVC: UIViewController, UICollectionViewDataSource, UICollectionView
             let returnCode = String(describing: array[0])
             print("Return code: \(returnCode)")
             if returnCode == "OK" {
-                self.performSegue(withIdentifier: "unwindFromSendVC", sender: self)
+                self.saveImages(completion: { (bool) in
+                    if bool {
+                        self.performSegue(withIdentifier: "unwindFromSendVC", sender: self)
+                    } else {
+                        print("Error")
+                    }
+                })
             }else{
                 let alert = UIAlertController(title: "Error",
                                               message: "Data could not be entered, try again",
@@ -106,11 +119,45 @@ class SiteSendVC: UIViewController, UICollectionViewDataSource, UICollectionView
         })
     }
     
+    //MARK: FIrebase saving to storage
+    
+    func saveImages(completion:@escaping (Bool)->()){
+        let data = UIImagePNGRepresentation(images[0])
+        let storage = Storage.storage()
+        let pathReference = storage.reference(withPath: "SiteImages/Site\(siteSelected.siteNumber)/image\(siteSelected.siteNumber).png")
+        print("path ref: \(pathReference)")
+        let uploadTask = pathReference.putData(data!, metadata: nil) { (metadata, error) in
+            if error == nil {
+                print("Worked")
+                completion(true)
+            } else {
+                completion(false)
+                print("Error \(error?.localizedDescription)")
+            }
+        }
+        
+        uploadTask.observe(.progress) { snapshot in
+            // Upload reported progress
+            let percentComplete = 100.0 * Double(snapshot.progress!.completedUnitCount)
+                / Double(snapshot.progress!.totalUnitCount)
+            
+            
+            let progress = CGRect(x: 0, y: 0, width: self.progressBar.frame.width * (CGFloat(percentComplete) * 0.01), height: self.progressBar.frame.height)
+            
+            
+            let bez = UIBezierPath(roundedRect: progress, cornerRadius: self.progressBar.frame.height/2 )
+            
+            let layer = CAShapeLayer()
+            layer.path = bez.cgPath
+            layer.fillColor = #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 1).cgColor
+            self.progressBar.layer.addSublayer(layer)
+            print("Progress \(percentComplete)")
+        }
+        
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         print("Preparing for segue")
-        
-        //submitTask()
-        //let path = self.tableView.indexPathForSelectedRow?.row
     }
     
     func toString(){
