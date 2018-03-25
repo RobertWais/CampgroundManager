@@ -29,6 +29,7 @@ class SiteSendVC: UIViewController, UICollectionViewDataSource, UICollectionView
     private var mainColor = UIColor.white
     var siteSelected: Site!
     private var queryString: String!
+    private let layer = CAShapeLayer()
     
 
     
@@ -92,6 +93,25 @@ class SiteSendVC: UIViewController, UICollectionViewDataSource, UICollectionView
         //print("Clean: \(setClean.titleForSegment(at: setClean.selectedSegmentIndex))")
     }
     
+    /*
+    func allImages(pos: Int)->(Bool){
+        if(pos<images.count){
+            var error = false
+            saveImages(index: pos, completion: { (bool) in
+                if bool {
+                    self.allImages(pos: pos+1)
+                }else{
+                    error = true
+                }
+            })
+            if error {return false}
+        }else{
+            print("Done")
+            return true
+        }
+        return true
+    }
+ */
     
     //MARK: Redis Command
     func submitTask(){
@@ -101,13 +121,14 @@ class SiteSendVC: UIViewController, UICollectionViewDataSource, UICollectionView
             let returnCode = String(describing: array[0])
             print("Return code: \(returnCode)")
             if returnCode == "OK" {
-                self.saveImages(completion: { (bool) in
-                    if bool {
-                        self.performSegue(withIdentifier: "unwindFromSendVC", sender: self)
-                    } else {
-                        print("Error")
-                    }
-                })
+                
+                self.saveAll(index: 0){ (ok) in
+                        if ok {
+                            self.performSegue(withIdentifier: "unwindFromSendVC", sender: self)
+                        } else{
+                            print("Error")
+                        }
+                }
             }else{
                 let alert = UIAlertController(title: "Error",
                                               message: "Data could not be entered, try again",
@@ -119,43 +140,116 @@ class SiteSendVC: UIViewController, UICollectionViewDataSource, UICollectionView
         })
     }
     
-    //MARK: FIrebase saving to storage
-    
-    func saveImages(completion:@escaping (Bool)->()){
-        let data = UIImagePNGRepresentation(images[0])
-        let storage = Storage.storage()
-        let pathReference = storage.reference(withPath: "SiteImages/Site\(siteSelected.siteNumber)/image\(siteSelected.siteNumber).png")
-        print("path ref: \(pathReference)")
-        let uploadTask = pathReference.putData(data!, metadata: nil) { (metadata, error) in
-            if error == nil {
-                print("Worked")
-                completion(true)
-            } else {
-                completion(false)
-                print("Error \(error?.localizedDescription)")
+    func saveAll(index: Int, completion: @escaping (Bool)->()) {
+        var num = index
+        
+        //Base case
+        if(num >= images.count){
+            completion(true)
+        } else {
+            saveImages(index: num){ (tru) in
+                if tru {
+                    self.saveAll(index: num+1) { (tru) in
+                        if tru {
+                            completion(true)
+                        }
+                    }
+                } else{
+                    completion(false)
+                }
             }
         }
+    }
+    //MARK: FIrebase saving to storage
+    
+    func saveImages(index: Int,completion:@escaping (Bool)->()){
+        var worked = true;
+        let storage = Storage.storage()
+                print("Loop \(index)")
+                let data = UIImageJPEGRepresentation(self.images[index], 0.8)
+                    //UIImagePNGRepresentation(self.images[index])
         
-        uploadTask.observe(.progress) { snapshot in
-            // Upload reported progress
-            let percentComplete = 100.0 * Double(snapshot.progress!.completedUnitCount)
-                / Double(snapshot.progress!.totalUnitCount)
-            
-            
-            let progress = CGRect(x: 0, y: 0, width: self.progressBar.frame.width * (CGFloat(percentComplete) * 0.01), height: self.progressBar.frame.height)
-            
-            
-            let bez = UIBezierPath(roundedRect: progress, cornerRadius: self.progressBar.frame.height/2 )
-            
-            let layer = CAShapeLayer()
-            layer.path = bez.cgPath
-            layer.fillColor = #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 1).cgColor
-            self.progressBar.layer.addSublayer(layer)
-            print("Progress \(percentComplete)")
-        }
-        
+                let uploadMetadata = StorageMetadata()
+                uploadMetadata.contentType = "image/jpeg"
+                let pathReference = storage.reference(withPath: "SiteImages/Site\(self.siteSelected.siteNumber)/image\(index).jpg")
+                
+                let uploadTask = pathReference.putData(data!, metadata: uploadMetadata) { (metadata, error) in
+                    if error == nil {
+                        print("Success")
+                        completion(true)
+                    } else {
+                        completion(false)
+                        print("Error \(error?.localizedDescription)")
+                    }
+                }
+                
+                uploadTask.observe(.progress) { snapshot in
+                    // Upload reported progress
+                    self.layer.sublayers = nil
+                    let percentComplete = 100.0 * Double(snapshot.progress!.completedUnitCount)
+                        / Double(snapshot.progress!.totalUnitCount)
+                    
+                    let progress = CGRect(x: 0, y: 0, width: self.progressBar.frame.width * (CGFloat(percentComplete) * 0.01), height: self.progressBar.frame.height)
+                    
+                    let bez = UIBezierPath(roundedRect: progress, cornerRadius: self.progressBar.frame.height/2 )
+                    
+                    self.layer.path = bez.cgPath
+                    if (index % 2 == 0){
+                        self.layer.fillColor = #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 1).cgColor
+                    }else{
+                        self.layer.fillColor = UIColor.black.cgColor
+                    }
+                    
+                    self.progressBar.layer.addSublayer(self.layer)
+                    print("Progress \(percentComplete)")
+                }
     }
     
+    /*
+    func saveImages(completion:@escaping (Bool)->()){
+        var worked = true;
+        let storage = Storage.storage()
+        DispatchQueue.global().sync {
+            for index in 0..<self.images.count{
+                
+                print("Loop \(index)")
+                
+                let data = UIImagePNGRepresentation(self.images[index])
+                let pathReference = storage.reference(withPath: "SiteImages/Site\(self.siteSelected.siteNumber)/image\(index).png")
+                
+                let uploadTask = pathReference.putData(data!, metadata: nil) { (metadata, error) in
+                    if error == nil {
+                        print("Done with \(index)")
+                        if(index == self.images.count-1){
+                            completion(true)
+                        }
+                    } else {
+                        completion(false)
+                        print("Error \(error?.localizedDescription)")
+                    }
+                }
+                
+                uploadTask.observe(.progress) { snapshot in
+                    // Upload reported progress
+                    let percentComplete = 100.0 * Double(snapshot.progress!.completedUnitCount)
+                        / Double(snapshot.progress!.totalUnitCount)
+                    
+                    
+                    let progress = CGRect(x: 0, y: 0, width: self.progressBar.frame.width * (CGFloat(percentComplete) * 0.01), height: self.progressBar.frame.height)
+                    
+                    
+                    let bez = UIBezierPath(roundedRect: progress, cornerRadius: self.progressBar.frame.height/2 )
+                    
+                    let layer = CAShapeLayer()
+                    layer.path = bez.cgPath
+                    layer.fillColor = #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 1).cgColor
+                    self.progressBar.layer.addSublayer(layer)
+                    print("Progress \(percentComplete)")
+                }
+            }
+        }
+    }
+    */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         print("Preparing for segue")
     }

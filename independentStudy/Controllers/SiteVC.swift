@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import Firebase
 
 class SiteVC: UIViewController {
 
     var wholeSite: Site!
     
+    @IBOutlet var testImageView: UIImageView!
     @IBOutlet var siteNumberLbl: UILabel!
     @IBOutlet var siteCleaned: UILabel!
     @IBOutlet var needWood: UILabel!
@@ -47,7 +49,22 @@ class SiteVC: UIViewController {
         }
         timeStamp.text = wholeSite.timeFrame
         textView.text = wholeSite.description
+        getImage()
         
+    }
+    
+    
+    func getImage(){
+        let storage = Storage.storage()
+        let pathReference = storage.reference(withPath: "SiteImages/Site14/image14.png")
+        pathReference.getData(maxSize: 102422121*1024, completion: { (data, error) in
+            if let error = error{
+                print("Error: \(error)")
+            }else{
+                print("Worked")
+                self.testImageView.image = UIImage(data: data!)
+            }
+        })
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
