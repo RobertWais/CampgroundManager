@@ -21,6 +21,8 @@ with an image or diagram.
 
 I am currently going to work on storing the images in Firebase Storage and present them to the an employee role if they open up a site that contains an image.
 
+(March 26) Functionality for both employee and managers to pull or push images. Major improvements on UI to still be made
+
 --------------------------------------------------------------------------------------------------
 
 
