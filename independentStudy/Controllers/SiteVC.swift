@@ -9,20 +9,24 @@
 import UIKit
 import Firebase
 
-class SiteVC: UIViewController {
+class SiteVC: UIViewController, UICollectionViewDataSource,UICollectionViewDelegate {
 
     var wholeSite: Site!
+    var image: UIImage?
+    private var images = [UIImage]()
     
     @IBOutlet var testImageView: UIImageView!
     @IBOutlet var siteNumberLbl: UILabel!
     @IBOutlet var siteCleaned: UILabel!
     @IBOutlet var needWood: UILabel!
     @IBOutlet var timeStamp: UILabel!
-    
+    @IBOutlet var collection: UICollectionView!
     @IBOutlet var textView: UITextView!
     override func viewDidLoad() {
         super.viewDidLoad()
         updateUI()
+        collection.dataSource = self
+        collection.delegate = self
         // Do any additional setup after loading the view.
     }
     
@@ -49,23 +53,62 @@ class SiteVC: UIViewController {
         }
         timeStamp.text = wholeSite.timeFrame
         textView.text = wholeSite.description
-        getImage()
+        getAll(index: 0) { (bool) in
+            if bool {
+                print("worked")
+            }else{
+                print("error")
+            }
+        }
         
     }
     
-    
-    func getImage(){
+    func getImages(index: Int,completion: @escaping (Bool)->()) {
+        print("Index: \(index)")
         let storage = Storage.storage()
-        let pathReference = storage.reference(withPath: "SiteImages/Site14/image14.png")
-        pathReference.getData(maxSize: 102422121*1024, completion: { (data, error) in
+        let pathReference = storage.reference(withPath: "SiteImages/Site\(wholeSite.siteNumber)/image\(index).jpg")
+        print("path ref: \(pathReference)")
+        pathReference.getData(maxSize: 102422121*1024) { (data, error) in
             if let error = error{
-                print("Error: \(error)")
+                //print("Error: \(error)")
+                completion(false)
             }else{
-                print("Worked")
-                self.testImageView.image = UIImage(data: data!)
+                print("tru in get images")
+                var tempImage = UIImage(data: data!)
+                self.images.append(tempImage!)
+                self.collection.reloadData()
+                completion(true)
             }
-        })
+        }
     }
+    
+    func getAll(index: Int, completion: @escaping (Bool)->()) {
+        var num = index
+        print("In get all")
+        
+        //Base case
+            getImages(index: num){ (tru) in
+                print("yes")
+                print(tru)
+                if tru {
+                    print("HEre")
+                    self.getAll(index: num+1) { (tru) in
+                        if tru {
+                            print("Again")
+                            completion(true)
+                            
+                        }
+                    }
+                } else {
+                    print("in false")
+                    completion(false)
+                    
+                }
+            }
+    }
+            //
+        
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
             var vc = segue.destination as! SiteSectionsVC
@@ -98,4 +141,37 @@ class SiteVC: UIViewController {
         alert.addAction(submitAction)
         present(alert, animated: true, completion: nil)
     }
+    
+    //
+    //MARK: Collection View
+    //-Will eventually put to extension but was having previous problems
+    
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+       
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DescCell", for: indexPath) as? DescriptionCell {
+            cell.configureCell(imageAdd: images[indexPath.row])
+            return cell
+        }else{
+            print("Here it is")
+         return UICollectionViewCell()
+        }
+
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("Selected item")
+        //create a alert controller to delete image
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return images.count
+    }
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
+    
+    
 }
