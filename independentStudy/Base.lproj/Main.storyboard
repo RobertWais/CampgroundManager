@@ -342,36 +342,36 @@
                                 </constraints>
                             </stackView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="2yM-4C-cDA">
-                                <rect key="frame" x="16" y="157" width="343" height="80"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <rect key="frame" x="16" y="168" width="343" height="69"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="80" id="VoM-OF-LGL"/>
+                                    <constraint firstAttribute="height" constant="69" id="VoM-OF-LGL"/>
                                 </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="wgZ-pJ-iOh">
-                                    <size key="itemSize" width="63" height="53"/>
+                                    <size key="itemSize" width="63" height="61"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="DescCell" id="xQK-dJ-IwN" customClass="DescriptionCell" customModule="independentStudy" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="13.5" width="63" height="53"/>
+                                        <rect key="frame" x="0.0" y="4" width="63" height="61"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                            <rect key="frame" x="0.0" y="0.0" width="63" height="53"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="63" height="61"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AzK-h2-XCe">
-                                                    <rect key="frame" x="4" y="4" width="55" height="45"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="63" height="61"/>
                                                 </imageView>
                                             </subviews>
                                         </view>
                                         <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
-                                            <constraint firstItem="AzK-h2-XCe" firstAttribute="top" secondItem="xQK-dJ-IwN" secondAttribute="top" constant="4" id="PX0-uf-Zhr"/>
-                                            <constraint firstItem="AzK-h2-XCe" firstAttribute="leading" secondItem="xQK-dJ-IwN" secondAttribute="leading" constant="4" id="adL-Vt-yvb"/>
-                                            <constraint firstAttribute="trailing" secondItem="AzK-h2-XCe" secondAttribute="trailing" constant="4" id="jn9-p7-URs"/>
-                                            <constraint firstAttribute="bottom" secondItem="AzK-h2-XCe" secondAttribute="bottom" constant="4" id="vg5-4m-9ZC"/>
+                                            <constraint firstAttribute="bottom" secondItem="AzK-h2-XCe" secondAttribute="bottom" id="3ab-8u-GBm"/>
+                                            <constraint firstItem="AzK-h2-XCe" firstAttribute="leading" secondItem="xQK-dJ-IwN" secondAttribute="leading" id="JNf-o8-VaY"/>
+                                            <constraint firstItem="AzK-h2-XCe" firstAttribute="top" secondItem="xQK-dJ-IwN" secondAttribute="top" id="R9a-Xd-SFb"/>
+                                            <constraint firstAttribute="trailing" secondItem="AzK-h2-XCe" secondAttribute="trailing" id="sLj-Lw-P1d"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="imageView" destination="AzK-h2-XCe" id="LgH-k2-TGk"/>
@@ -389,7 +389,7 @@
                             <constraint firstItem="WZ4-im-VB2" firstAttribute="top" secondItem="wpz-ry-no0" secondAttribute="top" constant="20" id="LES-Ms-beB"/>
                             <constraint firstItem="WZ4-im-VB2" firstAttribute="leading" secondItem="wpz-ry-no0" secondAttribute="leading" constant="16" id="S2i-Eg-D8E"/>
                             <constraint firstItem="wpz-ry-no0" firstAttribute="trailing" secondItem="2yM-4C-cDA" secondAttribute="trailing" constant="16" id="YYG-SK-Y8a"/>
-                            <constraint firstItem="2yM-4C-cDA" firstAttribute="top" secondItem="WZ4-im-VB2" secondAttribute="bottom" constant="25" id="b8F-vx-SXW"/>
+                            <constraint firstItem="2yM-4C-cDA" firstAttribute="top" secondItem="WZ4-im-VB2" secondAttribute="bottom" constant="36" id="b8F-vx-SXW"/>
                             <constraint firstItem="yHn-jg-aqN" firstAttribute="leading" secondItem="wpz-ry-no0" secondAttribute="leading" constant="16" id="fvo-8S-MsH"/>
                             <constraint firstItem="TQA-cF-Nji" firstAttribute="leading" secondItem="yHn-jg-aqN" secondAttribute="leading" id="j4D-Od-5NJ"/>
                             <constraint firstItem="wpz-ry-no0" firstAttribute="trailing" secondItem="bdI-ii-GbW" secondAttribute="trailing" id="koj-mm-DtL"/>
