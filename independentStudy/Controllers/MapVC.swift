@@ -70,11 +70,9 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         
         self.setZoomScale()
         //HACK -- change later
-        
-        //scrollView.setZoomScale(0.1, animated: true)
         // Do any additional setup after loading the view, typically from a nib.
     }
-
+    
     func createLayer(pathstring: String, color: CGColor, name: String){
         let layer = CAShapeLayer()
         let temp = UIBezierPath(pathString: pathstring)
@@ -120,7 +118,7 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         }
         return ""
     }
-
+    
     //MARK: ScrollView settings
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -149,7 +147,6 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         self.scrollView.maximumZoomScale = 5.0
     }
 }
-
 
 
 

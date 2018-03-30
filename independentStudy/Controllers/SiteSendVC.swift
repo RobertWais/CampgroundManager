@@ -22,6 +22,7 @@ class SiteSendVC: UIViewController, UICollectionViewDataSource, UICollectionView
     @IBOutlet var descriptionSite: UITextView!
     @IBOutlet weak var collection: UICollectionView!
     
+    private var selectedImage = -1
     private var sortedArray = [String]()
     private var images = [UIImage]()
     private var tempWood = false
@@ -217,53 +218,13 @@ class SiteSendVC: UIViewController, UICollectionViewDataSource, UICollectionView
                 }
     }
     
-    /*
-    func saveImages(completion:@escaping (Bool)->()){
-        var worked = true;
-        let storage = Storage.storage()
-        DispatchQueue.global().sync {
-            for index in 0..<self.images.count{
-                
-                print("Loop \(index)")
-                
-                let data = UIImagePNGRepresentation(self.images[index])
-                let pathReference = storage.reference(withPath: "SiteImages/Site\(self.siteSelected.siteNumber)/image\(index).png")
-                
-                let uploadTask = pathReference.putData(data!, metadata: nil) { (metadata, error) in
-                    if error == nil {
-                        print("Done with \(index)")
-                        if(index == self.images.count-1){
-                            completion(true)
-                        }
-                    } else {
-                        completion(false)
-                        print("Error \(error?.localizedDescription)")
-                    }
-                }
-                
-                uploadTask.observe(.progress) { snapshot in
-                    // Upload reported progress
-                    let percentComplete = 100.0 * Double(snapshot.progress!.completedUnitCount)
-                        / Double(snapshot.progress!.totalUnitCount)
-                    
-                    
-                    let progress = CGRect(x: 0, y: 0, width: self.progressBar.frame.width * (CGFloat(percentComplete) * 0.01), height: self.progressBar.frame.height)
-                    
-                    
-                    let bez = UIBezierPath(roundedRect: progress, cornerRadius: self.progressBar.frame.height/2 )
-                    
-                    let layer = CAShapeLayer()
-                    layer.path = bez.cgPath
-                    layer.fillColor = #colorLiteral(red: 0, green: 0.5603182912, blue: 0, alpha: 1).cgColor
-                    self.progressBar.layer.addSublayer(layer)
-                    print("Progress \(percentComplete)")
-                }
-            }
-        }
-    }
-    */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         print("Preparing for segue")
+        if(segue.identifier == "viewImage"){
+            let vc = segue.destination as! viewVC
+            vc.image = images[selectedImage]
+            //Emptying array elements]
+        }
     }
     
     func toString(){
@@ -314,6 +275,8 @@ class SiteSendVC: UIViewController, UICollectionViewDataSource, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("Selected item")
+        selectedImage = indexPath.row
+        self.performSegue(withIdentifier: "viewImage", sender: self)
         //create a alert controller to delete image
     }
     
@@ -324,11 +287,6 @@ class SiteSendVC: UIViewController, UICollectionViewDataSource, UICollectionView
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
-    
-    /*
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-    }
- */
 }
 
 extension SiteSendVC: UITextViewDelegate {

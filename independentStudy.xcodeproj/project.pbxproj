@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E00A769206DF5B40053736A /* viewVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E00A768206DF5B40053736A /* viewVC.swift */; };
 		2E2246852060C32B00BFEEE8 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2246842060C32B00BFEEE8 /* AuthService.swift */; };
 		2E2246872060C3E400BFEEE8 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2246862060C3E400BFEEE8 /* DataService.swift */; };
 		2E2246892060C56200BFEEE8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2E2246882060C56200BFEEE8 /* GoogleService-Info.plist */; };
@@ -31,6 +32,7 @@
 
 /* Begin PBXFileReference section */
 		090D53FE0CD58020D78434EA /* Pods_independentStudy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_independentStudy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E00A768206DF5B40053736A /* viewVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = viewVC.swift; sourceTree = "<group>"; };
 		2E2246842060C32B00BFEEE8 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		2E2246862060C3E400BFEEE8 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		2E2246882060C56200BFEEE8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -76,6 +78,7 @@
 				2E28F61E202BFC1700A30C3F /* SiteVC.swift */,
 				2ECAC39B2038ECD50067A133 /* SiteSendVC.swift */,
 				2E2F2AA4203F4EA000FE7986 /* SignInVC.swift */,
+				2E00A768206DF5B40053736A /* viewVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -329,6 +332,7 @@
 				2ECAC39C2038ECD50067A133 /* SiteSendVC.swift in Sources */,
 				2E3B10BA2023FF2500B443DB /* MapVC.swift in Sources */,
 				2E3B10B82023FF2500B443DB /* AppDelegate.swift in Sources */,
+				2E00A769206DF5B40053736A /* viewVC.swift in Sources */,
 				2E28F61420290E8D00A30C3F /* SiteSectionsVC.swift in Sources */,
 				2E28F61920290F7300A30C3F /* SiteTableCell.swift in Sources */,
 			);
