@@ -23,10 +23,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RedisManagerDelegate {
         //New
         RedisCon.instance.connectRedis()
         
-        //IQKeyboardManager.sharedManager().enable = true
-        //IQKeyboardManager.sharedManager().overrideKeyboardAppearance = true
-        //IQKeyboardManager.sharedManager().enableAutoToolbar = true
-        //IQKeyboardManager.sharedManager().keyboardAppearance = .dark
+        IQKeyboardManager.sharedManager().enable = true
+        IQKeyboardManager.sharedManager().overrideKeyboardAppearance = true
+        IQKeyboardManager.sharedManager().enableAutoToolbar = true
+        IQKeyboardManager.sharedManager().keyboardAppearance = .dark
         return true
     }
     func getRedis()->RedisClient!{

@@ -22,7 +22,7 @@ class SiteSendVC: UIViewController, UICollectionViewDataSource, UICollectionView
     @IBOutlet var descriptionSite: UITextView!
     @IBOutlet weak var collection: UICollectionView!
     
-
+    private var sortedArray = [String]()
     private var images = [UIImage]()
     private var tempWood = false
     private var tempClean = false
@@ -116,7 +116,19 @@ class SiteSendVC: UIViewController, UICollectionViewDataSource, UICollectionView
     //MARK: Redis Command
     func submitTask(){
         toString()
-        RedisCon.instance.getArrayStatement(sections: (queryString!), completion: { (array) in
+        var sendArray = [String]()
+        sendArray.append("HMSET")
+        sendArray.append("site:\(siteSelected.siteNumber)")
+        sendArray.append("Cleaned")
+        sendArray.append(sortedArray[0])
+        sendArray.append("Wood")
+        sendArray.append(sortedArray[1])
+        sendArray.append("Duration")
+        sendArray.append(sortedArray[2])
+        sendArray.append("Description")
+        sendArray.append(sortedArray[3])
+        print("this: \(sendArray[1])")
+        RedisCon.instance.setStatement(arr: sendArray, completion: { (array) in
             
             let returnCode = String(describing: array[0])
             print("Return code: \(returnCode)")
@@ -268,6 +280,10 @@ class SiteSendVC: UIViewController, UICollectionViewDataSource, UICollectionView
         queryString = """
         HMSET site:\(siteSelected.siteNumber) Cleaned \(tempClean.description.uppercased()) Wood \(tempWood.description.uppercased()) Duration \(setTimeStamp.titleForSegment(at: setTimeStamp.selectedSegmentIndex)!) Description \(descriptionSite.text!)
         """
+        sortedArray.append(tempClean.description.uppercased())
+        sortedArray.append(tempWood.description.uppercased())
+        sortedArray.append(setTimeStamp.titleForSegment(at: setTimeStamp.selectedSegmentIndex)!)
+        sortedArray.append(descriptionSite.text!)
     }
     //
     //MARK: KEYBOARD FUNCTIONS

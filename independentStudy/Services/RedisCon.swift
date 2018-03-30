@@ -28,11 +28,6 @@ class RedisCon: NSObject, RedisManagerDelegate {
             self.password = dict?["password"] as? String
             self.port = dict?["port"] as? Int
             self.url = dict?["url"] as? String
-            print("Url: \(self.url)")
-            print("Password: \(self.password)")
-            print("Port: \(self.port)")
-            
-            
             
             self.redisManager = RedisClient(delegate: self)
             self.redisManager?.connect(host: self.url!, port: self.port!, pwd: self.password!)
@@ -51,16 +46,17 @@ class RedisCon: NSObject, RedisManagerDelegate {
             }
         }
     */
-        
-        
-        /**redisManager = RedisClient(delegate: self)
-        redisManager?.connect(host:"Localhost",
-                                          port: 6379,
-                                          pwd: "password")
-        **/
-       
     }
     
+    func setStatement(arr: [String], completion: @escaping ([String])->()){
+        var returnArray = [String]()
+        redisManager.exec(args: arr) { (returnCode: NSArray!) in
+            if returnCode.count > 0 {
+                returnArray.append("\(returnCode[0])")
+            }
+            completion(returnArray)
+        }
+    }
     
     func getArrayStatement(sections: String, completion: @escaping ([String])->()){
         if(redisManager.isConnected()){
@@ -69,8 +65,11 @@ class RedisCon: NSObject, RedisManagerDelegate {
                 for index in 0..<array.count{
                     returnArray.append("\(array[index])")
                 }
+                print("Done")
                 completion(returnArray)
             })
+        
+            
         }
     }
     
@@ -80,6 +79,7 @@ class RedisCon: NSObject, RedisManagerDelegate {
                 let returnCode = String(describing: array[0])
                 print("Return code: \(returnCode)")
                 if returnCode == "OK" {
+                    
                     completion(true)
                 } else {
                     completion(false)
