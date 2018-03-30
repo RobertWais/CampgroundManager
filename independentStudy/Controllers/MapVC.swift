@@ -11,9 +11,6 @@ import Toast_Swift
 import SwiftSVG
 import PSSRedisClient
 
-
-
-
 class MapVC: UIViewController,UIScrollViewDelegate {
     
     private var array: NSArray!
@@ -74,7 +71,7 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         self.setZoomScale()
         //HACK -- change later
         
-        scrollView.setZoomScale(0.1, animated: true)
+        //scrollView.setZoomScale(0.1, animated: true)
         // Do any additional setup after loading the view, typically from a nib.
     }
 
@@ -87,23 +84,6 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         findLayer.append(layer)
         imageView.layer.addSublayer(layer)
     }
-    
-    /*
-    func getSitesForSection(section: String, completion: @escaping (Bool)->Void){
-        print("Started function")
-        AppDelegate.redisManager.exec(command: "SMEMBERS \(section)", completion:
-            { (array: NSArray!) in
-                for index in 0..<array.count {
-                    print("Adding value for next VC: \(array[index])")
-                    self.readSiteNumbers.append("\(array[index])")
-                }
-                //All alert sites will be read in right away
-                //Create the site with an alert- <TRUE/FALSE> if there is alert, display cell as red
-                //TEST AGAINST ALL SITES THAT ARE RED
-                completion(true)
-        })
-    }
-    */
     
     @objc func touchedSection(recognizer: UITapGestureRecognizer){
         let destination:CGPoint = recognizer.location(in: recognizer.view)
@@ -141,8 +121,6 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         return ""
     }
 
-    
-    
     //MARK: ScrollView settings
     
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
@@ -160,14 +138,15 @@ class MapVC: UIViewController,UIScrollViewDelegate {
     }
     
     func setZoomScale() {
-        let imageViewSize = imageView.bounds.size
-        let scrollViewSize = scrollView.bounds.size
-        let widthScale = scrollViewSize.width / imageViewSize.width
-        let heightScale = scrollViewSize.height / imageViewSize.height
+        var zoomScale = min(self.view.bounds.size.width / (self.imageView.image?.size.width)!, self.view.bounds.size.height / (self.imageView.image?.size.height)!);
         
-        scrollView.minimumZoomScale = min(widthScale, heightScale)
-        scrollView.zoomScale = 1.0
-        scrollView.maximumZoomScale = 5.0
+        if (zoomScale > 1) {
+            self.scrollView.minimumZoomScale = 1;
+        }
+        
+        self.scrollView.minimumZoomScale = zoomScale;
+        self.scrollView.zoomScale = zoomScale;
+        self.scrollView.maximumZoomScale = 5.0
     }
 }
 

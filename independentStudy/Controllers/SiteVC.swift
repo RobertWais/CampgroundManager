@@ -63,14 +63,33 @@ class SiteVC: UIViewController, UICollectionViewDataSource,UICollectionViewDeleg
         
     }
     
+    func deleteImages(handler: @escaping (Bool)->()){
+        if(images.count == 0){
+            handler(true)
+        }
+        for index in 0..<images.count {
+            var reference = Storage.storage().reference(withPath: "SiteImages/Site\(wholeSite.siteNumber)/image\(index).jpg")
+            reference.delete(completion: { (error) in
+                if error == nil{
+                    print("Deleted Files")
+                    handler(true)
+                }else{
+                    print("Error: \(error?.localizedDescription)")
+                    handler(false)
+                }
+            })
+        }
+        
+    }
+    
     func getImages(index: Int,completion: @escaping (Bool)->()) {
         print("Index: \(index)")
         let storage = Storage.storage()
         let pathReference = storage.reference(withPath: "SiteImages/Site\(wholeSite.siteNumber)/image\(index).jpg")
         print("path ref: \(pathReference)")
-        pathReference.getData(maxSize: 102422121*1024) { (data, error) in
+        pathReference.getData(maxSize: 2500000) { (data, error) in
             if let error = error{
-                //print("Error: \(error)")
+                print("Error: \(error)")
                 completion(false)
             }else{
                 print("tru in get images")
@@ -84,8 +103,6 @@ class SiteVC: UIViewController, UICollectionViewDataSource,UICollectionViewDeleg
     
     func getAll(index: Int, completion: @escaping (Bool)->()) {
         var num = index
-        print("In get all")
-        
         //Base case
             getImages(index: num){ (tru) in
                 print("yes")
@@ -96,20 +113,14 @@ class SiteVC: UIViewController, UICollectionViewDataSource,UICollectionViewDeleg
                         if tru {
                             print("Again")
                             completion(true)
-                            
                         }
                     }
                 } else {
                     print("in false")
                     completion(false)
-                    
                 }
             }
-    }
-            //
-        
-    
-    
+        }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
             var vc = segue.destination as! SiteSectionsVC
     }
@@ -122,16 +133,18 @@ class SiteVC: UIViewController, UICollectionViewDataSource,UICollectionViewDeleg
             // Get 1st TextField's text
             RedisCon.instance.clearSite(numString: self.siteNumberLbl.text!) { (noError) in
                 if noError{
-                    self.performSegue(withIdentifier: "unwindSegue", sender: self)
+                    self.deleteImages(){ (ok) in
+                        if ok {
+                            self.performSegue(withIdentifier: "unwindSegue", sender: self)
+                        }else{
+                            self.errorAlert()
+                        }
+                    }
+                    
                 }else{
                     alert.dismiss(animated: false, completion: {
                     })
-                    let errorAlert = UIAlertController(title: "Error",
-                                                       message: "Could not complete site, please try again.",
-                                                       preferredStyle: .alert)
-                    let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
-                    errorAlert.addAction(cancelAction)
-                    self.present(errorAlert,animated: true, completion: nil)
+                    self.errorAlert()
                 }
             }
         })
@@ -170,6 +183,15 @@ class SiteVC: UIViewController, UICollectionViewDataSource,UICollectionViewDeleg
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
+    }
+    
+    func errorAlert(){
+        let errorAlert = UIAlertController(title: "Error",
+                                           message: "Could not complete site, please try again.",
+                                           preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
+        errorAlert.addAction(cancelAction)
+        self.present(errorAlert,animated: true, completion: nil)
     }
     
     
