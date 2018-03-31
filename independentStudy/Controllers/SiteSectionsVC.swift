@@ -30,7 +30,6 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.reloadData()
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         tableView.reloadData()
     }
@@ -41,10 +40,6 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
         
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        print("Hopefully last")
-        
-    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

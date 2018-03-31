@@ -29,6 +29,17 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
+    
+    
+    func initSites(){
+        for index in 1..<533 {
+            RedisCon.instance.getArrayStatement(sections: "HMSET site:\(index) Cleaned TRUE Wood FALSE Duration NONE Description NONE"
+                , completion: { (array) in
+                    print("Worked?: \(array[0])")
+            })
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -47,13 +58,19 @@ class MapVC: UIViewController,UIScrollViewDelegate {
          */
         
         //Setup Image View
-        imageView = UIImageView(image:  #imageLiteral(resourceName: "campsite_map"))
+        imageView = UIImageView(image:  #imageLiteral(resourceName: "campsite_map-1"))
         
-        createLayer(pathstring: sites405_414, color: UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor, name: "SS405_SS414")
-        createLayer(pathstring: sites13_23, color: UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor, name: "SS13_SS23")
-        createLayer(pathstring: sites415_424, color: UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor, name: "SS415_SS424")
+        createLayer(pathstring: sites238_249, color: UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor, name: "SS238_SS249")
+        createLayer(pathstring: sites33_40, color: UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor, name: "SS33_SS40")
+        
+        createLayer(pathstring: sites1_12, color: UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor, name: "SS1_SS12")
+        createLayer(pathstring: sites405_414, color: UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor, name: "SS405_SS414")
+        createLayer(pathstring: sites425_434, color: UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor, name: "SS425_SS434")
+        createLayer(pathstring: sites435_444, color: UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor, name: "SS435_SS444")
+        createLayer(pathstring: sites13_23, color: UIColor(red: 0.0, green:0.0, blue: 150.0, alpha: 0.5).cgColor, name: "SS13_SS23")
+        createLayer(pathstring: sites415_424, color: UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor, name: "SS415_SS424")
         createLayer(pathstring: BACK_BATHHOUSE, color: UIColor(red:200.0, green:0.0, blue:0.0, alpha:0.2).cgColor, name: "BACK_BATHHOUSE")
-        createLayer(pathstring: LAKE, color: UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor, name: "LAKE")
+        //createLayer(pathstring: LAKE, color: UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor, name: "LAKE")
         
         imageView.isUserInteractionEnabled = true;
         imageView.addGestureRecognizer(recognizer)
