@@ -23,6 +23,8 @@ I am currently going to work on storing the images in Firebase Storage and prese
 
 (March 26) Functionality for both employee and managers to pull or push images. Major improvements on UI to still be made
 
+(Friday, March 30) Uploading images for employees to view is possible, managers can also view images that they select, keyboard and navbar bug fixed, zoomscale fixed
+
 --------------------------------------------------------------------------------------------------
 
 
