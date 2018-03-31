@@ -21,7 +21,7 @@ class RedisCon: NSObject, RedisManagerDelegate {
     private var port2: String?
     
     
-    func connectRedis(){
+    func connectRedis(completion: @escaping ()->()){
         print("Connecting Redis")
         DataService.instance.REF_REDIS.observe(DataEventType.value) { (data) in
                 var dict = data.value as? Dictionary<String, AnyObject>
@@ -35,6 +35,7 @@ class RedisCon: NSObject, RedisManagerDelegate {
                 print("Working---------")
                 print("Array: \(array[0])")
             }
+            completion()
             }
         //Commented code is to be used soon, live database currently not ready.
     /*

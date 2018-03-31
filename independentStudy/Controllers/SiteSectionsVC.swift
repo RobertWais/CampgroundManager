@@ -74,6 +74,7 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         site = sites[indexPath.row]
+        print("Heres")
         
         RedisCon.instance.getSiteInfo(number: site.siteNumber, site: "HGETALL site:\(site.siteNumber)") { (site) in
             self.site = site

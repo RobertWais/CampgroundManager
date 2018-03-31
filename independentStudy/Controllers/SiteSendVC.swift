@@ -36,7 +36,6 @@ class SiteSendVC: UIViewController, UICollectionViewDataSource, UICollectionView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         progressBar.layer.cornerRadius = progressBar.frame.height/2
         progressBar.layer.masksToBounds = true
         collection.dataSource = self
@@ -93,26 +92,6 @@ class SiteSendVC: UIViewController, UICollectionViewDataSource, UICollectionView
         submitTask()
         //print("Clean: \(setClean.titleForSegment(at: setClean.selectedSegmentIndex))")
     }
-    
-    /*
-    func allImages(pos: Int)->(Bool){
-        if(pos<images.count){
-            var error = false
-            saveImages(index: pos, completion: { (bool) in
-                if bool {
-                    self.allImages(pos: pos+1)
-                }else{
-                    error = true
-                }
-            })
-            if error {return false}
-        }else{
-            print("Done")
-            return true
-        }
-        return true
-    }
- */
     
     //MARK: Redis Command
     func submitTask(){
@@ -219,7 +198,6 @@ class SiteSendVC: UIViewController, UICollectionViewDataSource, UICollectionView
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print("Preparing for segue")
         if(segue.identifier == "viewImage"){
             let vc = segue.destination as! viewVC
             vc.image = images[selectedImage]
@@ -238,9 +216,6 @@ class SiteSendVC: UIViewController, UICollectionViewDataSource, UICollectionView
         }else{
             tempWood = true
         }
-        queryString = """
-        HMSET site:\(siteSelected.siteNumber) Cleaned \(tempClean.description.uppercased()) Wood \(tempWood.description.uppercased()) Duration \(setTimeStamp.titleForSegment(at: setTimeStamp.selectedSegmentIndex)!) Description \(descriptionSite.text!)
-        """
         sortedArray.append(tempClean.description.uppercased())
         sortedArray.append(tempWood.description.uppercased())
         sortedArray.append(setTimeStamp.titleForSegment(at: setTimeStamp.selectedSegmentIndex)!)
@@ -250,11 +225,15 @@ class SiteSendVC: UIViewController, UICollectionViewDataSource, UICollectionView
     //MARK: KEYBOARD FUNCTIONS
     //
     @objc func keyboardWillShow(_ notification: NSNotification) {
+        
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
                 submitBtn.backgroundColor = UIColor.black
         }
     }
     @objc func keyboardWillHide(_ notification: NSNotification) {
+        print("Heappends")
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
                 submitBtn.backgroundColor = mainColor
         }
@@ -291,7 +270,7 @@ class SiteSendVC: UIViewController, UICollectionViewDataSource, UICollectionView
 
 extension SiteSendVC: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if descriptionSite.text == "Describe the task at hand..." {
+        if descriptionSite.text == "NONE" {
             descriptionSite.text = ""
         }
     }

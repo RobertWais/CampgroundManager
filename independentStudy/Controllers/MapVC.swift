@@ -31,6 +31,7 @@ class MapVC: UIViewController,UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         print("Loaded user: \(AuthService.instance.role)")
         RedisCon.instance.getArrayStatement(sections: "SMEMBERS ALERT_SECTIONS") { (array) in
             for index in 0..<array.count {

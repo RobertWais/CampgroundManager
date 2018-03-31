@@ -12,6 +12,10 @@ import Toast_Swift
 
 class SignInVC: UIViewController {
 
+    
+    @IBOutlet var indicatoryView: UIActivityIndicatorView!
+    
+    
     @IBOutlet var userNameField: UITextField!
     @IBOutlet var positionSelector: UISegmentedControl!
     @IBOutlet var signInBtn: UIButton!
@@ -19,6 +23,12 @@ class SignInVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+         indicatoryView.startAnimating()
+        indicatoryView.hidesWhenStopped = true
+        RedisCon.instance.connectRedis(){
+            
+            self.indicatoryView.stopAnimating()
+        }
         
         //New
         ToastManager.shared.isTapToDismissEnabled = true

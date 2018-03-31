@@ -14,6 +14,7 @@ class SiteVC: UIViewController, UICollectionViewDataSource,UICollectionViewDeleg
     var wholeSite: Site!
     var image: UIImage?
     private var images = [UIImage]()
+    private var selectedImage = -1
     
     @IBOutlet var testImageView: UIImageView!
     @IBOutlet var siteNumberLbl: UILabel!
@@ -122,7 +123,13 @@ class SiteVC: UIViewController, UICollectionViewDataSource,UICollectionViewDeleg
             }
         }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if(segue.identifier == "viewImage"){
+            let vc = segue.destination as! viewVC
+            vc.image = images[selectedImage]
+        }else{
             var vc = segue.destination as! SiteSectionsVC
+        }
+        
     }
     
     @IBAction func submitBtnPressed(_ sender: Any) {
@@ -174,6 +181,8 @@ class SiteVC: UIViewController, UICollectionViewDataSource,UICollectionViewDeleg
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("Selected item")
+        selectedImage = indexPath.row
+        self.performSegue(withIdentifier: "viewImage", sender: self)
         //create a alert controller to delete image
     }
     

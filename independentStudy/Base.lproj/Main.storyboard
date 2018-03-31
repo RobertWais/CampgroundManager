@@ -33,7 +33,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="1Pd-6b-1Cb"/>
+                    <navigationItem key="navigationItem" id="1Pd-6b-1Cb">
+                        <barButtonItem key="backBarButtonItem" title="Sites Map" id="fx6-Pz-UNT"/>
+                    </navigationItem>
                     <connections>
                         <segue destination="xbx-8g-gKL" kind="show" identifier="show" id="9XF-Ni-wlZ"/>
                     </connections>
@@ -120,12 +122,21 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="kzy-HX-j5Y">
+                                <rect key="frame" x="163" y="349" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="Wxu-b5-z9H"/>
+                                    <constraint firstAttribute="height" constant="50" id="kQ2-4Q-guJ"/>
+                                </constraints>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="kzy-HX-j5Y" firstAttribute="centerX" secondItem="pom-2G-cqn" secondAttribute="centerX" id="APw-La-JDm"/>
                             <constraint firstItem="ae5-PU-JfA" firstAttribute="trailing" secondItem="pom-2G-cqn" secondAttribute="trailing" id="NMp-vp-CSp"/>
                             <constraint firstItem="pom-2G-cqn" firstAttribute="centerX" secondItem="tNN-xa-YHZ" secondAttribute="centerX" id="Pej-9u-0gT"/>
                             <constraint firstItem="MBH-Ux-upg" firstAttribute="trailing" secondItem="tNN-xa-YHZ" secondAttribute="trailing" id="d4x-Eq-XNS"/>
+                            <constraint firstItem="kzy-HX-j5Y" firstAttribute="top" secondItem="pom-2G-cqn" secondAttribute="bottom" constant="15" id="eqG-CT-UwY"/>
                             <constraint firstItem="pom-2G-cqn" firstAttribute="top" secondItem="ae5-PU-JfA" secondAttribute="bottom" constant="45" id="g6k-YE-tp8"/>
                             <constraint firstItem="MBH-Ux-upg" firstAttribute="bottom" secondItem="tNN-xa-YHZ" secondAttribute="bottom" id="rnR-vk-K6Z"/>
                             <constraint firstItem="MBH-Ux-upg" firstAttribute="leading" secondItem="tNN-xa-YHZ" secondAttribute="leading" id="uOd-V5-Thq"/>
@@ -136,6 +147,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="4Tc-cB-c3A"/>
                     <connections>
+                        <outlet property="indicatoryView" destination="kzy-HX-j5Y" id="lyK-yg-R9Q"/>
                         <outlet property="passwordTextField" destination="yJf-v8-mYR" id="4WO-Nd-mdJ"/>
                         <outlet property="signInBtn" destination="pom-2G-cqn" id="pPP-I4-bSI"/>
                         <outlet property="userNameField" destination="EVe-KN-UBs" id="VAZ-2Z-5V0"/>
@@ -146,7 +158,7 @@
             </objects>
             <point key="canvasLocation" x="-444" y="143"/>
         </scene>
-        <!--Site SectionsVC-->
+        <!--Sites in Section-->
         <scene sceneID="ce9-yz-464">
             <objects>
                 <viewController id="xbx-8g-gKL" customClass="SiteSectionsVC" customModule="independentStudy" customModuleProvider="target" sceneMemberID="viewController">
@@ -217,6 +229,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="DCW-ic-eE0"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Sites in Section" id="89d-zP-sRq">
+                        <barButtonItem key="backBarButtonItem" title="All Sites" id="j1x-f5-0De"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="0eQ-lS-FH8" id="ldf-YC-N2s"/>
                         <segue destination="Ebk-1U-1id" kind="show" identifier="showSiteVC" id="BQY-EP-d16"/>
@@ -227,7 +242,7 @@
             </objects>
             <point key="canvasLocation" x="1176.8" y="142.57871064467767"/>
         </scene>
-        <!--Sites-->
+        <!--Site Descritption-->
         <scene sceneID="uNB-zK-CyZ">
             <objects>
                 <viewController id="Ebk-1U-1id" customClass="SiteVC" customModule="independentStudy" customModuleProvider="target" sceneMemberID="viewController">
@@ -398,7 +413,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="wpz-ry-no0"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Sites" largeTitleDisplayMode="always" id="0Uu-Eo-q7h"/>
+                    <navigationItem key="navigationItem" title="Site Descritption" largeTitleDisplayMode="always" id="0Uu-Eo-q7h">
+                        <barButtonItem key="backBarButtonItem" title="Site Description" id="xDT-ZG-SlH"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="collection" destination="2yM-4C-cDA" id="d3L-V6-BgG"/>
                         <outlet property="needWood" destination="4wF-j3-enD" id="1vm-Qt-yxQ"/>
@@ -407,6 +424,7 @@
                         <outlet property="textView" destination="yHn-jg-aqN" id="sRG-vN-WM2"/>
                         <outlet property="timeStamp" destination="wsA-gs-skb" id="hSR-Qr-e1D"/>
                         <segue destination="OLo-OB-6Fi" kind="unwind" identifier="unwindSegue" unwindAction="unwindFromSiteVCWithUnwindSegue:" id="C8j-87-LN3"/>
+                        <segue destination="iua-fW-bgo" kind="show" identifier="viewImage" id="c6g-Hp-Xvj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AuF-23-eCz" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -414,7 +432,7 @@
             </objects>
             <point key="canvasLocation" x="2229.5999999999999" y="657.12143928035982"/>
         </scene>
-        <!--Site SendVC-->
+        <!--Send Task-->
         <scene sceneID="uW7-lB-9I3">
             <objects>
                 <viewController id="OqR-EN-djq" customClass="SiteSendVC" customModule="independentStudy" customModuleProvider="target" sceneMemberID="viewController">
@@ -641,6 +659,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="AXs-3D-4dU"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Send Task" id="wqy-St-uYR">
+                        <barButtonItem key="backBarButtonItem" title="Send Task" id="tbA-oo-Iyc"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="collection" destination="1dc-Ol-wcm" id="XTK-wS-6By"/>
                         <outlet property="descriptionSite" destination="Qax-lj-jT7" id="CWp-PC-xBQ"/>
@@ -651,7 +672,7 @@
                         <outlet property="siteNumberLbl" destination="G61-xP-4BP" id="NO8-OR-vZO"/>
                         <outlet property="submitBtn" destination="USS-ua-enV" id="XNw-qH-YVU"/>
                         <segue destination="6tD-4Y-l9b" kind="unwind" identifier="unwindFromSendVC" unwindAction="unwindFromSendVCWithUnwindSegue:" id="xuw-43-ctp"/>
-                        <segue destination="iua-fW-bgo" kind="presentation" identifier="viewImage" modalPresentationStyle="fullScreen" id="vWu-AW-Enq"/>
+                        <segue destination="iua-fW-bgo" kind="show" identifier="viewImage" id="vWu-AW-Enq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CTe-9x-BAh" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -664,18 +685,18 @@
             <objects>
                 <viewController id="iua-fW-bgo" customClass="viewVC" customModule="independentStudy" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Yb8-9p-ogQ">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5fr-Jt-ef2">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="jgX-xH-gJ0" firstAttribute="bottom" secondItem="5fr-Jt-ef2" secondAttribute="bottom" id="Y4g-cm-2va"/>
+                            <constraint firstItem="5fr-Jt-ef2" firstAttribute="top" secondItem="jgX-xH-gJ0" secondAttribute="top" id="Z1p-75-8hC"/>
                             <constraint firstItem="5fr-Jt-ef2" firstAttribute="leading" secondItem="jgX-xH-gJ0" secondAttribute="leading" id="cJ0-BU-xtR"/>
-                            <constraint firstItem="5fr-Jt-ef2" firstAttribute="top" secondItem="Yb8-9p-ogQ" secondAttribute="top" id="iub-2n-zmf"/>
                             <constraint firstItem="jgX-xH-gJ0" firstAttribute="trailing" secondItem="5fr-Jt-ef2" secondAttribute="trailing" id="ovT-FG-7cr"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="jgX-xH-gJ0"/>
@@ -686,7 +707,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Og-gS-WwH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3136.8000000000002" y="-61.619190404797607"/>
+            <point key="canvasLocation" x="3173.5999999999999" y="142.57871064467767"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="QPx-6S-xw6">
@@ -715,4 +736,7 @@
             <point key="canvasLocation" x="-1252" y="143"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="vWu-AW-Enq"/>
+    </inferredMetricsTieBreakers>
 </document>
