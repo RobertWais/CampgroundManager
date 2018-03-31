@@ -42,6 +42,6 @@ Professor:      Dr. Senger
 <h3>Employee and Manager UI</h3>
 <div style="display: inline">
 <img src="SiteView.PNG" width="200" > <img src="SendTaskManagerUI.PNG" width="200" >
-<h3>Employee and Manager UI</h3>
+<h3>Viewing Image once in collectionView</h3>
 <img src="viewImageVC.PNG" width="200" >
 </div>
