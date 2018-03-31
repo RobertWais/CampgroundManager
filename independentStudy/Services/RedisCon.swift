@@ -50,33 +50,33 @@ class RedisCon: NSObject, RedisManagerDelegate {
     }
     
     func setStatement(arr: [String], completion: @escaping ([String])->()){
-        var returnArray = [String]()
-        redisManager.exec(args: arr) { (returnCode: NSArray!) in
-            if returnCode.count > 0 {
-                returnArray.append("\(returnCode[0])")
+        isConnected {
+            var returnArray = [String]()
+            self.redisManager.exec(args: arr) { (returnCode: NSArray!) in
+                if returnCode.count > 0 {
+                    returnArray.append("\(returnCode[0])")
+                }
+                completion(returnArray)
             }
-            completion(returnArray)
         }
     }
     
     func getArrayStatement(sections: String, completion: @escaping ([String])->()){
-        if(redisManager.isConnected()){
-            var returnArray = [String]()
-            redisManager?.exec(command: sections, completion: { (array: NSArray!) in
-                for index in 0..<array.count{
-                    returnArray.append("\(array[index])")
-                }
-                print("Done")
-                completion(returnArray)
-            })
-        
-            
+        isConnected {
+                var returnArray = [String]()
+                self.redisManager?.exec(command: sections, completion: { (array: NSArray!) in
+                    for index in 0..<array.count{
+                        returnArray.append("\(array[index])")
+                    }
+                    print("Done")
+                    completion(returnArray)
+                })
         }
     }
     
     func clearSite(numString: String, completion: @escaping (Bool)->()){
-        if(redisManager.isConnected()){
-            redisManager?.exec(command: "HMSET site:\(numString) Cleaned TRUE Wood FALSE Duration NONE Description NONE", completion: { (array) in
+        isConnected {
+           self.redisManager?.exec(command: "HMSET site:\(numString) Cleaned TRUE Wood FALSE Duration NONE Description NONE", completion: { (array) in
                 let returnCode = String(describing: array[0])
                 print("Return code: \(returnCode)")
                 if returnCode == "OK" {
@@ -90,32 +90,31 @@ class RedisCon: NSObject, RedisManagerDelegate {
     }
     
     func getSiteInfo(number: String, site: String, completion: @escaping (Site)->()){
-        redisManager?.exec(command: site, completion: { (array) in
-            let cleaned = String(describing: array[1])
-            let wood = String(describing: array[3])
-            let duration = String(describing: array[5])
-            let description = String(describing: array[7])
-            var boolWood = false
-            var boolClean = false
-            
-            if cleaned == "TRUE" {
-                boolClean = true
-            }else{
-                boolClean = false
-            }
-            if wood == "TRUE" {
-                boolWood = true
-            }else{
-                boolWood = false
-            }
-            
-            let tempSite = Site(siteNum: number, siteClean: boolClean, wood: boolWood, info: description, duration: duration)
-            completion(tempSite)
-            
-        })
+        isConnected {
+           self.redisManager?.exec(command: site, completion: { (array) in
+                let cleaned = String(describing: array[1])
+                let wood = String(describing: array[3])
+                let duration = String(describing: array[5])
+                let description = String(describing: array[7])
+                var boolWood = false
+                var boolClean = false
+                
+                if cleaned == "TRUE" {
+                    boolClean = true
+                }else{
+                    boolClean = false
+                }
+                if wood == "TRUE" {
+                    boolWood = true
+                }else{
+                    boolWood = false
+                }
+                
+                let tempSite = Site(siteNum: number, siteClean: boolClean, wood: boolWood, info: description, duration: duration)
+                completion(tempSite)
+            })
+        }
     }
-    
-    
     
     func subscriptionMessageReceived(channel: String, message: String) {
         print("Yup")
@@ -131,7 +130,19 @@ class RedisCon: NSObject, RedisManagerDelegate {
         print("Connected..")
     }
     
-    
-    
-    
+    func isConnected(completion: @escaping ()->()){
+        if redisManager.isConnected()==false{
+            print("Have to reconnect")
+                connectRedis {
+                    print("reconnected redis")
+                    completion()
+                }
+        }else{
+            print("Already connected")
+            completion()
+        }
+    }
 }
+    
+    
+
