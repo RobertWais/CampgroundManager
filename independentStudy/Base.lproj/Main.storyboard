@@ -33,7 +33,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="1Pd-6b-1Cb">
+                    <navigationItem key="navigationItem" leftItemsSupplementBackButton="YES" id="1Pd-6b-1Cb">
                         <barButtonItem key="backBarButtonItem" title="Sites Map" id="fx6-Pz-UNT"/>
                     </navigationItem>
                     <connections>
