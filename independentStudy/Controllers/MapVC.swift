@@ -60,6 +60,14 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         //Setup Image View
         imageView = UIImageView(image:  #imageLiteral(resourceName: "campsite_map-1"))
         
+        createLayer(pathstring: sites155_162, color: UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor, name: "SS155_SS162")
+        createLayer(pathstring: sites170_171, color: UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor, name: "SS170_SS171")
+        createLayer(pathstring: sites448_452, color: UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor, name: "SS448_SS452")
+        createLayer(pathstring: sites445_447, color: UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor, name: "SS445_SS447")
+        createLayer(pathstring: sites163_169, color: UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor, name: "SS163_SS169")
+        createLayer(pathstring: sites106_111, color: UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor, name: "SS106_SS111")
+        createLayer(pathstring: sites102_105, color: UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor, name: "SS102_SS105")
+        createLayer(pathstring: sites138_147, color: UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor, name: "SS138_SS147")
         createLayer(pathstring: sites238_249, color: UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor, name: "SS238_SS249")
         createLayer(pathstring: sites33_40, color: UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor, name: "SS33_SS40")
         

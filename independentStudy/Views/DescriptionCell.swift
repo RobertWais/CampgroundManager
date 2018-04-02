@@ -13,7 +13,6 @@ class DescriptionCell: UICollectionViewCell {
     @IBOutlet var imageView: UIImageView!
     
     func configureCell(imageAdd: UIImage){
-    print("in description cell")
         self.imageView.image = imageAdd
     }
 }
