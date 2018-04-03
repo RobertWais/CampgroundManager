@@ -69,13 +69,13 @@ class SiteVC: UIViewController, UICollectionViewDataSource,UICollectionViewDeleg
             handler(true)
         }
         for index in 0..<images.count {
-            var reference = Storage.storage().reference(withPath: "SiteImages/Site\(wholeSite.siteNumber)/image\(index).jpg")
+            let reference = Storage.storage().reference(withPath: "SiteImages/Site\(wholeSite.siteNumber)/image\(index).jpg")
             reference.delete(completion: { (error) in
                 if error == nil{
                     print("Deleted Files")
                     handler(true)
                 }else{
-                    print("Error: \(error?.localizedDescription)")
+                    print("Error: \(String(describing: error?.localizedDescription))")
                     handler(false)
                 }
             })
@@ -94,7 +94,7 @@ class SiteVC: UIViewController, UICollectionViewDataSource,UICollectionViewDeleg
                 completion(false)
             }else{
                 print("tru in get images")
-                var tempImage = UIImage(data: data!)
+                let tempImage = UIImage(data: data!)
                 self.images.append(tempImage!)
                 self.collection.reloadData()
                 completion(true)
@@ -103,31 +103,24 @@ class SiteVC: UIViewController, UICollectionViewDataSource,UICollectionViewDeleg
     }
     
     func getAll(index: Int, completion: @escaping (Bool)->()) {
-        var num = index
-        //Base case
-            getImages(index: num){ (tru) in
-                print("yes")
-                print(tru)
+        let num = index
+        getImages(index: num){ (tru) in
                 if tru {
-                    print("HEre")
                     self.getAll(index: num+1) { (tru) in
                         if tru {
-                            print("Again")
                             completion(true)
                         }
                     }
                 } else {
-                    print("in false")
                     completion(false)
                 }
             }
         }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "viewImage"){
             let vc = segue.destination as! viewVC
             vc.image = images[selectedImage]
-        }else{
-            var vc = segue.destination as! SiteSectionsVC
         }
         
     }

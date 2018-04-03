@@ -162,7 +162,7 @@ class MapVC: UIViewController,UIScrollViewDelegate {
     }
     
     func setZoomScale() {
-        var zoomScale = min(self.view.bounds.size.width / (self.imageView.image?.size.width)!, self.view.bounds.size.height / (self.imageView.image?.size.height)!);
+        let zoomScale = min(self.view.bounds.size.width / (self.imageView.image?.size.width)!, self.view.bounds.size.height / (self.imageView.image?.size.height)!);
         
         if (zoomScale > 1) {
             self.scrollView.minimumZoomScale = 1;

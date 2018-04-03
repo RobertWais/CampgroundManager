@@ -28,14 +28,14 @@ class AuthService {
             
             if error != nil {
                 complete(false,error)
-                print("Error: \(error?.localizedDescription)")
+                print("Error: \(String(describing: error?.localizedDescription))")
                 return
             }else{
                 print("Worked")
                 DB_BASE.child("users").child((user?.uid)!).child("role").observe(DataEventType.value){ (data) in
-                    var val = data.value as? String
+                    let val = data.value as? String
                     self._role = val
-                    print("ROLE: \(val)")
+                    print("ROLE: \(String(describing: val))")
                     complete(true,nil)
                 }
                 //var user = Auth.auth().currentUser

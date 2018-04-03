@@ -56,16 +56,10 @@ class SignInVC: UIViewController {
             })
     }
         
-    //submitUser()
-        
     func submitUser(){
-       var query = positionSelector.titleForSegment(at: positionSelector.selectedSegmentIndex)?.lowercased()
+       let query = positionSelector.titleForSegment(at: positionSelector.selectedSegmentIndex)?.lowercased()
         print("Query: \(query!)")
         
-        
-        //Old
-        //
-        //
         RedisCon.instance.getArrayStatement(sections: "Get \(query!)") { (array) in
             let password = String(describing: array[0]);
             print("User: \(String(describing: array[0]))")
@@ -79,18 +73,6 @@ class SignInVC: UIViewController {
         }
     }
     
-    
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "showMapVC"){
