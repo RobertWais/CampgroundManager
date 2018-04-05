@@ -21,9 +21,11 @@ with an image or diagram.
 
 I am currently going to work on storing the images in Firebase Storage and present them to the an employee role if they open up a site that contains an image.
 
-(March 26) Functionality for both employee and managers to pull or push images. Major improvements on UI to still be made
+(March 26) Functionality for both employee and managers to pull or push images. Major improvements on UI to still be made.
 
-(Friday, March 30) Uploading images for employees to view is possible, managers can also view images that they select, keyboard and navbar bug fixed, zoomscale fixed
+(Friday, March 30) Uploading images for employees to view is possible, managers can also view images that they select, keyboard and navbar bug fixed, zoomscale fixed.
+
+(Thursday, April 4)Created more SVG paths for more sites, adding functinality of seeing site sections which need work in red soon, also using Redis to lock sites while being viewed by another user.
 
 --------------------------------------------------------------------------------------------------
 
