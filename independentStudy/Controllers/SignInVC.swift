@@ -50,8 +50,14 @@ class SignInVC: UIViewController {
                     print("User Accepted")
                     self.performSegue(withIdentifier: "showMapVC", sender: self)
                 }else{
-                    print("NO")
-                    print(String(describing: error?.localizedDescription))
+                    
+                    let alert = UIAlertController(title: "Error",
+                                                  message: ((error?.localizedDescription)!),
+                                                  preferredStyle: .alert)
+                    
+                    let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
+                    alert.addAction(cancel)
+                    self.present(alert, animated: true, completion: nil)
                 }
             })
     }
