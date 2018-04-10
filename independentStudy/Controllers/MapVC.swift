@@ -18,6 +18,7 @@ class MapVC: UIViewController,UIScrollViewDelegate {
     var readSiteNumbers = [String]()
     var scrollView: UIScrollView!
     var imageView: UIImageView!
+    var AlertSections = Set<String>()
     
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,13 +43,6 @@ class MapVC: UIViewController,UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        print("Loaded user: \(AuthService.instance.role)")
-        RedisCon.instance.getArrayStatement(sections: "SMEMBERS ALERT_SECTIONS") { (array) in
-            for index in 0..<array.count {
-                print("These sections need to be worked on: \(array[index])")
-            }
-        }
         /*
          Setup Recognizer for taps
          */
@@ -56,35 +50,27 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         /*
          Setup Recognizer for taps
          */
-        
-        //Setup Image View
         imageView = UIImageView(image:  #imageLiteral(resourceName: "campsite_map-1"))
-        
-        createLayer(pathstring: sites155_162, color: UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor, name: "SS155_SS162")
-        createLayer(pathstring: sites170_171, color: UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor, name: "SS170_SS171")
-        createLayer(pathstring: sites448_452, color: UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor, name: "SS448_SS452")
-        createLayer(pathstring: sites445_447, color: UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor, name: "SS445_SS447")
-        createLayer(pathstring: sites163_169, color: UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor, name: "SS163_SS169")
-        createLayer(pathstring: sites106_111, color: UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor, name: "SS106_SS111")
-        createLayer(pathstring: sites102_105, color: UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor, name: "SS102_SS105")
-        createLayer(pathstring: sites138_147, color: UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor, name: "SS138_SS147")
-        createLayer(pathstring: sites238_249, color: UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor, name: "SS238_SS249")
-        createLayer(pathstring: sites33_40, color: UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor, name: "SS33_SS40")
-        
-        createLayer(pathstring: sites1_12, color: UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor, name: "SS1_SS12")
-        createLayer(pathstring: sites405_414, color: UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor, name: "SS405_SS414")
-        createLayer(pathstring: sites425_434, color: UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor, name: "SS425_SS434")
-        createLayer(pathstring: sites435_444, color: UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor, name: "SS435_SS444")
-        createLayer(pathstring: sites13_23, color: UIColor(red: 0.0, green:0.0, blue: 150.0, alpha: 0.5).cgColor, name: "SS13_SS23")
-        createLayer(pathstring: sites415_424, color: UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor, name: "SS415_SS424")
-        createLayer(pathstring: BACK_BATHHOUSE, color: UIColor(red:200.0, green:0.0, blue:0.0, alpha:0.2).cgColor, name: "BACK_BATHHOUSE")
-        //createLayer(pathstring: LAKE, color: UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor, name: "LAKE")
-        
         imageView.isUserInteractionEnabled = true;
         imageView.addGestureRecognizer(recognizer)
         print("Width: \(imageView.bounds.width)")
         print("Length: \(imageView.bounds.height)")
         
+        RedisCon.instance.getAlertSections { (array) in
+            //update UI
+            for index in 0..<array.count {
+                print("This is alerted \(array[index])")
+                self.AlertSections.insert(array[index])
+            }
+            self.createLayers()
+        }
+        print("Loaded user: \(AuthService.instance.role)")
+       
+        
+        
+        //Setup Image View
+        
+        //ScrollView Initialization
         scrollView = UIScrollView(frame: view.bounds)
         scrollView.backgroundColor = UIColor.clear
         scrollView.autoresizingMask = UIViewAutoresizing(rawValue: UIViewAutoresizing.RawValue(UInt8(UIViewAutoresizing.flexibleWidth.rawValue) | UInt8(UIViewAutoresizing.flexibleHeight.rawValue)))
@@ -92,11 +78,36 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         
         scrollView.addSubview(imageView)
         view.addSubview(scrollView)
-        
-        
         self.setZoomScale()
-        //HACK -- change later
-        // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    //MARK: Displaying Sites
+    func getColor(site: String)->UIColor{
+        if AlertSections.contains(site){
+            return UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5)
+        } else {
+            return UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5)
+        }
+    }
+    func createLayers(){
+        createLayer(pathstring: sites155_162, color: getColor(site: "SS155_SS162").cgColor, name: "SS155_SS162")
+        createLayer(pathstring: sites170_171, color: getColor(site: "SS170_SS171").cgColor, name: "SS170_SS171")
+        createLayer(pathstring: sites448_452, color: getColor(site: "SS448_SS452").cgColor, name: "SS448_SS452")
+        createLayer(pathstring: sites445_447, color: getColor(site: "SS445_SS447").cgColor, name: "SS445_SS447")
+        createLayer(pathstring: sites163_169, color: getColor(site: "SS163_SS169").cgColor, name: "SS163_SS169")
+        createLayer(pathstring: sites106_111, color: getColor(site: "SS106_SS111").cgColor, name: "SS106_SS111")
+        createLayer(pathstring: sites102_105, color: getColor(site: "SS102_SS105").cgColor, name: "SS102_SS105")
+        createLayer(pathstring: sites138_147, color: getColor(site: "SS138_SS147").cgColor, name: "SS138_SS147")
+        createLayer(pathstring: sites238_249, color: getColor(site: "SS238_SS249").cgColor, name: "SS238_SS249")
+        createLayer(pathstring: sites33_40, color: getColor(site: "SS33_SS40").cgColor, name: "SS33_SS40")
+        
+        createLayer(pathstring: sites1_12, color: getColor(site: "SS1_SS12").cgColor, name: "SS1_SS12")
+        createLayer(pathstring: sites405_414, color: getColor(site: "SS405_SS414").cgColor, name: "SS405_SS414")
+        createLayer(pathstring: sites425_434, color: getColor(site: "SS425_SS434").cgColor, name: "SS425_SS434")
+        createLayer(pathstring: sites435_444, color: getColor(site: "SS435_SS444").cgColor, name: "SS435_SS444")
+        createLayer(pathstring: sites13_23, color: getColor(site: "SS13_SS23").cgColor, name: "SS13_SS23")
+        createLayer(pathstring: sites415_424, color: getColor(site: "SS415_SS424").cgColor, name: "SS415_SS424")
+        createLayer(pathstring: BACK_BATHHOUSE, color: getColor(site: "BACK_BATHHOUSE").cgColor, name: "BACK_BATHHOUSE")
     }
     
     func createLayer(pathstring: String, color: CGColor, name: String){

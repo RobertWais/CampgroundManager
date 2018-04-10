@@ -65,7 +65,6 @@ class RedisCon: NSObject, RedisManagerDelegate {
         var getAlerts = "SMEMBERS Alert_Sections"
         var returnArray = [String]()
         self.redisManager?.exec(command: getAlerts, completion: { (array) in
-            let returnCode = String(describing: array[0])
             for index in 0..<array.count{
                 returnArray.append(String(describing: array[index]))
             }
