@@ -72,6 +72,18 @@ class RedisCon: NSObject, RedisManagerDelegate {
         })
     }
     
+    func removeAlertSection(siteSection: String, completion: @escaping (Bool)->()){
+        self.redisManager?.exec(command: "SREM Alert_Sections \(siteSection)", completion: { (array) in
+            let returnCode = String(describing: array[0])
+            print("Return code: \(returnCode)")
+            if returnCode == "OK" {
+                completion(true)
+            } else {
+                completion(false)
+            }
+        })
+    }
+    
     func getArrayStatement(sections: String, completion: @escaping ([String])->()){
         isConnected {
                 var returnArray = [String]()
