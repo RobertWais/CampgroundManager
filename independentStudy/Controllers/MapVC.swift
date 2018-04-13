@@ -14,35 +14,35 @@ import PSSRedisClient
 class MapVC: UIViewController,UIScrollViewDelegate {
     
     private var array: NSArray!
+    private var allLayers = [String: CAShapeLayer]()
     private var findLayer = [CAShapeLayer]()
     var readSiteNumbers = [String]()
     var scrollView: UIScrollView!
     var imageView: UIImageView!
     var AlertSections = Set<String>()
+    var preLoaded = false
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        print("View will appear--------------------------")
+        displaySites()
         self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     override func viewWillDisappear(_ animated: Bool) {
+        print("YES----------------------------")
         super.viewWillDisappear(true)
         self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
-    
-    
-    func initSites(){
-        for index in 1..<533 {
-            RedisCon.instance.getArrayStatement(sections: "HMSET site:\(index) Cleaned TRUE Wood FALSE Duration NONE Description NONE"
-                , completion: { (array) in
-                    print("Worked?: \(array[0])")
-            })
-        }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        
     }
-    
     override func viewDidLoad() {
+        print("View did load")
         super.viewDidLoad()
+        preLoaded = true
         /*
          Setup Recognizer for taps
          */
@@ -55,21 +55,9 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         imageView.addGestureRecognizer(recognizer)
         print("Width: \(imageView.bounds.width)")
         print("Length: \(imageView.bounds.height)")
-        
-        RedisCon.instance.getAlertSections { (array) in
-            //update UI
-            for index in 0..<array.count {
-                print("This is alerted \(array[index])")
-                self.AlertSections.insert(array[index])
-            }
-            self.createLayers()
-        }
-        print("Loaded user: \(AuthService.instance.role)")
-       
-        
-        
+                print("Loaded user: \(AuthService.instance.role)")
         //Setup Image View
-        
+        createLayers()
         //ScrollView Initialization
         scrollView = UIScrollView(frame: view.bounds)
         scrollView.backgroundColor = UIColor.clear
@@ -82,13 +70,44 @@ class MapVC: UIViewController,UIScrollViewDelegate {
     }
     
     //MARK: Displaying Sites
+    
+    //USED for setting all sites, testing purposes
+    func initSites(){
+        for index in 1..<533 {
+            RedisCon.instance.getArrayStatement(sections: "HMSET site:\(index) Cleaned TRUE Wood FALSE Duration NONE Description NONE"
+                , completion: { (array) in
+                    print("Worked?: \(array[0])")
+            })
+        }
+    }
+    
+    func displaySites(){
+        RedisCon.instance.getAlertSections { (array) in
+            //update UI
+            self.AlertSections.removeAll(keepingCapacity: false)
+            for index in 0..<array.count {
+                print("Updated:")
+                self.AlertSections.insert(array[index])
+                //self.allLayers["\(array[index])"]?.fillColor = UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor
+            }
+            for index in 0..<self.findLayer.count{
+                if self.AlertSections.contains(self.findLayer[index].name!){
+                    self.findLayer[index].fillColor = UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor
+                }else{
+                    self.findLayer[index].fillColor = UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor
+                }
+            }
+        }
+    }
     func getColor(site: String)->UIColor{
         if AlertSections.contains(site){
             return UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5)
         } else {
             return UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5)
         }
+        
     }
+    
     func createLayers(){
         createLayer(pathstring: sites155_162, color: getColor(site: "SS155_SS162").cgColor, name: "SS155_SS162")
         createLayer(pathstring: sites170_171, color: getColor(site: "SS170_SS171").cgColor, name: "SS170_SS171")
@@ -100,7 +119,6 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         createLayer(pathstring: sites138_147, color: getColor(site: "SS138_SS147").cgColor, name: "SS138_SS147")
         createLayer(pathstring: sites238_249, color: getColor(site: "SS238_SS249").cgColor, name: "SS238_SS249")
         createLayer(pathstring: sites33_40, color: getColor(site: "SS33_SS40").cgColor, name: "SS33_SS40")
-        
         createLayer(pathstring: sites1_12, color: getColor(site: "SS1_SS12").cgColor, name: "SS1_SS12")
         createLayer(pathstring: sites405_414, color: getColor(site: "SS405_SS414").cgColor, name: "SS405_SS414")
         createLayer(pathstring: sites425_434, color: getColor(site: "SS425_SS434").cgColor, name: "SS425_SS434")
@@ -116,7 +134,9 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         layer.path = temp.cgPath
         layer.fillColor = color
         layer.name = name
+        layer.value(forKeyPath: name)
         findLayer.append(layer)
+        allLayers[layer.name!]=layer
         imageView.layer.addSublayer(layer)
     }
     
