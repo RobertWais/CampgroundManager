@@ -12,7 +12,9 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
     
     private var sites = [Site]()
     var numberSite = [String]()
+    var alertSites = Set<String>()
     var site: Site!
+    var siteSection: String?
     private var rowSelected = 1
     @IBOutlet var tableView: UITableView!
     
@@ -31,7 +33,15 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: false)
-        tableView.reloadData()
+        print("Looking: \(siteSection)")
+        RedisCon.instance.getAlertSites(siteSection: siteSection!) { (array) in
+            for index in 0..<array.count{
+                print("Item: \(array[index])")
+                self.alertSites.insert(array[index])
+            }
+            self.tableView.reloadData()
+        }
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -63,7 +73,11 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
         
         //Adding to an array
         sites.append(tempSite)
-        cell.configureCell(site: tempSite,alert: true)
+        var tempBool = false
+        if alertSites.contains(self.numberSite[indexPath.row]){
+            tempBool = true
+        }
+        cell.configureCell(site: tempSite,alert: tempBool)
         return cell
     }
     

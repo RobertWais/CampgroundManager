@@ -16,11 +16,13 @@ class MapVC: UIViewController,UIScrollViewDelegate {
     private var array: NSArray!
     private var allLayers = [String: CAShapeLayer]()
     private var findLayer = [CAShapeLayer]()
+    private var selectedSection: String?
     var readSiteNumbers = [String]()
     var scrollView: UIScrollView!
     var imageView: UIImageView!
     var AlertSections = Set<String>()
     var preLoaded = false
+    
     
     
     override func viewWillAppear(_ animated: Bool) {
@@ -88,7 +90,6 @@ class MapVC: UIViewController,UIScrollViewDelegate {
             for index in 0..<array.count {
                 print("Updated:")
                 self.AlertSections.insert(array[index])
-                //self.allLayers["\(array[index])"]?.fillColor = UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor
             }
             for index in 0..<self.findLayer.count{
                 if self.AlertSections.contains(self.findLayer[index].name!){
@@ -150,6 +151,7 @@ class MapVC: UIViewController,UIScrollViewDelegate {
             RedisCon.instance.getArrayStatement(sections: "SMEMBERS \(query)", completion: { (array) in
                 print("In new call...")
                 self.readSiteNumbers = array
+                self.selectedSection = query
                 self.performSegue(withIdentifier: "show", sender: self)
             })
         }
@@ -159,6 +161,7 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         if(segue.identifier == "show"){
             let vc = segue.destination as! SiteSectionsVC
             vc.numberSite = readSiteNumbers
+            vc.siteSection = self.selectedSection
             
             //Emptying array elements
             readSiteNumbers.removeAll(keepingCapacity: false)
