@@ -72,6 +72,17 @@ class RedisCon: NSObject, RedisManagerDelegate {
         })
     }
     
+    func getAlertSites(siteSection: String, completion: @escaping ([String])->()){
+        var getAlerts = "SMEMBERS Alert_Sections/\(siteSection)"
+        var returnArray = [String]()
+        self.redisManager.exec(command: getAlerts) { (array) in
+            for index in 0..<array.count{
+                returnArray.append(String(describing: array[index]))
+            }
+            completion(returnArray)
+        }
+    }
+    
     func removeAlertSection(siteSection: String, completion: @escaping (Bool)->()){
         self.redisManager?.exec(command: "SREM Alert_Sections \(siteSection)", completion: { (array) in
             let returnCode = String(describing: array[0])

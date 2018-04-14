@@ -20,9 +20,14 @@ class SiteTableCell: UITableViewCell {
         super.awakeFromNib()
     }
     
-    func configureCell(site: Site){
+    func configureCell(site: Site, alert: Bool){
         self.siteLbl.text = site.siteNumber
         self.typeLbl.text = site.timeFrame
         cellSite = site
+        if alert {
+            self.backgroundColor = UIColor.red
+        } else{
+            self.backgroundColor = UIColor.white
+        }
     }
 }

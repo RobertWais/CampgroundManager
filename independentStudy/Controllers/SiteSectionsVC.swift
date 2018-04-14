@@ -63,7 +63,7 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
         
         //Adding to an array
         sites.append(tempSite)
-        cell.configureCell(site: tempSite)
+        cell.configureCell(site: tempSite,alert: true)
         return cell
     }
     
