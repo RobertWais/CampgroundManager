@@ -174,7 +174,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="75"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jDe-1q-wmD" id="YbU-9Y-TVp">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="74.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="75"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="QSS-y6-lGQ">
@@ -231,6 +231,12 @@
                     </view>
                     <navigationItem key="navigationItem" title="Sites in Section" id="89d-zP-sRq">
                         <barButtonItem key="backBarButtonItem" title="All Sites" id="j1x-f5-0De"/>
+                        <barButtonItem key="rightBarButtonItem" title="Refresh" id="wVm-X1-b8i">
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="refreshSites:" destination="xbx-8g-gKL" id="bnb-ga-HXV"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="0eQ-lS-FH8" id="ldf-YC-N2s"/>
