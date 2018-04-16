@@ -10,38 +10,29 @@ import UIKit
 
 class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelegate{
     
-    private var sites = [Site]()
+    
     var numberSite = [String]()
     var alertSites = Set<String>()
     var site: Site!
     var siteSection: String?
+    
+    private var sites = [Site]()
     private var rowSelected = 1
     @IBOutlet var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         tableView.separatorStyle = .singleLine
         tableView.separatorInset = .zero
         tableView.separatorColor = UIColor.lightGray
         tableView.delegate = self
         tableView.dataSource = self
-        
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: false)
-        print("Looking: \(siteSection)")
-        RedisCon.instance.getAlertSites(siteSection: siteSection!) { (array) in
-            for index in 0..<array.count{
-                print("Item: \(array[index])")
-                self.alertSites.insert(array[index])
-            }
-            self.tableView.reloadData()
-        }
-        
+        refreshAlerts()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -55,7 +46,26 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
         // Dispose of any resources that can be recreated.
     }
     
+    func refreshAlerts(){
+        RedisCon.instance.getAlertSites(siteSection: siteSection!) { (array) in
+            self.alertSites.removeAll();
+            for index in 0..<array.count{
+                print("Item: \(array[index])")
+                self.alertSites.insert(array[index])
+            }
+            self.tableView.reloadData()
+        }
+    }
+    
+    @IBAction func refreshSites(_ sender: Any) {
+        refreshAlerts()
+    }
+    
+    
 
+    //MARK: Table Views
+    //
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -83,8 +93,6 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         site = sites[indexPath.row]
-        print("Heres")
-        
         RedisCon.instance.getSiteInfo(number: site.siteNumber, site: "HGETALL site:\(site.siteNumber)") { (site) in
             self.site = site
             if(AuthService.instance.role == "Employee"){
@@ -93,18 +101,13 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
                 self.performSegue(withIdentifier: "showSendVC", sender: self)
             }
         }
-        //site.siteNumber = cell.siteNumber
-        //site.timeFrame = cell.timeFrame
-        
-        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "showSiteVC"){
-            //let path = self.tableView.indexPathForSelectedRow?.row
-            
             var vc = segue.destination as! SiteVC
             vc.wholeSite = site
+            vc.siteSection = self.siteSection!
         }
         if(segue.identifier == "showSendVC"){
             var vc = segue.destination as! SiteSendVC

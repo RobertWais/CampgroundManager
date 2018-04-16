@@ -11,6 +11,7 @@ import Firebase
 
 class SiteVC: UIViewController, UICollectionViewDataSource,UICollectionViewDelegate {
 
+    var siteSection: String?
     var wholeSite: Site!
     var image: UIImage?
     private var images = [UIImage]()
@@ -25,6 +26,7 @@ class SiteVC: UIViewController, UICollectionViewDataSource,UICollectionViewDeleg
     @IBOutlet var textView: UITextView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("Looking for this: \(siteSection)")
         updateUI()
         collection.dataSource = self
         collection.delegate = self
@@ -135,7 +137,13 @@ class SiteVC: UIViewController, UICollectionViewDataSource,UICollectionViewDeleg
                 if noError{
                     self.deleteImages(){ (ok) in
                         if ok {
-                            self.performSegue(withIdentifier: "unwindSegue", sender: self)
+                            
+                            RedisCon.instance.removeAlertSites(siteSection: self.siteSection! , site: self.wholeSite.siteNumber, completion: { (removed) in
+                                self.performSegue(withIdentifier: "unwindSegue", sender: self)
+                            })
+                            
+                            
+                            
                         }else{
                             self.errorAlert()
                         }
