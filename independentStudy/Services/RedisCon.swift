@@ -61,6 +61,8 @@ class RedisCon: NSObject, RedisManagerDelegate {
         }
     }
     
+    //DISPLAYING ALERTSECTIONS/SITES
+    
     func getAlertSections(completion: @escaping ([String])->()){
         var getAlerts = "SMEMBERS Alert_Sections"
         var returnArray = [String]()
@@ -94,6 +96,23 @@ class RedisCon: NSObject, RedisManagerDelegate {
             }
         })
     }
+    
+    func removeAlertSites(siteSection: String, site: String ,completion: @escaping (Bool)->()){
+        var string = "SREM Alert_Sections/\(siteSection) \(site)"
+        print("This is string \(string)")
+        self.redisManager?.exec(command: "SREM Alert_Sections/\(siteSection) \(site)", completion: { (array) in
+            let returnCode = String(describing: array[0])
+            print("Return code: \(returnCode)")
+            if returnCode == "OK" {
+                completion(true)
+            } else {
+                completion(true)
+            }
+        })
+    }
+    
+    ////
+    ////
     
     func getArrayStatement(sections: String, completion: @escaping ([String])->()){
         isConnected {
