@@ -15,6 +15,7 @@ class MapVC: UIViewController,UIScrollViewDelegate {
     
     private var array: NSArray!
     private var allLayers = [String: CAShapeLayer]()
+    private var sectionsNames = [String]()
     private var findLayer = [CAShapeLayer]()
     private var selectedSection: String?
     var readSiteNumbers = [String]()
@@ -42,6 +43,7 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         
     }
     override func viewDidLoad() {
+        newWay()
         print("View did load")
         super.viewDidLoad()
         preLoaded = true
@@ -84,6 +86,20 @@ class MapVC: UIViewController,UIScrollViewDelegate {
     }
     
     func displaySites(){
+        RedisCon.instance.getFullSections(sections: sectionsNames) { (array) in
+            for index in 0..<array.count{
+                print("Alert: \(array[index])")
+                self.AlertSections.insert(array[index])
+            }
+            for index in 0..<self.findLayer.count{
+                if self.AlertSections.contains(self.findLayer[index].name!){
+                    self.findLayer[index].fillColor = UIColor(red:100, green:0.0, blue:0.0, alpha: 0.5).cgColor
+                }else{
+                    self.findLayer[index].fillColor = UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor
+                }
+            }
+        }
+        /*
         RedisCon.instance.getAlertSections { (array) in
             //update UI
             self.AlertSections.removeAll(keepingCapacity: false)
@@ -97,6 +113,16 @@ class MapVC: UIViewController,UIScrollViewDelegate {
                 }else{
                     self.findLayer[index].fillColor = UIColor(red:0.0, green:0.0, blue:100.0, alpha: 0.5).cgColor
                 }
+            }
+        }
+        */
+    }
+    
+    func newWay(){
+        let sites = ["SS1_SS12","SS13_SS14"]
+        RedisCon.instance.getFullSections(sections: sites) { (array) in
+            for index in 0..<array.count{
+                print("Alert: \(array[index])")
             }
         }
     }
@@ -139,6 +165,7 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         findLayer.append(layer)
         allLayers[layer.name!]=layer
         imageView.layer.addSublayer(layer)
+        sectionsNames.append(name)
     }
     
     @objc func touchedSection(recognizer: UITapGestureRecognizer){
