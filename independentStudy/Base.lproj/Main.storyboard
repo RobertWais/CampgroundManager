@@ -20,15 +20,38 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fIh-e5-2JG">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="553"/>
                                 <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aEV-iW-7ms">
+                                <rect key="frame" x="0.0" y="553" width="375" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="FXl-Es-VpK"/>
+                                </constraints>
+                                <items>
+                                    <barButtonItem title="FullMap" id="0hi-uJ-NS7">
+                                        <connections>
+                                            <action selector="resetZoom:" destination="BYZ-38-t0r" id="pZQ-KT-7Mk"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vs8-PW-0eU">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="553"/>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="Vs8-PW-0eU" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="BkB-HN-8Qb"/>
+                            <constraint firstItem="Vs8-PW-0eU" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="E5C-z1-kSH"/>
                             <constraint firstItem="fIh-e5-2JG" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="Hm0-lJ-zEG"/>
-                            <constraint firstItem="fIh-e5-2JG" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="ZM1-ni-LLC"/>
+                            <constraint firstItem="aEV-iW-7ms" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="KXB-Mo-9PG"/>
+                            <constraint firstItem="aEV-iW-7ms" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Onu-nZ-RSV"/>
+                            <constraint firstItem="aEV-iW-7ms" firstAttribute="top" secondItem="Vs8-PW-0eU" secondAttribute="bottom" id="T1g-X2-U9u"/>
+                            <constraint firstItem="aEV-iW-7ms" firstAttribute="top" secondItem="fIh-e5-2JG" secondAttribute="bottom" id="YqW-K4-crX"/>
                             <constraint firstItem="fIh-e5-2JG" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="aim-fW-ch0"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Vs8-PW-0eU" secondAttribute="trailing" id="by7-hT-J1q"/>
+                            <constraint firstItem="aEV-iW-7ms" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="lEp-u4-vMA"/>
                             <constraint firstItem="fIh-e5-2JG" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="p7l-6y-Rg6"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -37,6 +60,8 @@
                         <barButtonItem key="backBarButtonItem" title="Sites Map" id="fx6-Pz-UNT"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="scrollView" destination="Vs8-PW-0eU" id="06r-DK-rHY"/>
+                        <outlet property="toolbar" destination="aEV-iW-7ms" id="zLt-YF-2Jv"/>
                         <segue destination="xbx-8g-gKL" kind="show" identifier="show" id="9XF-Ni-wlZ"/>
                     </connections>
                 </viewController>
@@ -174,7 +199,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="75"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jDe-1q-wmD" id="YbU-9Y-TVp">
-                                            <rect key="frame" x="0.0" y="0.0" width="342" height="75"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="74.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="QSS-y6-lGQ">
