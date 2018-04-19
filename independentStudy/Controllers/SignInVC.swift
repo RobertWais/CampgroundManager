@@ -14,13 +14,21 @@ class SignInVC: UIViewController {
 
     
     @IBOutlet var indicatoryView: UIActivityIndicatorView!
-    
-    
     @IBOutlet var userNameField: UITextField!
     @IBOutlet var positionSelector: UISegmentedControl!
     @IBOutlet var signInBtn: UIButton!
     @IBOutlet var passwordTextField: UITextField!
     
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        //self.navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        //self.navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
          indicatoryView.startAnimating()

@@ -37,16 +37,7 @@ class RedisCon: NSObject, RedisManagerDelegate {
             }
             completion()
             }
-        //Commented code is to be used soon, live database currently not ready.
-    /*
-        if let path = Bundle.main.path(forResource:"Connections", ofType: "plist"){
-            if let dict = NSDictionary(contentsOfFile: path) as? Dictionary<String, AnyObject> {
-                password = dict["Password"] as? String
-                port = Int((dict["Port"] as? String)!)
-                URL = dict["ConnectString"] as? String
-            }
-        }
-    */
+        
     }
     
     func setStatement(arr: [String], completion: @escaping ([String])->()){
@@ -74,11 +65,30 @@ class RedisCon: NSObject, RedisManagerDelegate {
         })
     }
     
+    
+    func getFullSections(sections: [String], completion: @escaping ([String])->()){
+        var getAlerts = "SMEMBERS Alert_Sections"
+        var returnArray = [String]()
+        for index in 0..<sections.count{
+            self.redisManager?.exec(command: "SMEMBERS Alert_Sections/\(sections[index])", completion: { (array) in
+                if array.count>0{
+                    returnArray.append(sections[index])
+                    print("Adding section: \(sections)")
+                }
+                completion(returnArray)
+            })
+        }
+        
+    }
+    
+    
+    
     func getAlertSites(siteSection: String, completion: @escaping ([String])->()){
         var getAlerts = "SMEMBERS Alert_Sections/\(siteSection)"
         var returnArray = [String]()
         self.redisManager.exec(command: getAlerts) { (array) in
             for index in 0..<array.count{
+                
                 returnArray.append(String(describing: array[index]))
             }
             completion(returnArray)

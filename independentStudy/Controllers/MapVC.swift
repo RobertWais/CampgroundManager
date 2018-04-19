@@ -13,13 +13,15 @@ import PSSRedisClient
 
 class MapVC: UIViewController,UIScrollViewDelegate {
     
+    @IBOutlet var toolbar: UIToolbar!
     private var array: NSArray!
     private var allLayers = [String: CAShapeLayer]()
     private var sectionsNames = [String]()
     private var findLayer = [CAShapeLayer]()
     private var selectedSection: String?
     var readSiteNumbers = [String]()
-    var scrollView: UIScrollView!
+    
+    @IBOutlet var scrollView: UIScrollView!
     var imageView: UIImageView!
     var AlertSections = Set<String>()
     var preLoaded = false
@@ -29,13 +31,13 @@ class MapVC: UIViewController,UIScrollViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         print("View will appear--------------------------")
-        displaySites()
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        newWay()
+        //self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
     override func viewWillDisappear(_ animated: Bool) {
         print("YES----------------------------")
         super.viewWillDisappear(true)
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        //self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -43,6 +45,10 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         
     }
     override func viewDidLoad() {
+        toolbar.barStyle = .blackTranslucent
+       
+        
+        
         newWay()
         print("View did load")
         super.viewDidLoad()
@@ -63,14 +69,15 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         //Setup Image View
         createLayers()
         //ScrollView Initialization
-        scrollView = UIScrollView(frame: view.bounds)
+        //scrollView = UIScrollView(frame: view.bounds)
         scrollView.backgroundColor = UIColor.clear
         scrollView.autoresizingMask = UIViewAutoresizing(rawValue: UIViewAutoresizing.RawValue(UInt8(UIViewAutoresizing.flexibleWidth.rawValue) | UInt8(UIViewAutoresizing.flexibleHeight.rawValue)))
         scrollView.delegate = self
         
         scrollView.addSubview(imageView)
-        view.addSubview(scrollView)
+        //view.addSubview(scrollView)
         self.setZoomScale()
+        
     }
     
     //MARK: Displaying Sites
@@ -213,17 +220,26 @@ class MapVC: UIViewController,UIScrollViewDelegate {
     }
     
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        let navBarheight = self.navigationController?.navigationBar.frame.height
         let imageViewSize = imageView.frame.size
         let scrollViewSize = scrollView.bounds.size
         
         let verticalPadding = imageViewSize.height < scrollViewSize.height ? (scrollViewSize.height - imageViewSize.height) / 2 : 0
+        let bottomverticalPadding = imageViewSize.height < scrollViewSize.height ? (scrollViewSize.height - imageViewSize.height) / 2 : 0
         let horizontalPadding = imageViewSize.width < scrollViewSize.width ? (scrollViewSize.width - imageViewSize.width) / 2 : 0
         
-        scrollView.contentInset = UIEdgeInsets(top: verticalPadding, left: horizontalPadding, bottom: verticalPadding, right: horizontalPadding)
+        let vertPadding = 0
+        let bottomPadding = toolbar.frame.height
+        
+        
+        print("Padding: \(verticalPadding)")
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        
     }
     
     func setZoomScale() {
         let zoomScale = min(self.view.bounds.size.width / (self.imageView.image?.size.width)!, self.view.bounds.size.height / (self.imageView.image?.size.height)!);
+        print("Zoomscale: \(zoomScale)")
         
         if (zoomScale > 1) {
             self.scrollView.minimumZoomScale = 1;
@@ -232,6 +248,11 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         self.scrollView.minimumZoomScale = zoomScale;
         self.scrollView.zoomScale = zoomScale;
         self.scrollView.maximumZoomScale = 5.0
+    }
+    
+    //TOOLBAR ITEMS
+    @IBAction func resetZoom(_ sender: Any) {
+        self.scrollView.setZoomScale(0.0, animated: true)
     }
 }
 
