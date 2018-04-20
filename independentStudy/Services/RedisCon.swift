@@ -52,20 +52,11 @@ class RedisCon: NSObject, RedisManagerDelegate {
         }
     }
     
+    //
     //DISPLAYING ALERTSECTIONS/SITES
+    //
     
-    func getAlertSections(completion: @escaping ([String])->()){
-        var getAlerts = "SMEMBERS Alert_Sections"
-        var returnArray = [String]()
-        self.redisManager?.exec(command: getAlerts, completion: { (array) in
-            for index in 0..<array.count{
-                returnArray.append(String(describing: array[index]))
-            }
-            completion(returnArray)
-        })
-    }
-    
-    
+    //RETURNING SECTIONS OF SITES WITH UPDATES
     func getFullSections(sections: [String], completion: @escaping ([String])->()){
         var getAlerts = "SMEMBERS Alert_Sections"
         var returnArray = [String]()
@@ -82,7 +73,7 @@ class RedisCon: NSObject, RedisManagerDelegate {
     }
     
     
-    
+    //RETURNING NAME OF SECTIONS
     func getAlertSites(siteSection: String, completion: @escaping ([String])->()){
         var getAlerts = "SMEMBERS Alert_Sections/\(siteSection)"
         var returnArray = [String]()
@@ -95,17 +86,6 @@ class RedisCon: NSObject, RedisManagerDelegate {
         }
     }
     
-    func removeAlertSection(siteSection: String, completion: @escaping (Bool)->()){
-        self.redisManager?.exec(command: "SREM Alert_Sections \(siteSection)", completion: { (array) in
-            let returnCode = String(describing: array[0])
-            print("Return code: \(returnCode)")
-            if returnCode == "OK" {
-                completion(true)
-            } else {
-                completion(false)
-            }
-        })
-    }
     
     func removeAlertSites(siteSection: String, site: String ,completion: @escaping (Bool)->()){
         var string = "SREM Alert_Sections/\(siteSection) \(site)"
