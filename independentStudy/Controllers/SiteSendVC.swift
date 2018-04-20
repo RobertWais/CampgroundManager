@@ -90,7 +90,6 @@ class SiteSendVC: UIViewController, UICollectionViewDataSource, UICollectionView
 
     @IBAction func submitBtnPressed(_ sender: Any) {
         submitTask()
-        //print("Clean: \(setClean.titleForSegment(at: setClean.selectedSegmentIndex))")
     }
     
     //MARK: Redis Command
@@ -107,7 +106,6 @@ class SiteSendVC: UIViewController, UICollectionViewDataSource, UICollectionView
         sendArray.append(sortedArray[2])
         sendArray.append("Description")
         sendArray.append(sortedArray[3])
-        print("this: \(sendArray[1])")
         RedisCon.instance.setStatement(arr: sendArray, completion: { (array) in
             
             let returnCode = String(describing: array[0])
@@ -157,7 +155,6 @@ class SiteSendVC: UIViewController, UICollectionViewDataSource, UICollectionView
     func saveImages(index: Int,completion:@escaping (Bool)->()){
         var worked = true;
         let storage = Storage.storage()
-                print("Loop \(index)")
                 let data = UIImageJPEGRepresentation(self.images[index], 0.8)
                     //UIImagePNGRepresentation(self.images[index])
         
