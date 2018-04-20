@@ -37,7 +37,7 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        //self.navigationController?.setNavigationBarHidden(true, animated: false)
         
     }
 

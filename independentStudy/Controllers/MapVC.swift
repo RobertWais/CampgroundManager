@@ -31,7 +31,7 @@ class MapVC: UIViewController,UIScrollViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         print("View will appear--------------------------")
-        newWay()
+        displaySites()
         //self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
     override func viewWillDisappear(_ animated: Bool) {
@@ -45,11 +45,11 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         
     }
     override func viewDidLoad() {
-        toolbar.barStyle = .blackTranslucent
+        toolbar.barStyle = .blackOpaque
        
         
         
-        newWay()
+        //newWay()
         print("View did load")
         super.viewDidLoad()
         preLoaded = true
@@ -75,8 +75,10 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         scrollView.delegate = self
         
         scrollView.addSubview(imageView)
+        
         //view.addSubview(scrollView)
         self.setZoomScale()
+        initUI()
         
     }
     
@@ -93,9 +95,10 @@ class MapVC: UIViewController,UIScrollViewDelegate {
     }
     
     func displaySites(){
+        AlertSections.removeAll();
         RedisCon.instance.getFullSections(sections: sectionsNames) { (array) in
             for index in 0..<array.count{
-                print("Alert: \(array[index])")
+                print("-Alert: \(array[index])")
                 self.AlertSections.insert(array[index])
             }
             for index in 0..<self.findLayer.count{
@@ -227,14 +230,21 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         let verticalPadding = imageViewSize.height < scrollViewSize.height ? (scrollViewSize.height - imageViewSize.height) / 2 : 0
         let bottomverticalPadding = imageViewSize.height < scrollViewSize.height ? (scrollViewSize.height - imageViewSize.height) / 2 : 0
         let horizontalPadding = imageViewSize.width < scrollViewSize.width ? (scrollViewSize.width - imageViewSize.width) / 2 : 0
+        print("Number: \(scrollView.frame.width)")
+        print("Scrollview: \(scrollViewSize.width)")
+        print("Imageview: \(imageViewSize.width)")
+        print("Padding: \(horizontalPadding)")
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: horizontalPadding, bottom: 0, right: horizontalPadding)
         
-        let vertPadding = 0
-        let bottomPadding = toolbar.frame.height
+    }
+    
+    func initUI(){
+        let imageViewSize = imageView.frame.size
+        let scrollViewSize = scrollView.bounds.size
+        let horizontalPadding = imageViewSize.width < scrollViewSize.width ? (scrollViewSize.width - imageViewSize.width) / 2 : 0
         
-        
-        print("Padding: \(verticalPadding)")
-        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        
+        print("Init padding: \(horizontalPadding)")
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: horizontalPadding, bottom: 0, right: horizontalPadding)
     }
     
     func setZoomScale() {
