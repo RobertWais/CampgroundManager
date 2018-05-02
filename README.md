@@ -25,8 +25,9 @@ I am currently going to work on storing the images in Firebase Storage and prese
 
 (Friday, March 30) Uploading images for employees to view is possible, managers can also view images that they select, keyboard and navbar bug fixed, zoomscale fixed.
 
-(Thursday, April 4)Created more SVG paths for more sites, adding functinality of seeing site sections which need work in red soon, also using Redis to lock sites while being viewed by another user.
+(Thursday, April 4) Created more SVG paths for more sites, adding functinality of seeing site sections which need work in red soon, also using Redis to lock sites while being viewed by another user.
 
+(Thursday, April 19) Working on updating map for which sections have task for them, creating toolbar for MapVC for extra functionality.
 --------------------------------------------------------------------------------------------------
 
 
