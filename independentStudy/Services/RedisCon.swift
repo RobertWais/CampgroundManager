@@ -86,6 +86,13 @@ class RedisCon: NSObject, RedisManagerDelegate {
         }
     }
     
+    func addAlertSite(siteSection: String, site: String,completion: @escaping(Bool)->()){
+        self.redisManager?.exec(command: "SADD Alert_Sections/\(siteSection) \(site)", completion: { (array) in
+            let returnCode = String(describing: array[0])
+            print("Return code: \(returnCode)")
+            completion(true)
+        })
+    }
     
     func removeAlertSites(siteSection: String, site: String ,completion: @escaping (Bool)->()){
         var string = "SREM Alert_Sections/\(siteSection) \(site)"
