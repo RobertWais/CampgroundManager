@@ -29,18 +29,18 @@
                                     <constraint firstAttribute="height" constant="50" id="FXl-Es-VpK"/>
                                 </constraints>
                                 <items>
-                                    <barButtonItem title="FullMap" id="0hi-uJ-NS7">
+                                    <barButtonItem image="zoomOut" id="0hi-uJ-NS7">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <action selector="resetZoom:" destination="BYZ-38-t0r" id="pZQ-KT-7Mk"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="Zbz-gq-c59"/>
-                                    <barButtonItem title="MessageBoard" id="HW2-ha-TJ0">
+                                    <barButtonItem systemItem="bookmarks" id="HW2-ha-TJ0">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="hh6-pt-qrs"/>
-                                    <barButtonItem title="Refresh" id="Q2V-nn-Bhj">
+                                    <barButtonItem systemItem="refresh" id="Q2V-nn-Bhj">
                                         <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </barButtonItem>
                                 </items>
@@ -777,6 +777,9 @@
             <point key="canvasLocation" x="-1252" y="143"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="zoomOut" width="43" height="43"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="vWu-AW-Enq"/>
     </inferredMetricsTieBreakers>
