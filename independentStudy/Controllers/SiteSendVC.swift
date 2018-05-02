@@ -29,6 +29,7 @@ class SiteSendVC: UIViewController, UICollectionViewDataSource, UICollectionView
     private var tempClean = false
     private var mainColor = UIColor.white
     var siteSelected: Site!
+    var siteSection: String?
     private var queryString: String!
     private let layer = CAShapeLayer()
     
@@ -106,29 +107,32 @@ class SiteSendVC: UIViewController, UICollectionViewDataSource, UICollectionView
         sendArray.append(sortedArray[2])
         sendArray.append("Description")
         sendArray.append(sortedArray[3])
-        RedisCon.instance.setStatement(arr: sendArray, completion: { (array) in
-            
-            let returnCode = String(describing: array[0])
-            print("Return code: \(returnCode)")
-            if returnCode == "OK" {
+        RedisCon.instance.addAlertSite(siteSection: siteSection!, site: siteSelected.siteNumber) { (good) in
+            RedisCon.instance.setStatement(arr: sendArray, completion: { (array) in
                 
-                self.saveAll(index: 0){ (ok) in
+                let returnCode = String(describing: array[0])
+                print("Return code: \(returnCode)")
+                if returnCode == "OK" {
+                    
+                    self.saveAll(index: 0){ (ok) in
                         if ok {
                             self.performSegue(withIdentifier: "unwindFromSendVC", sender: self)
                         } else{
                             print("Error")
                         }
+                    }
+                }else{
+                    let alert = UIAlertController(title: "Error",
+                                                  message: "Data could not be entered, try again",
+                                                  preferredStyle: .alert)
+                    let cancel = UIAlertAction(title: "Cancel", style: .default, handler: { (action) -> Void in })
+                    alert.addAction(cancel)
+                    self.present(alert, animated: true, completion: nil)
                 }
-            }else{
-                let alert = UIAlertController(title: "Error",
-                                              message: "Data could not be entered, try again",
-                                              preferredStyle: .alert)
-                let cancel = UIAlertAction(title: "Cancel", style: .default, handler: { (action) -> Void in })
-                alert.addAction(cancel)
-                self.present(alert, animated: true, completion: nil)
-            }
-        })
-    }
+            })
+        }
+        }
+        
     
     func saveAll(index: Int, completion: @escaping (Bool)->()) {
         var num = index

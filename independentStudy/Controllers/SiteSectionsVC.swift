@@ -112,6 +112,7 @@ class SiteSectionsVC: UIViewController, UITableViewDataSource, UITableViewDelega
         if(segue.identifier == "showSendVC"){
             var vc = segue.destination as! SiteSendVC
             vc.siteSelected = site
+            vc.siteSection = self.siteSection!
         }
     }
     
