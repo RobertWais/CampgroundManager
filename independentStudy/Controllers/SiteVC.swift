@@ -90,7 +90,7 @@ class SiteVC: UIViewController, UICollectionViewDataSource,UICollectionViewDeleg
         let storage = Storage.storage()
         let pathReference = storage.reference(withPath: "SiteImages/Site\(wholeSite.siteNumber)/image\(index).jpg")
         print("path ref: \(pathReference)")
-        pathReference.getData(maxSize: 2500000) { (data, error) in
+        pathReference.getData(maxSize: 5000000) { (data, error) in
             if let error = error{
                 print("Error: \(error)")
                 completion(false)
@@ -156,7 +156,6 @@ class SiteVC: UIViewController, UICollectionViewDataSource,UICollectionViewDeleg
                 }
             }
         })
-        
         let cancel = UIAlertAction(title: "Cancel", style: .destructive, handler: { (action) -> Void in })
         alert.addAction(cancel)
         alert.addAction(submitAction)
@@ -174,10 +173,8 @@ class SiteVC: UIViewController, UICollectionViewDataSource,UICollectionViewDeleg
             cell.configureCell(imageAdd: images[indexPath.row])
             return cell
         }else{
-            print("Here it is")
          return UICollectionViewCell()
         }
-
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

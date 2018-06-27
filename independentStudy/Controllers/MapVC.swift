@@ -98,7 +98,6 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         AlertSections.removeAll();
         RedisCon.instance.getFullSections(sections: sectionsNames) { (array) in
             for index in 0..<array.count{
-                print("-Alert: \(array[index])")
                 self.AlertSections.insert(array[index])
             }
             for index in 0..<self.findLayer.count{
