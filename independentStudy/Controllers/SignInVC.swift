@@ -31,7 +31,9 @@ class SignInVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-         indicatoryView.startAnimating()
+        //CHECK TO MAKE SURE DATA is loaded
+        
+        indicatoryView.startAnimating()
         indicatoryView.hidesWhenStopped = true
         RedisCon.instance.connectRedis(){
             

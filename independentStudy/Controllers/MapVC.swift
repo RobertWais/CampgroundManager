@@ -30,12 +30,10 @@ class MapVC: UIViewController,UIScrollViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        print("View will appear--------------------------")
         displaySites()
         //self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
     override func viewWillDisappear(_ animated: Bool) {
-        print("YES----------------------------")
         super.viewWillDisappear(true)
         //self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
@@ -46,11 +44,6 @@ class MapVC: UIViewController,UIScrollViewDelegate {
     }
     override func viewDidLoad() {
         toolbar.barStyle = .blackOpaque
-       
-        
-        
-        //newWay()
-        print("View did load")
         super.viewDidLoad()
         preLoaded = true
         /*
@@ -188,13 +181,13 @@ class MapVC: UIViewController,UIScrollViewDelegate {
                 print("In new call...")
                 self.readSiteNumbers = array
                 self.selectedSection = query
-                self.performSegue(withIdentifier: "show", sender: self)
+                self.performSegue(withIdentifier: Constants.Segue.showSection, sender: self)
             })
         }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if(segue.identifier == "show"){
+        if(segue.identifier == Constants.Segue.showSection){
             let vc = segue.destination as! SiteSectionsVC
             vc.numberSite = readSiteNumbers
             vc.siteSection = self.selectedSection
@@ -241,14 +234,11 @@ class MapVC: UIViewController,UIScrollViewDelegate {
         let imageViewSize = imageView.frame.size
         let scrollViewSize = scrollView.bounds.size
         let horizontalPadding = imageViewSize.width < scrollViewSize.width ? (scrollViewSize.width - imageViewSize.width) / 2 : 0
-        
-        print("Init padding: \(horizontalPadding)")
         scrollView.contentInset = UIEdgeInsets(top: 0, left: horizontalPadding, bottom: 0, right: horizontalPadding)
     }
     
     func setZoomScale() {
         let zoomScale = min(self.view.bounds.size.width / (self.imageView.image?.size.width)!, self.view.bounds.size.height / (self.imageView.image?.size.height)!);
-        print("Zoomscale: \(zoomScale)")
         
         if (zoomScale > 1) {
             self.scrollView.minimumZoomScale = 1;

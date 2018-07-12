@@ -30,7 +30,6 @@ class SiteVC: UIViewController, UICollectionViewDataSource,UICollectionViewDeleg
         updateUI()
         collection.dataSource = self
         collection.delegate = self
-        // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {

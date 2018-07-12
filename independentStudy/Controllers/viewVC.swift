@@ -86,12 +86,12 @@ class viewVC: UIViewController, UIScrollViewDelegate {
     //Code to toggle nav bar
     
     @objc func touchedSection(recognizer: UILongPressGestureRecognizer){
-        /*
+        
         if self.navigationController?.isNavigationBarHidden == true {
             self.navigationController?.setNavigationBarHidden(false, animated: true)
         }else{
             self.navigationController?.setNavigationBarHidden(true, animated: true)
         }
-        */
+ 
     }
 }
